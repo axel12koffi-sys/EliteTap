@@ -12,6 +12,8 @@
   <p><strong>Statistics:</strong> when a profile is opened, we record the date, the type of action (open, contact saved, link clicked) and an anonymous identifier that changes every day. We do not keep visitors' IP addresses.</p>
   <p><strong>Online payment:</strong> payments are processed by Stripe. EliteTap never sees or stores your card number.</p>
 
+  <p><strong>Leads:</strong> when a visitor fills in a profile's "Leave your details" form and ticks the consent box, their name, contact details and message are passed on to the profile owner. EliteTap keeps them on behalf of that owner for at most <?= (int) config('lead_retention_days', 730) ?> days. The consent wording and its date are recorded. To have this information deleted, write to the profile owner or to <a href="mailto:info@elitetap.ca">info@elitetap.ca</a>.</p>
+
   <h2>Use</h2>
   <p>This information is only used to produce your cards, display your profile, provide your statistics and contact you about your order. It is never sold or rented.</p>
 

@@ -9,13 +9,16 @@ function card_tap(string $code): void
     }
 
     if ($card['status'] === 'active' && $card['profile_id']) {
-        $profile = row('SELECT id, slug FROM profiles WHERE id = ?', [$card['profile_id']]);
+        $profile = row('SELECT p.id, p.slug FROM profiles p JOIN users u ON u.id = p.user_id WHERE p.id = ? AND u.is_active = 1', [$card['profile_id']]);
         if ($profile) {
             track((int) $profile['id'], 'tap', (int) $card['id']);
             // Marqueur pour ne pas compter la vue qui suit en double
             $_SESSION['from_tap'] = (int) $profile['id'];
+            // Carte d'origine des prospects laissés pendant cette visite
+            $_SESSION['tap_card'] = ['profile' => (int) $profile['id'], 'card' => (int) $card['id']];
             redirect('/u/' . $profile['slug']);
         }
+        $card['status'] = 'disabled';
     }
 
     // Carte en stock (pas encore activée) ou désactivée
@@ -59,7 +62,8 @@ function load_public_profile(string $slug): array
     }
     $owner = current_user();
     $isOwner = $owner && (int) $owner['id'] === (int) $p['user_id'];
-    if (!$p['is_public'] && !$isOwner && ($owner['role'] ?? '') !== 'admin') {
+    $isAdmin = ($owner['role'] ?? '') === 'admin' || acting_as_admin();
+    if ((!$p['is_public'] || !owner_active($p)) && !$isOwner && !$isAdmin) {
         abort(404);
     }
     return [$p, $isOwner];
@@ -76,7 +80,9 @@ function profile_show(string $slug): void
     }
 
     $links = rows('SELECT id, label, url FROM links WHERE profile_id = ? AND is_active = 1 ORDER BY position, id', [$p['id']]);
-    view('profile/show', ['p' => $p, 'links' => $links, 'isOwner' => $isOwner]);
+    view('profile/show', ['p' => $p, 'links' => $links, 'isOwner' => $isOwner,
+        'leadForm' => $p['lead_form'] && profile_can($p, 'leads'),
+        'leadSent' => isset($_GET['merci']), 'flashes' => flashes()]);
 }
 
 function vcard_escape(string $s): string
@@ -102,6 +108,7 @@ function profile_vcard(string $slug): void
     if ($p['phone'] !== '')   $lines[] = 'TEL;TYPE=CELL,VOICE:' . vcard_escape($p['phone']);
     if ($p['email'] !== '')   $lines[] = 'EMAIL;TYPE=INTERNET:' . vcard_escape($p['email']);
     if ($p['website'] !== '') $lines[] = 'URL:' . vcard_escape($p['website']);
+    if ($p['whatsapp'] !== '') $lines[] = 'URL;TYPE=WhatsApp:https://wa.me/' . preg_replace('/\D/', '', $p['whatsapp']);
     if ($p['address'] !== '') $lines[] = 'ADR;TYPE=WORK:;;' . vcard_escape($p['address']) . ';;;;';
     if ($p['bio'] !== '')     $lines[] = 'NOTE:' . vcard_escape($p['bio']);
     $lines[] = 'URL;TYPE=EliteTap:' . url('/u/' . $p['slug']);

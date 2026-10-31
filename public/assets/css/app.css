@@ -211,3 +211,52 @@ input, select, textarea, button { font: inherit; }
 .qr-box { width: 160px; height: 160px; }
 .qr-box svg { width: 100%; height: 100%; display: block; }
 .qr-panel { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; }
+.tag-pro { font-size: 10px; font-weight: 700; letter-spacing: .04em; color: #0E0F12; background: #FDE047; padding: 2px 6px; border-radius: 5px; margin-left: 4px; vertical-align: 1px; }
+.managing { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; background: #FEF9C3; border: 1px solid #FDE047; color: #713F12; border-radius: 12px; padding: 12px 16px; font-size: 14px; }
+
+/* Thèmes */
+.themes { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+.theme { position: relative; display: flex; flex-direction: column; gap: 6px; border: 1px solid var(--line-2); border-radius: 10px; padding: 8px; cursor: pointer; font-size: 13px; font-weight: 500; background: var(--card); }
+.theme input { position: absolute; opacity: 0; pointer-events: none; }
+.theme-swatch { height: 34px; border-radius: 6px; border: 1px solid rgba(0,0,0,.08); }
+.theme:has(input:checked) { border-color: var(--blue); box-shadow: 0 0 0 2px var(--blue); }
+.theme:has(input:focus-visible) { outline: 3px solid #60A5FA; outline-offset: 2px; }
+.readability { font-size: 13px; font-weight: 500; margin: 0; }
+.readability.ok { color: #166534; }
+.readability.bad { color: #991B1B; }
+.locked { font-size: 14px; color: var(--muted); margin: 0; }
+.logo-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; border-top: 1px solid var(--line); padding-top: 20px; }
+.logo-box { width: 140px; height: 56px; border: 1px dashed var(--line-2); border-radius: 10px; display: flex; align-items: center; justify-content: center; background: repeating-conic-gradient(#F1F0ED 0 25%, #FFF 0 50%) 0 0 / 14px 14px; }
+.logo-box img { max-width: 128px; max-height: 48px; }
+
+/* KPI cliquable */
+.kpi-link { text-decoration: none; color: inherit; }
+.kpi-link:hover { border-color: var(--blue); }
+.kpi .new { font-style: normal; font-size: 11px; font-weight: 700; color: #FFF; background: var(--blue); padding: 2px 7px; border-radius: 999px; margin-left: 4px; }
+
+/* Prospects */
+.lead-msg { margin-top: 6px; font-size: 13px; color: var(--muted); max-width: 380px; white-space: normal; }
+
+/* Forfaits */
+.current-plan { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; }
+.current-plan > div { display: flex; flex-direction: column; gap: 4px; }
+.plan-name { font-family: var(--display); font-size: 26px; }
+.plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; align-items: stretch; }
+.plan-card { display: flex; flex-direction: column; gap: 10px; }
+.plan-card h2 { font-family: var(--display); font-size: 22px; display: flex; align-items: center; gap: 8px; }
+.plan-card.is-current { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue); }
+.plan-card.is-current h2::after { content: '✓'; font-size: 16px; color: var(--blue); }
+.plan-pro { background: #F5F8FF; }
+.plan-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 8px; }
+.checklist { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 14px; flex-grow: 1; }
+.checklist li { padding-left: 22px; position: relative; }
+.checklist li::before { content: ''; position: absolute; left: 2px; top: 5px; width: 10px; height: 6px; border-left: 2px solid var(--blue); border-bottom: 2px solid var(--blue); transform: rotate(-45deg); }
+.upsell { background: #F5F8FF; }
+
+/* Admin : clients */
+.plan-badge { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; background: #F1F0ED; color: var(--muted); }
+.plan-badge.pro { background: #E0EAFF; color: #1E3A8A; }
+.plan-badge.entreprise { background: #F3EEFE; color: #5B21B6; }
+.row-forms { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; align-items: center; }
+.row-forms select { min-height: 36px; border: 1px solid var(--line-2); border-radius: 8px; padding: 6px 8px; background: var(--card); font-size: 13px; }
+tr.is-off td { opacity: .55; }

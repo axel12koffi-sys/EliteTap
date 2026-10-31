@@ -18,16 +18,34 @@ function account_profile(): void
     $user = require_login();
     $p = my_profile($user);
     $links = rows('SELECT label FROM links WHERE profile_id = ? AND is_active = 1 ORDER BY position, id', [$p['id']]);
-    view('account/profile', [
+    view(can('edit') ? 'account/profile' : 'account/profile_essentiel', [
         'title' => t('Mon profil | EliteTap'), 'nav' => 'profil', 'user' => $user, 'p' => $p,
         'links' => $links, 'totals' => stats_totals((int) $p['id'], 30),
         'activeCards' => (int) scalar("SELECT COUNT(*) FROM cards WHERE profile_id = ? AND status = 'active'", [$p['id']]),
+        'newLeads' => (int) scalar('SELECT COUNT(*) FROM leads WHERE profile_id = ? AND read_at IS NULL', [$p['id']]),
     ], 'app');
+}
+
+/** Choix du thème : ouvert à tous les forfaits. */
+function account_theme(): void
+{
+    $user = require_login();
+    $p = my_profile($user);
+    $theme = input('theme', 20);
+    if ($theme === 'custom' && !can('brand')) {
+        $theme = $p['theme'];
+    }
+    if ($theme !== 'custom' && !isset(THEMES[$theme])) {
+        $theme = 'marine';
+    }
+    q('UPDATE profiles SET theme = ?, updated_at = ? WHERE id = ?', [$theme, now(), $p['id']]);
+    flash('success', t('Thème appliqué à votre profil.'));
+    redirect('/compte' . (can('edit') ? '#apparence' : ''));
 }
 
 function account_profile_save(): void
 {
-    $user = require_login();
+    $user = require_feature('edit');
     $p = my_profile($user);
 
     $f = [
@@ -37,6 +55,7 @@ function account_profile_save(): void
         'company'    => input('company', 120),
         'bio'        => input('bio', 300),
         'phone'      => input('phone', 40),
+        'whatsapp'   => input('whatsapp', 40),
         'email'      => strtolower(input('email', 190)),
         'website'    => input('website', 255),
         'address'    => input('address', 255),
@@ -53,6 +72,9 @@ function account_profile_save(): void
     if ($web === null) {
         $errors[] = t('L\'adresse du site web n\'est pas valide.');
     }
+    if ($f['whatsapp'] !== '' && strlen(preg_replace('/\D/', '', $f['whatsapp'])) < 8) {
+        $errors[] = t('Le numéro WhatsApp doit contenir l\'indicatif du pays, par exemple +1 514 555 0101.');
+    }
     if (strlen($f['slug']) < 2) {
         $errors[] = t('L\'adresse du profil doit contenir au moins 2 caractères.');
     } elseif (in_array($f['slug'], ['admin', 'compte', 'api', 'elitetap'], true)) {
@@ -67,22 +89,83 @@ function account_profile_save(): void
         redirect('/compte');
     }
 
-    q('UPDATE profiles SET first_name=?, last_name=?, title=?, company=?, bio=?, phone=?, email=?, website=?, address=?, slug=?,
-       cover_color=?, accent_color=?, is_public=?, updated_at=? WHERE id=?', [
-        $f['first_name'], $f['last_name'], $f['title'], $f['company'], $f['bio'], $f['phone'], $f['email'], (string) $web,
-        $f['address'], $f['slug'],
-        clean_color(input('cover_color', 7), $p['cover_color']),
-        clean_color(input('accent_color', 7), $p['accent_color']),
-        isset($_POST['is_public']) ? 1 : 0, now(), $p['id'],
+    // Apparence de marque (Pro) : couleurs, police ; sinon on garde les valeurs actuelles
+    $brand = can('brand');
+    $theme = input('theme', 20);
+    if (!($theme === 'custom' && $brand) && !isset(THEMES[$theme])) {
+        $theme = $p['theme'];
+    }
+    $font = $brand && isset(FONTS[input('font', 12)]) ? input('font', 12) : $p['font'];
+
+    q('UPDATE profiles SET first_name=?, last_name=?, title=?, company=?, bio=?, phone=?, whatsapp=?, email=?, website=?, address=?, slug=?,
+       theme=?, font=?, cover_color=?, accent_color=?, is_public=?, lead_form=?, lead_alerts=?, updated_at=? WHERE id=?', [
+        $f['first_name'], $f['last_name'], $f['title'], $f['company'], $f['bio'], $f['phone'], $f['whatsapp'], $f['email'], (string) $web,
+        $f['address'], $f['slug'], $theme, $font,
+        $brand ? clean_color(input('cover_color', 7), $p['cover_color']) : $p['cover_color'],
+        $brand ? clean_color(input('accent_color', 7), $p['accent_color']) : $p['accent_color'],
+        isset($_POST['is_public']) ? 1 : 0,
+        isset($_POST['lead_form']) ? 1 : 0,
+        isset($_POST['lead_alerts']) ? 1 : 0,
+        now(), $p['id'],
     ]);
     flash('success', t('Profil enregistré. Vos cartes affichent déjà la nouvelle version.'));
     redirect('/compte');
 }
 
+/** Logo de l'entreprise (Pro) : PNG/JPG/WEBP, max 600×240, transparence conservée. */
+function account_logo(): void
+{
+    $user = require_feature('brand');
+    $p = my_profile($user);
+    $dir = APP_ROOT . '/public/uploads/avatars';
+
+    if (isset($_POST['remove'])) {
+        if ($p['logo_path']) @unlink($dir . '/' . basename($p['logo_path']));
+        q('UPDATE profiles SET logo_path = NULL, updated_at = ? WHERE id = ?', [now(), $p['id']]);
+        flash('success', t('Logo retiré.'));
+        redirect('/compte#apparence');
+    }
+    $f = $_FILES['logo'] ?? null;
+    if (!$f || $f['error'] !== UPLOAD_ERR_OK || $f['size'] > 5 * 1024 * 1024) {
+        flash('error', t('Choisissez une image de moins de 5 Mo.'));
+        redirect('/compte#apparence');
+    }
+    $mime = (new finfo(FILEINFO_MIME_TYPE))->file($f['tmp_name']);
+    $src = match ($mime) {
+        'image/jpeg' => @imagecreatefromjpeg($f['tmp_name']),
+        'image/png'  => @imagecreatefrompng($f['tmp_name']),
+        'image/webp' => @imagecreatefromwebp($f['tmp_name']),
+        default      => false,
+    };
+    if (!$src) {
+        flash('error', t('Formats acceptés : JPG, PNG ou WEBP.'));
+        redirect('/compte#apparence');
+    }
+    $w = imagesx($src);
+    $h = imagesy($src);
+    $scale = min(1, 600 / $w, 240 / $h);
+    $nw = max(1, (int) round($w * $scale));
+    $nh = max(1, (int) round($h * $scale));
+    $dst = imagecreatetruecolor($nw, $nh);
+    imagealphablending($dst, false);
+    imagesavealpha($dst, true);
+    imagefill($dst, 0, 0, imagecolorallocatealpha($dst, 0, 0, 0, 127));
+    imagecopyresampled($dst, $src, 0, 0, 0, 0, $nw, $nh, $w, $h);
+    if (!is_dir($dir)) mkdir($dir, 0755, true);
+    $name = 'logo-' . bin2hex(random_bytes(10)) . '.png';
+    imagepng($dst, "$dir/$name", 7);
+    imagedestroy($src);
+    imagedestroy($dst);
+    if ($p['logo_path']) @unlink($dir . '/' . basename($p['logo_path']));
+    q('UPDATE profiles SET logo_path = ?, updated_at = ? WHERE id = ?', [$name, now(), $p['id']]);
+    flash('success', t('Logo mis à jour.'));
+    redirect('/compte#apparence');
+}
+
 /** Photo de profil : recadrée en carré 400×400, réencodée en JPEG (supprime les métadonnées et tout contenu caché). */
 function account_avatar(): void
 {
-    $user = require_login();
+    $user = require_feature('edit');
     $p = my_profile($user);
     $dir = APP_ROOT . '/public/uploads/avatars';
 
@@ -130,7 +213,7 @@ function account_avatar(): void
 
 function account_links(): void
 {
-    $user = require_login();
+    $user = require_feature('edit');
     $p = my_profile($user);
     $links = rows('SELECT * FROM links WHERE profile_id = ? ORDER BY position, id', [$p['id']]);
     $clicks = [];
@@ -144,7 +227,7 @@ function account_links(): void
 /** Une seule action par envoi : add | update | delete | up | down */
 function account_links_save(): void
 {
-    $user = require_login();
+    $user = require_feature('edit');
     $p = my_profile($user);
     $action = input('action', 10);
     $id = (int) ($_POST['id'] ?? 0);
@@ -193,7 +276,7 @@ function account_links_save(): void
 
 function account_stats(): void
 {
-    $user = require_login();
+    $user = require_feature('stats');
     $p = my_profile($user);
     $days = in_array((int) ($_GET['jours'] ?? 30), [7, 30, 90], true) ? (int) $_GET['jours'] : 30;
     $since = date('Y-m-d 00:00:00', strtotime('-' . ($days - 1) . ' days'));

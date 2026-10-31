@@ -55,7 +55,12 @@ function stripe_webhook(): void
     $type = $event['type'] ?? '';
     $obj = $event['data']['object'] ?? [];
 
+    // Abonnements Pro
+    stripe_subscription_event($type, $obj);
+
+    // Paiement unique d'une commande
     if (in_array($type, ['checkout.session.completed', 'checkout.session.async_payment_succeeded'], true)
+        && ($obj['mode'] ?? 'payment') === 'payment'
         && ($obj['payment_status'] ?? '') === 'paid') {
         $orderId = (int) ($obj['metadata']['order_id'] ?? $obj['client_reference_id'] ?? 0);
         $o = row('SELECT * FROM orders WHERE id = ?', [$orderId]);

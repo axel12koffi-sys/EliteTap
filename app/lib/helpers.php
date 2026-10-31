@@ -231,14 +231,10 @@ function initials(array $p): string
     return mb_strtoupper(($f . $l) ?: 'ET');
 }
 
-/** Couleur de texte lisible (noir ou blanc) sur un fond donné. */
+/** Couleur de texte la plus lisible (noir ou blanc) sur un fond donné. */
 function on_color(string $hex): string
 {
-    $hex = ltrim($hex, '#');
-    [$r, $g, $b] = array_map(fn($c) => hexdec($c) / 255, str_split($hex, 2));
-    $lin = fn($c) => $c <= 0.03928 ? $c / 12.92 : (($c + 0.055) / 1.055) ** 2.4;
-    $L = 0.2126 * $lin($r) + 0.7152 * $lin($g) + 0.0722 * $lin($b);
-    return $L > 0.4 ? '#14161A' : '#FFFFFF';
+    return contrast_ratio($hex, '#FFFFFF') >= contrast_ratio($hex, '#14161A') ? '#FFFFFF' : '#14161A';
 }
 
 const ORDER_STATUSES = [

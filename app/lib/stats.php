@@ -28,7 +28,7 @@ function track(int $profileId, string $type, ?int $cardId = null, ?int $linkId =
 function stats_totals(int $profileId, int $days): array
 {
     $since = date('Y-m-d 00:00:00', strtotime('-' . ($days - 1) . ' days'));
-    $out = ['view' => 0, 'tap' => 0, 'vcard' => 0, 'link' => 0, 'visitors' => 0];
+    $out = ['view' => 0, 'tap' => 0, 'vcard' => 0, 'link' => 0, 'lead' => 0, 'visitors' => 0];
     foreach (rows('SELECT type, COUNT(*) n FROM events WHERE profile_id = ? AND created_at >= ? GROUP BY type', [$profileId, $since]) as $r) {
         $out[$r['type']] = (int) $r['n'];
     }

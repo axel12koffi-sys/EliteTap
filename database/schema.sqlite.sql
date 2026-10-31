@@ -8,6 +8,13 @@ CREATE TABLE users (
   name TEXT NOT NULL,
   role TEXT NOT NULL DEFAULT 'client' CHECK (role IN ('client','admin')),
   lang TEXT NOT NULL DEFAULT 'fr',
+  is_active INTEGER NOT NULL DEFAULT 1,
+  plan TEXT NOT NULL DEFAULT 'essentiel',
+  plan_source TEXT NOT NULL DEFAULT 'manual',
+  plan_status TEXT NULL,
+  plan_renews_at TEXT NULL,
+  stripe_customer_id TEXT NULL,
+  stripe_subscription_id TEXT NULL,
   reset_token_hash TEXT NULL,
   reset_expires_at TEXT NULL,
   last_login_at TEXT NULL,
@@ -26,8 +33,14 @@ CREATE TABLE profiles (
   phone TEXT NOT NULL DEFAULT '',
   email TEXT NOT NULL DEFAULT '',
   website TEXT NOT NULL DEFAULT '',
+  whatsapp TEXT NOT NULL DEFAULT '',
   address TEXT NOT NULL DEFAULT '',
   avatar_path TEXT NULL,
+  logo_path TEXT NULL,
+  theme TEXT NOT NULL DEFAULT 'marine',
+  font TEXT NOT NULL DEFAULT 'moderne',
+  lead_form INTEGER NOT NULL DEFAULT 1,
+  lead_alerts INTEGER NOT NULL DEFAULT 1,
   cover_color TEXT NOT NULL DEFAULT '#14161A',
   accent_color TEXT NOT NULL DEFAULT '#2563EB',
   is_public INTEGER NOT NULL DEFAULT 1,
@@ -91,6 +104,22 @@ CREATE TABLE events (
   created_at TEXT NOT NULL
 );
 CREATE INDEX idx_events_profile ON events(profile_id, created_at);
+
+CREATE TABLE leads (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  profile_id INTEGER NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  card_id INTEGER NULL,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL DEFAULT '',
+  phone TEXT NOT NULL DEFAULT '',
+  company TEXT NOT NULL DEFAULT '',
+  message TEXT NOT NULL DEFAULT '',
+  consent_text TEXT NOT NULL,
+  consent_at TEXT NOT NULL,
+  read_at TEXT NULL,
+  created_at TEXT NOT NULL
+);
+CREATE INDEX idx_leads_profile ON leads(profile_id, created_at);
 
 CREATE TABLE login_attempts (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

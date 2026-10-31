@@ -19,6 +19,7 @@ $fmt = lang() === 'en' ? 'm/d' : 'd/m';
   <div class="kpi"><span><?= te('Ouvertures du profil') ?></span><strong><?= $opens ?></strong></div>
   <div class="kpi"><span><?= te('dont par tap de carte') ?></span><strong><?= $totals['tap'] ?></strong></div>
   <div class="kpi"><span><?= te('Contacts enregistrés') ?></span><strong><?= $totals['vcard'] ?></strong></div>
+  <div class="kpi"><span><?= te('Prospects') ?></span><strong><?= $totals['lead'] ?></strong></div>
   <div class="kpi"><span><?= te('Visiteurs uniques / jour (cumul)') ?></span><strong><?= $totals['visitors'] ?></strong></div>
 </div>
 

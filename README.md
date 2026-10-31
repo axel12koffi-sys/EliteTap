@@ -13,6 +13,22 @@ PHP 8.1+ / MySQL (ou MariaDB), sans framework ni dépendance Composer.
 | `/compte` | Espace client : profil + aperçu en direct, photo, couleurs, liens, statistiques, cartes, mot de passe |
 | `/admin` | Commandes (statuts, montant, notes, fichier joint, courriel au client), cartes NFC, clients |
 | `/payer/{réf}/{jeton}` | Page de paiement de la commande (Stripe Checkout) |
+| `/compte/prospects` | Boîte de réception des prospects (Pro) : coordonnées laissées par les visiteurs |
+| `/compte/forfait` | Forfait du client et abonnement Pro (Stripe) |
+
+**Forfaits** (plan d'évolution, section 05) :
+
+| | Essentiel (gratuit avec la carte) | Pro (abonnement) | Entreprise (sur devis) |
+|---|---|---|---|
+| Profil public, vCard, cartes | ✓ | ✓ | ✓ |
+| Choix parmi 6 thèmes | ✓ | ✓ | ✓ |
+| Modifications du profil | par EliteTap | par le client | par le client |
+| Statistiques, prospects, alertes, export CSV | | ✓ | ✓ |
+| Couleurs, logo et police de la marque | | ✓ | ✓ |
+
+L'admin attribue un forfait à la main (*Admin › Clients*) ou le client s'abonne au Pro lui-même (*Mon espace › Forfait*). **« Gérer le profil »** ouvre l'espace d'un client avec toutes les fonctions : c'est ainsi qu'EliteTap fait les modifications des clients Essentiel. Un client **désactivé** n'a plus de profil ni de carte qui s'ouvre, et ne peut plus se connecter ; rien n'est supprimé. Pour ouvrir toutes les fonctions à tous : `'plans_enforced' => false` dans `config.php`.
+
+**Prospects (Loi 25)** : formulaire « Laissez vos coordonnées » en bas du profil (Pro). Case de consentement obligatoire ; le texte accepté et sa date sont conservés, aucune adresse IP. Le client reçoit une alerte courriel, retrouve ses prospects avec la carte d'origine, les exporte en CSV et peut les supprimer. Suppression automatique après `lead_retention_days` (730 jours par défaut).
 
 **Langues** : tout ce que voient les clients et les visiteurs existe en français et en anglais (site, profils, espace client, courriels, pages légales). La langue suit le choix du visiteur (lien FR/EN), sinon celle de son navigateur ; les courriels partent dans la langue du client. L'admin reste en français. Les traductions sont dans `app/lang/en.php`.
 
@@ -41,11 +57,11 @@ PHP 8.1+ / MySQL (ou MariaDB), sans framework ni dépendance Composer.
    ```
    cd ~/repositories/EliteTap && php bin/create-admin.php info@elitetap.ca "Votre nom"
    ```
-7. **Paiement (facultatif)** — sur dashboard.stripe.com : *Développeurs › Clés API* (clé secrète) et *Développeurs › Webhooks › Ajouter un point de terminaison* : URL `https://new.elitetap.ca/stripe/webhook`, événements `checkout.session.completed` et `checkout.session.async_payment_succeeded`. Copier la clé secrète et le secret du webhook (`whsec_…`) dans `app/config.php`. Tester d'abord avec les clés *test* et la carte 4242 4242 4242 4242.
+7. **Paiement (facultatif)** — sur dashboard.stripe.com : *Développeurs › Clés API* (clé secrète) et *Développeurs › Webhooks › Ajouter un point de terminaison* : URL `https://new.elitetap.ca/stripe/webhook`, événements `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `customer.subscription.updated` et `customer.subscription.deleted`. Pour l'abonnement Pro : *Catalogue de produits › Ajouter* « EliteTap Pro » avec un prix mensuel et/ou annuel, puis coller leurs identifiants `price_…` dans `config.php` (`price_pro_monthly`, `price_pro_yearly`). Activer aussi le *Portail client* (*Paramètres › Facturation › Portail client*) pour que les abonnés gèrent leur carte et leurs factures. Copier la clé secrète et le secret du webhook (`whsec_…`) dans `app/config.php`. Tester d'abord avec les clés *test* et la carte 4242 4242 4242 4242.
 8. **Courriels** — *cPanel › Délivrabilité des courriels* : vérifier SPF et DKIM pour elitetap.ca, sinon les messages risquent d'arriver en indésirables.
 9. **PHP** — *Sélecteur de version PHP* : 8.1 ou plus, extensions `pdo_mysql`, `gd`, `fileinfo`, `mbstring`, `curl` (et `intl` si disponible).
 
-**Base créée avec une version précédente ?** Exécuter `database/migrations/002-paiement-langue.mysql.sql` dans phpMyAdmin.
+**Base créée avec une version précédente ?** Dans phpMyAdmin, onglet SQL, exécuter dans l'ordre les fichiers de `database/migrations/` qui n'ont pas encore été appliqués (`002-…`, puis `003-forfaits-prospects-themes.mysql.sql`).
 
 **Mises à jour** : *Git Version Control › Gérer › Pull or Deploy › Update from Remote*. `app/config.php` et les fichiers envoyés ne sont jamais écrasés (ignorés par Git).
 

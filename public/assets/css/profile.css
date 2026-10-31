@@ -32,3 +32,26 @@ a { color: inherit; }
 
 .made { margin-top: auto; padding: 32px 20px 24px; text-align: center; font-size: 13px; color: var(--muted); }
 .made a { color: #2563EB; font-weight: 600; }
+
+/* Thème : police des titres, logo */
+.identity h1 { font-family: var(--title-font, 'Space Grotesk', sans-serif); }
+.cover { color: var(--on-cover); }
+.cover svg { opacity: .5; }
+.logo { display: block; max-width: 180px; max-height: 56px; margin: 16px auto 0; }
+
+/* Formulaire de prospects */
+.lead { margin: 28px 20px 0; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px 20px; }
+.lead h2 { margin: 0; font-family: var(--title-font, 'Space Grotesk', sans-serif); font-size: 20px; }
+.lead-intro { margin: 6px 0 16px; font-size: 14px; color: var(--muted); }
+.lead-ok { margin: 10px 0 0; font-size: 15px; color: #166534; font-weight: 500; }
+.lead-err { margin: 0 0 12px; font-size: 14px; color: #991B1B; background: #FEF2F2; border-radius: 10px; padding: 10px 12px; }
+.lead-form { display: flex; flex-direction: column; gap: 12px; }
+.lead-form label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 500; }
+.lead-form .opt { color: var(--muted); font-weight: 400; }
+.lead-form input:not([type=checkbox]), .lead-form textarea { font: inherit; font-size: 16px; border: 1px solid #D6D3CC; border-radius: 12px; padding: 12px 14px; min-height: 48px; background: #FFF; color: var(--text); width: 100%; }
+.lead-form textarea { resize: vertical; }
+.lead-form .consent { flex-direction: row; align-items: flex-start; gap: 10px; font-weight: 400; font-size: 13px; line-height: 1.5; color: var(--muted); }
+.lead-form .consent input { width: 20px; height: 20px; margin-top: 1px; flex-shrink: 0; accent-color: var(--accent); }
+.lead-form .consent a { color: inherit; }
+.lead-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.send { font: inherit; font-weight: 600; font-size: 16px; border: 0; border-radius: 14px; min-height: 52px; background: #14161A; color: #FFF; cursor: pointer; }

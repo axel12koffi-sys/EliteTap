@@ -6,9 +6,38 @@ function current_user(): ?array
     static $user = false;
     if ($user === false) {
         $id = $_SESSION['uid'] ?? null;
-        $user = $id ? row('SELECT id, email, name, role FROM users WHERE id = ?', [$id]) : null;
+        $user = $id ? row('SELECT id, email, name, role, lang, is_active, plan, plan_source, plan_status, plan_renews_at, stripe_customer_id, stripe_subscription_id
+                           FROM users WHERE id = ?', [$id]) : null;
+        // Compte désactivé par EliteTap : la session ne vaut plus rien (sauf si un admin gère ce profil)
+        if ($user && !$user['is_active'] && !acting_as_admin()) {
+            $user = null;
+        }
     }
     return $user;
+}
+
+/** Un admin gère actuellement le profil d'un client (« Gérer le profil »). */
+function acting_as_admin(): bool
+{
+    return !empty($_SESSION['impersonator']);
+}
+
+/** Accès à une fonction du forfait Pro pour l'utilisateur connecté (un admin qui gère le profil a tout). */
+function can(string $feature): bool
+{
+    $u = current_user();
+    return $u !== null && (acting_as_admin() || user_can($u, $feature));
+}
+
+/** Fonction réservée au Pro : sinon, page du forfait avec explication. */
+function require_feature(string $feature): array
+{
+    $u = require_login();
+    if (!can($feature)) {
+        flash('error', t('Cette fonction fait partie du forfait Pro.'));
+        redirect('/compte/forfait');
+    }
+    return $u;
 }
 
 function require_login(): array

@@ -8,6 +8,8 @@
   </form>
 </div>
 
+<?php require __DIR__ . '/_kpis.php'; ?>
+
 <nav class="tabs" aria-label="Filtrer par statut">
   <a href="/admin"<?= $status === '' ? ' aria-current="true"' : '' ?>>Toutes <span><?= $counts[''] ?? 0 ?></span></a>
   <?php foreach (ORDER_STATUSES as $k => $label): ?>

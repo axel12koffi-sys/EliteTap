@@ -10,6 +10,13 @@ CREATE TABLE users (
   name          VARCHAR(120) NOT NULL,
   role          ENUM('client','admin') NOT NULL DEFAULT 'client',
   lang          CHAR(2) NOT NULL DEFAULT 'fr',
+  is_active     TINYINT(1) NOT NULL DEFAULT 1,
+  plan          ENUM('essentiel','pro','entreprise') NOT NULL DEFAULT 'essentiel',
+  plan_source   ENUM('manual','stripe') NOT NULL DEFAULT 'manual',
+  plan_status   VARCHAR(20) NULL,
+  plan_renews_at DATETIME NULL,
+  stripe_customer_id VARCHAR(64) NULL,
+  stripe_subscription_id VARCHAR(64) NULL,
   reset_token_hash CHAR(64) NULL,
   reset_expires_at DATETIME NULL,
   last_login_at DATETIME NULL,
@@ -28,8 +35,14 @@ CREATE TABLE profiles (
   phone        VARCHAR(40)  NOT NULL DEFAULT '',
   email        VARCHAR(190) NOT NULL DEFAULT '',
   website      VARCHAR(255) NOT NULL DEFAULT '',
+  whatsapp     VARCHAR(40)  NOT NULL DEFAULT '',
   address      VARCHAR(255) NOT NULL DEFAULT '',
   avatar_path  VARCHAR(255) NULL,
+  logo_path    VARCHAR(255) NULL,
+  theme        VARCHAR(20) NOT NULL DEFAULT 'marine',
+  font         VARCHAR(12) NOT NULL DEFAULT 'moderne',
+  lead_form    TINYINT(1) NOT NULL DEFAULT 1,
+  lead_alerts  TINYINT(1) NOT NULL DEFAULT 1,
   cover_color  CHAR(7) NOT NULL DEFAULT '#14161A',
   accent_color CHAR(7) NOT NULL DEFAULT '#2563EB',
   is_public    TINYINT(1) NOT NULL DEFAULT 1,
@@ -100,11 +113,29 @@ CREATE TABLE events (
   profile_id INT UNSIGNED NOT NULL,
   card_id    INT UNSIGNED NULL,
   link_id    INT UNSIGNED NULL,
-  type       ENUM('view','tap','vcard','link') NOT NULL,
+  type       ENUM('view','tap','vcard','link','lead') NOT NULL,
   visitor    CHAR(16) NOT NULL,
   created_at DATETIME NOT NULL,
   CONSTRAINT fk_events_profile FOREIGN KEY (profile_id) REFERENCES profiles(id) ON DELETE CASCADE,
   INDEX idx_events_profile (profile_id, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Prospects : coordonnées laissées par un visiteur sur un profil, avec consentement (Loi 25)
+CREATE TABLE leads (
+  id          INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  profile_id  INT UNSIGNED NOT NULL,
+  card_id     INT UNSIGNED NULL,
+  name        VARCHAR(120) NOT NULL,
+  email       VARCHAR(190) NOT NULL DEFAULT '',
+  phone       VARCHAR(40)  NOT NULL DEFAULT '',
+  company     VARCHAR(120) NOT NULL DEFAULT '',
+  message     VARCHAR(1000) NOT NULL DEFAULT '',
+  consent_text VARCHAR(500) NOT NULL,
+  consent_at  DATETIME NOT NULL,
+  read_at     DATETIME NULL,
+  created_at  DATETIME NOT NULL,
+  CONSTRAINT fk_leads_profile FOREIGN KEY (profile_id) REFERENCES profiles(id) ON DELETE CASCADE,
+  INDEX idx_leads_profile (profile_id, created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE login_attempts (

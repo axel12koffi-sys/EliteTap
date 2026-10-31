@@ -24,7 +24,7 @@ function admin_orders(): void
         $counts[$r['status']] = (int) $r['n'];
     }
     view('admin/orders', ['title' => 'Commandes | Admin EliteTap', 'nav' => 'commandes', 'user' => $user,
-        'orders' => rows($sql, $params), 'status' => $status, 'search' => $search, 'counts' => $counts], 'admin');
+        'orders' => rows($sql, $params), 'status' => $status, 'search' => $search, 'counts' => $counts, 'kpis' => admin_kpis()], 'admin');
 }
 
 function admin_order(string $id): void
@@ -252,17 +252,96 @@ function admin_cards_qr(): void
     view('admin/qr', ['cards' => rows($sql . ' ORDER BY id LIMIT 1000', $params)]);
 }
 
+/** Indicateurs du tableau de bord admin. */
+function admin_kpis(): array
+{
+    $week = date('Y-m-d H:i:s', time() - 7 * 86400);
+    $month = date('Y-m-d H:i:s', time() - 30 * 86400);
+    return [
+        'clients'  => (int) scalar("SELECT COUNT(*) FROM users WHERE role = 'client' AND is_active = 1"),
+        'cards'    => (int) scalar("SELECT COUNT(*) FROM cards WHERE status = 'active'"),
+        'taps'     => (int) scalar("SELECT COUNT(*) FROM events WHERE type = 'tap' AND created_at >= ?", [$week]),
+        'leads'    => (int) scalar('SELECT COUNT(*) FROM leads WHERE created_at >= ?', [$month]),
+        'pro'      => (int) scalar("SELECT COUNT(*) FROM users WHERE role = 'client' AND is_active = 1 AND plan IN ('pro','entreprise')"),
+    ];
+}
+
 function admin_clients(): void
 {
     $user = require_admin();
-    $clients = rows("SELECT u.id, u.name, u.email, u.created_at, u.last_login_at, p.slug,
+    $month = date('Y-m-d H:i:s', time() - 30 * 86400);
+    $filter = $_GET['forfait'] ?? '';
+    $where = "u.role = 'client'";
+    $params = [$month, $month];
+    if (isset(PLANS[$filter])) {
+        $where .= ' AND u.plan = ?';
+        $params[] = $filter;
+    } elseif ($filter === 'inactif') {
+        $where .= ' AND u.is_active = 0';
+    }
+    $clients = rows("SELECT u.id, u.name, u.email, u.created_at, u.last_login_at, u.plan, u.plan_source, u.plan_status, u.is_active, p.slug, p.company,
                        (SELECT COUNT(*) FROM cards c WHERE c.profile_id = p.id AND c.status = 'active') cards,
-                       (SELECT COUNT(*) FROM events e WHERE e.profile_id = p.id) events
+                       (SELECT COUNT(*) FROM events e WHERE e.profile_id = p.id AND e.type IN ('tap','view') AND e.created_at >= ?) opens,
+                       (SELECT COUNT(*) FROM leads l WHERE l.profile_id = p.id AND l.created_at >= ?) leads
                      FROM users u LEFT JOIN profiles p ON p.user_id = u.id
-                     WHERE u.role = 'client' ORDER BY u.created_at DESC LIMIT 500");
+                     WHERE $where ORDER BY u.created_at DESC LIMIT 500", $params);
     $stock = rows("SELECT id, code, material FROM cards WHERE status = 'stock' ORDER BY id LIMIT 200");
     view('admin/clients', ['title' => 'Clients | Admin EliteTap', 'nav' => 'clients', 'user' => $user,
-        'clients' => $clients, 'stock' => $stock], 'admin');
+        'clients' => $clients, 'stock' => $stock, 'kpis' => admin_kpis(), 'filter' => $filter], 'admin');
+}
+
+function admin_client_plan(string $id): void
+{
+    require_admin();
+    $plan = input('plan', 12);
+    if (!isset(PLANS[$plan])) abort(400);
+    $u = row("SELECT id, name, plan_source, stripe_subscription_id FROM users WHERE id = ? AND role = 'client'", [(int) $id]);
+    if (!$u) abort(404);
+    // Un forfait choisi ici devient « manuel » : Stripe ne le modifiera plus
+    q("UPDATE users SET plan = ?, plan_source = 'manual' WHERE id = ?", [$plan, $u['id']]);
+    $msg = "Forfait de {$u['name']} : " . PLANS[$plan] . '.';
+    if ($u['stripe_subscription_id']) {
+        $msg .= ' Attention : un abonnement Stripe est actif pour ce client, à gérer aussi dans Stripe.';
+    }
+    flash('success', $msg);
+    redirect('/admin/clients');
+}
+
+/** Activer / désactiver un client : profil masqué, cartes inopérantes, connexion bloquée. Rien n'est supprimé. */
+function admin_client_toggle(string $id): void
+{
+    require_admin();
+    $u = row("SELECT id, name, is_active FROM users WHERE id = ? AND role = 'client'", [(int) $id]);
+    if (!$u) abort(404);
+    q('UPDATE users SET is_active = ? WHERE id = ?', [$u['is_active'] ? 0 : 1, $u['id']]);
+    flash('success', $u['is_active']
+        ? "{$u['name']} est désactivé : son profil et ses cartes ne s'ouvrent plus. Rien n'est supprimé."
+        : "{$u['name']} est réactivé.");
+    redirect('/admin/clients');
+}
+
+/** « Gérer le profil » : l'admin ouvre l'espace du client pour faire les modifications (forfait Essentiel). */
+function admin_client_manage(string $id): void
+{
+    $admin = require_admin();
+    $u = row("SELECT id FROM users WHERE id = ? AND role = 'client'", [(int) $id]);
+    if (!$u) abort(404);
+    session_regenerate_id(true);
+    $_SESSION['impersonator'] = (int) $admin['id'];
+    $_SESSION['uid'] = (int) $u['id'];
+    redirect('/compte');
+}
+
+function admin_stop_managing(): void
+{
+    $adminId = (int) ($_SESSION['impersonator'] ?? 0);
+    if (!$adminId) {
+        redirect('/compte');
+    }
+    unset($_SESSION['impersonator']);
+    session_regenerate_id(true);
+    $_SESSION['uid'] = $adminId;
+    redirect('/admin/clients');
 }
 
 /** Création manuelle d'un client (ex. : migration des clients de l'ancien site), sans commande. */
@@ -275,6 +354,7 @@ function admin_client_create(): void
     $phone = input('phone', 40);
     $cardId = (int) ($_POST['card_id'] ?? 0);
     $clang = in_array($_POST['lang'] ?? '', LANGS, true) ? $_POST['lang'] : 'fr';
+    $cplan = isset(PLANS[$_POST['plan'] ?? '']) ? $_POST['plan'] : 'essentiel';
 
     if ($name === '' || !valid_email($email)) {
         flash('error', 'Indiquez un nom et un courriel valide.');
@@ -289,7 +369,7 @@ function admin_client_create(): void
 
     [$userId] = create_client($name, $email);
     q('UPDATE profiles SET company = ?, phone = ?, updated_at = ? WHERE user_id = ?', [$company, $phone, now(), $userId]);
-    q('UPDATE users SET lang = ? WHERE id = ?', [$clang, $userId]);
+    q('UPDATE users SET lang = ?, plan = ? WHERE id = ?', [$clang, $cplan, $userId]);
     $profileId = (int) scalar('SELECT id FROM profiles WHERE user_id = ?', [$userId]);
 
     $msg = 'Client créé.';

@@ -21,11 +21,16 @@ function auth_login(): void
         redirect('/connexion');
     }
 
-    $user = row('SELECT id, password_hash, role FROM users WHERE email = ?', [$email]);
+    $user = row('SELECT id, password_hash, role, is_active FROM users WHERE email = ?', [$email]);
     if (!$user || !is_string($password) || !password_verify($password, $user['password_hash'])) {
         hit_attempt($key);
         flash('error', t('Courriel ou mot de passe incorrect.'));
         with_old(['email' => $email]);
+        redirect('/connexion');
+    }
+
+    if (!$user['is_active']) {
+        flash('error', t('Ce compte est désactivé. Écrivez-nous à info@elitetap.ca.'));
         redirect('/connexion');
     }
 

@@ -7,6 +7,8 @@ require APP_DIR . '/controllers/auth.php';
 require APP_DIR . '/controllers/account.php';
 require APP_DIR . '/controllers/admin.php';
 require APP_DIR . '/controllers/payment.php';
+require APP_DIR . '/controllers/leads.php';
+require APP_DIR . '/controllers/plan.php';
 
 const ROUTES = [
     // Site public
@@ -23,6 +25,7 @@ const ROUTES = [
     ['POST', '/t/([A-Z0-9]{6,16})/activer',    'card_activate'],
     ['GET',  '/u/([a-z0-9-]{2,60})',           'profile_show'],
     ['GET',  '/u/([a-z0-9-]{2,60})/contact\.vcf', 'profile_vcard'],
+    ['POST', '/u/([a-z0-9-]{2,60})/prospect', 'lead_submit'],
     ['GET',  '/l/(\d+)',                       'link_go'],
 
     // Paiement en ligne
@@ -44,6 +47,15 @@ const ROUTES = [
     ['GET',  '/compte',                        'account_profile'],
     ['POST', '/compte',                        'account_profile_save'],
     ['POST', '/compte/photo',                  'account_avatar'],
+    ['POST', '/compte/logo',                   'account_logo'],
+    ['POST', '/compte/theme',                  'account_theme'],
+    ['GET',  '/compte/prospects',              'account_leads'],
+    ['POST', '/compte/prospects',              'account_leads_delete'],
+    ['GET',  '/compte/prospects\.csv',         'account_leads_export'],
+    ['GET',  '/compte/forfait',                'account_plan'],
+    ['POST', '/compte/forfait/abonnement',     'account_plan_subscribe'],
+    ['POST', '/compte/forfait/portail',        'account_plan_portal'],
+    ['POST', '/compte/retour-admin',           'admin_stop_managing'],
     ['GET',  '/compte/liens',                  'account_links'],
     ['POST', '/compte/liens',                  'account_links_save'],
     ['GET',  '/compte/statistiques',           'account_stats'],
@@ -67,6 +79,9 @@ const ROUTES = [
     ['GET',  '/admin/clients',                 'admin_clients'],
     ['POST', '/admin/clients',                 'admin_client_create'],
     ['POST', '/admin/clients/(\d+)/lien',      'admin_client_reset_link'],
+    ['POST', '/admin/clients/(\d+)/forfait',   'admin_client_plan'],
+    ['POST', '/admin/clients/(\d+)/statut',    'admin_client_toggle'],
+    ['POST', '/admin/clients/(\d+)/gerer',     'admin_client_manage'],
 ];
 
 function dispatch(string $method, string $path): void

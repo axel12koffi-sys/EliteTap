@@ -8,7 +8,7 @@
 <link rel="icon" href="<?= asset('img/favicon.png') ?>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600<?= ($nav ?? '') === 'profil' ? '&family=Playfair+Display:wght@600;700&family=Cormorant+Garamond:wght@600;700' : '' ?>&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="<?= asset('css/app.css') ?>">
 </head>
 <body>
@@ -19,8 +19,8 @@
       <?php if ($isAdminShell): ?><span class="tag">ADMIN</span><?php endif; ?>
     </div>
     <nav class="side-nav" aria-label="<?= $isAdminShell ? 'Administration' : te('Espace client') ?>">
-      <?php foreach ($menu as [$key, $href, $label]): ?>
-        <a href="<?= e($href) ?>"<?= ($nav ?? '') === $key ? ' aria-current="page"' : '' ?>><?= e($label) ?></a>
+      <?php foreach ($menu as $item): [$key, $href, $label] = $item; $feature = $item[3] ?? null; ?>
+        <a href="<?= e($href) ?>"<?= ($nav ?? '') === $key ? ' aria-current="page"' : '' ?>><?= e($label) ?><?php if ($feature && !can($feature)): ?> <span class="tag-pro">Pro</span><?php endif; ?></a>
       <?php endforeach; ?>
     </nav>
     <div class="side-bottom">
@@ -39,6 +39,13 @@
     </div>
   </aside>
   <main class="main">
+    <?php if (!$isAdminShell && acting_as_admin()): ?>
+      <form method="post" action="/compte/retour-admin" class="managing">
+        <?= csrf_field() ?>
+        <span>Vous gérez le profil de <strong><?= e($user['name'] ?? '') ?></strong> (<?= e(PLANS[$user['plan'] ?? 'essentiel'] ?? '') ?>). Toutes les fonctions sont ouvertes.</span>
+        <button class="btn btn-light btn-sm" type="submit">Revenir à l'admin</button>
+      </form>
+    <?php endif; ?>
     <?php foreach (flashes() as $f): ?>
       <p class="alert alert-<?= e($f['type']) ?>" role="<?= $f['type'] === 'error' ? 'alert' : 'status' ?>"><?= e($f['msg']) ?></p>
     <?php endforeach; ?>

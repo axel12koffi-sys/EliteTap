@@ -6,6 +6,13 @@ return [
     // Indexation Google : automatique (oui sur elitetap.ca, non ailleurs). Forcer avec true/false si besoin.
     // 'indexable' => false,
 
+    // Forfaits : true = fonctions Pro réservées aux forfaits Pro / Entreprise (plan d'évolution).
+    // false = toutes les fonctions ouvertes à tous les clients.
+    'plans_enforced' => true,
+
+    // Prospects conservés N jours, puis supprimés automatiquement (Loi 25)
+    'lead_retention_days' => 730,
+
     'db' => [
         'dsn'  => 'mysql:host=localhost;dbname=CPANELUSER_elitetap;charset=utf8mb4',
         'user' => 'CPANELUSER_elitetap',
@@ -20,10 +27,15 @@ return [
 
     // Paiement en ligne (facultatif). Laisser vide pour désactiver.
     // Stripe > Développeurs > Clés API ; webhook vers https://VOTRE-DOMAINE/stripe/webhook
-    // (événements : checkout.session.completed, checkout.session.async_payment_succeeded)
+    // (événements : checkout.session.completed, checkout.session.async_payment_succeeded,
+    //  customer.subscription.updated, customer.subscription.deleted)
     'stripe' => [
         'secret_key'     => '',   // sk_test_… pour tester, sk_live_… en production
         'webhook_secret' => '',   // whsec_…
+        // Abonnement Pro : créer le produit « EliteTap Pro » dans Stripe (Catalogue de produits)
+        // avec un prix mensuel et/ou annuel, puis coller ici leurs identifiants (price_…).
+        'price_pro_monthly' => '',
+        'price_pro_yearly'  => '',
     ],
 
     'whatsapp'  => '14382207167',

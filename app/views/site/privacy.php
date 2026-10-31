@@ -13,6 +13,8 @@
 
   <p><strong>Paiement en ligne :</strong> les paiements sont traités par Stripe. EliteTap ne voit ni ne conserve jamais votre numéro de carte.</p>
 
+  <p><strong>Prospects :</strong> lorsqu'un visiteur remplit le formulaire « Laissez vos coordonnées » d'un profil et coche la case de consentement, son nom, ses coordonnées et son message sont transmis au titulaire du profil. EliteTap les conserve pour le compte de ce titulaire, au maximum <?= (int) config('lead_retention_days', 730) ?> jours. Le texte du consentement et sa date sont enregistrés. Pour faire supprimer ces renseignements, écrivez au titulaire du profil ou à <a href="mailto:info@elitetap.ca">info@elitetap.ca</a>.</p>
+
   <h2>Utilisation</h2>
   <p>Ces renseignements servent uniquement à produire vos cartes, afficher votre profil, vous fournir vos statistiques et communiquer avec vous au sujet de votre commande. Ils ne sont ni vendus ni loués.</p>
 
