@@ -1,0 +1,11 @@
+# Filet de sécurité : si la racine du sous-domaine pointe sur le dépôt
+# au lieu du dossier public/, tout est redirigé vers public/
+# et les dossiers sensibles restent inaccessibles.
+Options -Indexes
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(app|storage|database|bin|\.git)(/|$) - [F,L]
+  RewriteRule ^(README\.md|\.cpanel\.yml|\.gitignore)$ - [F,L]
+  RewriteCond %{REQUEST_URI} !^/public/
+  RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

@@ -1,0 +1,72 @@
+# EliteTap — plateforme de cartes de visite NFC
+
+Site vitrine, profils NFC publics, espace client et administration.
+PHP 8.1+ / MySQL (ou MariaDB), sans framework ni dépendance Composer.
+
+## Ce que fait la plateforme
+
+| Adresse | Rôle |
+|---|---|
+| `/` | Site vitrine + formulaire de devis (pièce jointe, anti-robot, accusé de réception) |
+| `/t/{CODE}` | URL encodée dans la puce NFC **et** le QR de chaque carte. Compte le tap puis ouvre le profil |
+| `/u/{adresse}` | Profil public : enregistrer le contact (vCard), appeler, texto, courriel, site, itinéraire, liens |
+| `/compte` | Espace client : profil + aperçu en direct, photo, couleurs, liens, statistiques, cartes, mot de passe |
+| `/admin` | Commandes (statuts, montant, notes, fichier joint, courriel au client), cartes NFC, clients |
+
+**Cycle d'une commande** : devis reçu → l'admin crée le compte client depuis la commande (le client reçoit un lien pour choisir son mot de passe) → l'admin lie un code de carte du stock → la carte ouvre le profil dès son premier tap.
+
+**Cartes** : on génère des codes dans *Admin › Cartes NFC*, on exporte le CSV (code + URL) pour l'encodage des puces et l'impression des QR. Une carte n'est jamais reprogrammée : on change seulement le profil auquel son code est relié. Un client connecté qui tape une carte neuve peut l'activer lui-même ; une carte perdue se désactive depuis son espace.
+
+**Vie privée (Loi 25)** : aucune IP stockée. Les statistiques utilisent un identifiant anonyme qui change chaque jour, et les robots (aperçus WhatsApp, Facebook…) ne sont pas comptés.
+
+## Installation sur cPanel (new.elitetap.ca)
+
+1. **Base de données** — *cPanel › Bases de données MySQL* : créer une base et un utilisateur, lui donner tous les privilèges. Dans *phpMyAdmin*, importer `database/schema.mysql.sql`.
+2. **Code** — *cPanel › Git Version Control › Créer* : cloner `https://github.com/axel12koffi-sys/EliteTap.git` dans par exemple `/home/UTILISATEUR/repositories/EliteTap`.
+3. **Sous-domaine** — *cPanel › Domaines* : faire pointer la racine de `new.elitetap.ca` sur `/home/UTILISATEUR/repositories/EliteTap/public`.
+   (Si la racine ne peut pas être changée, le `.htaccess` à la racine du dépôt redirige vers `public/` et bloque `app/`, `storage/`, `database/`.)
+4. **Configuration** — dans le *Gestionnaire de fichiers*, copier `app/config.sample.php` en `app/config.php` et remplir :
+   - `app_url` : `https://new.elitetap.ca` (puis `https://elitetap.ca` au lancement)
+   - `db` : nom de la base, utilisateur, mot de passe
+   - `secret` : une longue chaîne aléatoire
+5. **Droits d'écriture** — `storage/uploads/` et `public/uploads/avatars/` en 755 (750 pour `storage`).
+6. **Compte admin** — *cPanel › Terminal* :
+   ```
+   cd ~/repositories/EliteTap && php bin/create-admin.php info@elitetap.ca "Votre nom"
+   ```
+7. **Courriels** — *cPanel › Délivrabilité des courriels* : vérifier SPF et DKIM pour elitetap.ca, sinon les messages risquent d'arriver en indésirables.
+8. **PHP** — *Sélecteur de version PHP* : 8.1 ou plus, extensions `pdo_mysql`, `gd`, `fileinfo`, `mbstring` (et `intl` si disponible).
+
+**Mises à jour** : *Git Version Control › Gérer › Pull or Deploy › Update from Remote*. `app/config.php` et les fichiers envoyés ne sont jamais écrasés (ignorés par Git).
+
+## Avant le passage sur elitetap.ca
+
+- [ ] Changer `app_url` pour `https://elitetap.ca`
+- [ ] Les cartes déjà distribuées pointent-elles vers d'anciennes URL ? Si oui, ajouter les redirections correspondantes
+- [ ] Remplir les champs entre crochets de `app/views/site/privacy.php` et `refund.php`
+- [ ] Ajouter les photos des réalisations dans `public/assets/img/` : `carte-standard.jpg`, `carte-premium.jpg`, `carte-bois.jpg`, `carte-metal.jpg` (format 1,586:1, ex. 856×540). Elles remplacent automatiquement les aplats de couleur
+
+## Développement local
+
+```
+cp app/config.sample.php app/config.php   # dsn sqlite:/chemin/test.sqlite, 'log_only' => true dans 'mail'
+php -r '$p=new PDO("sqlite:test.sqlite");$p->exec(file_get_contents("database/schema.sqlite.sql"));'
+php bin/create-admin.php admin@exemple.ca "Admin"
+php -S localhost:8000 -t public public/index.php
+```
+Avec `'log_only' => true`, les courriels sont écrits dans `storage/mail.log` au lieu d'être envoyés.
+
+## Structure
+
+```
+app/            code (inaccessible depuis le web)
+  controllers/  site, profils, connexion, espace client, admin
+  lib/          base de données, sécurité, courriels, statistiques
+  views/        gabarits HTML
+database/       schémas MySQL et SQLite
+public/         racine web : index.php, assets/, uploads/avatars/
+storage/        pièces jointes des devis (privées)
+bin/            create-admin.php
+```
+
+Sécurité : requêtes préparées partout, jeton CSRF sur chaque formulaire, mots de passe `password_hash`, limitation des tentatives (connexion, devis, mot de passe oublié), photos réencodées en JPEG, pièces jointes hors du dossier public, liens limités à http/https.

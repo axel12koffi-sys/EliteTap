@@ -1,0 +1,10 @@
+app/config.php
+storage/*
+!storage/.htaccess
+!storage/uploads/
+storage/uploads/*
+!storage/uploads/.gitkeep
+public/uploads/avatars/*
+!public/uploads/avatars/.gitkeep
+*.sqlite
+.DS_Store
