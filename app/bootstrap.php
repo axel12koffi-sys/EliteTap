@@ -26,6 +26,8 @@ require APP_DIR . '/lib/helpers.php';
 require APP_DIR . '/lib/auth.php';
 require APP_DIR . '/lib/mailer.php';
 require APP_DIR . '/lib/stats.php';
+require APP_DIR . '/lib/i18n.php';
+require APP_DIR . '/lib/stripe.php';
 
 if (PHP_SAPI !== 'cli') {
     $secure = (($_SERVER['HTTPS'] ?? '') !== '' && $_SERVER['HTTPS'] !== 'off')

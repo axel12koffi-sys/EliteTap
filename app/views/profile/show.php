@@ -7,28 +7,28 @@ $cover = $p['cover_color'];
 $telHref = preg_replace('/[^0-9+]/', '', $p['phone']);
 $actions = [];
 if ($p['phone'] !== '') {
-    $actions[] = ['tel:' . $telHref, 'Appeler', '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" stroke-linejoin="round"/>'];
-    $actions[] = ['sms:' . $telHref, 'Texto', '<path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z" stroke-linejoin="round"/>'];
+    $actions[] = ['tel:' . $telHref, t('Appeler'), '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" stroke-linejoin="round"/>'];
+    $actions[] = ['sms:' . $telHref, t('Texto'), '<path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z" stroke-linejoin="round"/>'];
 }
 if ($p['email'] !== '') {
-    $actions[] = ['mailto:' . $p['email'], 'Courriel', '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>'];
+    $actions[] = ['mailto:' . $p['email'], t('Courriel'), '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>'];
 }
 if ($p['website'] !== '') {
-    $actions[] = [$p['website'], 'Site web', '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>'];
+    $actions[] = [$p['website'], t('Site web'), '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>'];
 }
 if ($p['address'] !== '') {
-    $actions[] = ['https://www.google.com/maps/search/?api=1&query=' . rawurlencode($p['address']), 'Itinéraire', '<path d="M12 21c-5-4.5-7-8-7-11a7 7 0 0 1 14 0c0 3-2 6.5-7 11z"/><circle cx="12" cy="10" r="2.5"/>'];
+    $actions[] = ['https://www.google.com/maps/search/?api=1&query=' . rawurlencode($p['address']), t('Itinéraire'), '<path d="M12 21c-5-4.5-7-8-7-11a7 7 0 0 1 14 0c0 3-2 6.5-7 11z"/><circle cx="12" cy="10" r="2.5"/>'];
 }
 ?>
 <!doctype html>
-<html lang="fr">
+<html lang="<?= lang() ?>">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title><?= e($name) ?><?= $sub ? ' — ' . e($sub) : '' ?></title>
 <meta name="description" content="<?= e($p['bio'] ?: ($name . ($sub ? ', ' . $sub : ''))) ?>">
 <meta property="og:title" content="<?= e($name) ?>">
-<meta property="og:description" content="<?= e($sub ?: 'Profil EliteTap') ?>">
+<meta property="og:description" content="<?= e($sub ?: t('Profil EliteTap')) ?>">
 <?php if ($p['avatar_path']): ?><meta property="og:image" content="<?= e(url('/uploads/avatars/' . $p['avatar_path'])) ?>"><?php endif; ?>
 <?php if (!$p['is_public']): ?><meta name="robots" content="noindex"><?php endif; ?>
 <meta name="theme-color" content="<?= e($cover) ?>">
@@ -41,14 +41,14 @@ if ($p['address'] !== '') {
 </head>
 <body>
 <?php if ($isOwner): ?>
-  <div class="owner-bar">Aperçu de votre profil<?= $p['is_public'] ? '' : ' (privé)' ?> · <a href="/compte">Modifier</a></div>
+  <div class="owner-bar"><?= te('Aperçu de votre profil') ?><?= $p['is_public'] ? '' : ' (' . te('privé') . ')' ?> · <a href="/compte"><?= te('Modifier') ?></a></div>
 <?php endif; ?>
 <main class="profile">
   <div class="cover" aria-hidden="true">
     <svg width="26" height="26" viewBox="0 0 28 28" fill="none"><path d="M10 9a7 7 0 0 1 0 10M14 6a11 11 0 0 1 0 16M18 3a15 15 0 0 1 0 22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
   </div>
   <?php if ($p['avatar_path']): ?>
-    <img class="avatar" src="/uploads/avatars/<?= e($p['avatar_path']) ?>" alt="Photo de <?= e($name) ?>" width="112" height="112">
+    <img class="avatar" src="/uploads/avatars/<?= e($p['avatar_path']) ?>" alt="<?= te('Photo de {nom}', ['nom' => $name]) ?>" width="112" height="112">
   <?php else: ?>
     <div class="avatar avatar-initials" aria-hidden="true"><?= e(initials($p)) ?></div>
   <?php endif; ?>
@@ -62,11 +62,11 @@ if ($p['address'] !== '') {
   <div class="block">
     <a class="save" href="/u/<?= e($p['slug']) ?>/contact.vcf">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M3 20a7 7 0 0 1 12-5M19 14v6M16 17h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      Enregistrer le contact
+      <?= te('Enregistrer le contact') ?>
     </a>
 
     <?php if ($actions): ?>
-    <nav class="actions" aria-label="Me contacter" style="--n: <?= min(4, count($actions)) ?>">
+    <nav class="actions" aria-label="<?= te('Me contacter') ?>" style="--n: <?= min(4, count($actions)) ?>">
       <?php foreach ($actions as [$href, $label, $icon]): ?>
         <a href="<?= e($href) ?>"<?= str_starts_with($href, 'http') ? ' rel="noopener" target="_blank"' : '' ?>>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><?= $icon ?></svg>
@@ -85,7 +85,7 @@ if ($p['address'] !== '') {
   </ul>
   <?php endif; ?>
 
-  <footer class="made">Carte <strong>EliteTap</strong> · <a href="/">Obtenir la mienne</a></footer>
+  <footer class="made"><?= te('Carte') ?> <strong>EliteTap</strong> · <a href="/"><?= te('Obtenir la mienne') ?></a> · <a href="<?= e(switch_lang_url()) ?>"><?= lang() === 'fr' ? 'EN' : 'FR' ?></a></footer>
 </main>
 </body>
 </html>

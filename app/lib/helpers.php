@@ -190,9 +190,11 @@ function random_code(int $len = 8): string
 function money(?int $cents): string
 {
     if ($cents === null) {
-        return 'Sur devis';
+        return t('Sur devis');
     }
-    return number_format($cents / 100, 2, ',', ' ') . ' $';
+    return lang() === 'en'
+        ? '$' . number_format($cents / 100, 2, '.', ',')
+        : number_format($cents / 100, 2, ',', ' ') . ' $';
 }
 
 function date_fr(?string $d): string

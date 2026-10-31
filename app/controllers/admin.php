@@ -68,9 +68,9 @@ function admin_order_save(string $id): void
     }
 
     if (isset($_POST['notify']) && $status !== $o['status']) {
-        send_mail($o['email'], "Votre commande EliteTap {$o['reference']} : " . ORDER_STATUSES[$status],
-            "Bonjour {$o['name']},\n\nVotre commande {$o['reference']} est maintenant : " . ORDER_STATUSES[$status] . ".\n\n"
-            . "Une question ? Répondez à ce courriel.\n\nL'équipe EliteTap\n");
+        in_lang($o['lang'], fn() => send_mail($o['email'], t('Votre commande EliteTap {ref} : {statut}', ['ref' => $o['reference'], 'statut' => t(ORDER_STATUSES[$status])]),
+            t("Bonjour {nom},\n\nVotre commande {ref} est maintenant : {statut}.\n\nUne question ? Répondez à ce courriel.\n\nL'équipe EliteTap\n",
+                ['nom' => $o['name'], 'ref' => $o['reference'], 'statut' => t(ORDER_STATUSES[$status])])));
     }
     flash('success', 'Commande mise à jour.');
     redirect('/admin/commandes/' . $o['id']);
@@ -91,11 +91,11 @@ function admin_order_client(string $id): void
         if ($o['company'] !== '') {
             q('UPDATE profiles SET company = ?, phone = ? WHERE user_id = ?', [$o['company'], $o['phone'], $userId]);
         }
+        q('UPDATE users SET lang = ? WHERE id = ?', [$o['lang'], $userId]);
         $link = make_reset_link($userId, 72);
-        send_mail($o['email'], 'Votre espace EliteTap est prêt',
-            "Bonjour {$o['name']},\n\nVotre espace client EliteTap est créé. C'est là que vous modifiez le profil qui s'ouvre quand on tape votre carte.\n\n"
-            . "Choisissez votre mot de passe ici (lien valable 72 heures) :\n$link\n\n"
-            . "Ensuite, connectez-vous sur " . url('/connexion') . "\n\nL'équipe EliteTap\n");
+        in_lang($o['lang'], fn() => send_mail($o['email'], t('Votre espace EliteTap est prêt'),
+            t("Bonjour {nom},\n\nVotre espace client EliteTap est créé. C'est là que vous modifiez le profil qui s'ouvre quand on tape votre carte.\n\nChoisissez votre mot de passe ici (lien valable 72 heures) :\n{lien}\n\nEnsuite, connectez-vous sur {connexion}\n\nL'équipe EliteTap\n",
+                ['nom' => $o['name'], 'lien' => $link, 'connexion' => url('/connexion')])));
     }
     q('UPDATE orders SET user_id = ?, updated_at = ? WHERE id = ?', [$userId, now(), $o['id']]);
 
@@ -105,6 +105,35 @@ function admin_order_client(string $id): void
         [$profileId, now(), $o['id']]);
 
     flash('success', $existing ? 'Commande reliée au compte existant.' : 'Compte créé et lien d\'accès envoyé au client.');
+    redirect('/admin/commandes/' . $o['id']);
+}
+
+/** Prépare le lien de paiement et l'envoie au client dans sa langue. */
+function admin_order_payment(string $id): void
+{
+    require_admin();
+    $o = row('SELECT * FROM orders WHERE id = ?', [(int) $id]);
+    if (!$o) abort(404);
+    if ($o['paid_at']) {
+        flash('error', 'Cette commande est déjà payée.');
+        redirect('/admin/commandes/' . $o['id']);
+    }
+    if ($o['amount_cents'] === null || (int) $o['amount_cents'] < 50) {
+        flash('error', 'Indiquez d\'abord le montant total de la commande.');
+        redirect('/admin/commandes/' . $o['id']);
+    }
+    $token = $o['pay_token'] ?: bin2hex(random_bytes(16));
+    q('UPDATE orders SET pay_token = ?, updated_at = ? WHERE id = ?', [$token, now(), $o['id']]);
+    $link = url('/payer/' . $o['reference'] . '/' . $token);
+
+    if (isset($_POST['send'])) {
+        in_lang($o['lang'], fn() => send_mail($o['email'], t('Votre devis EliteTap {ref} : {montant}', ['ref' => $o['reference'], 'montant' => money((int) $o['amount_cents'])]),
+            t("Bonjour {nom},\n\nVoici votre devis pour {carte} × {qte} : {montant} (taxes incluses).\n\nVous pouvez le régler en ligne, par carte de crédit, en toute sécurité :\n{lien}\n\nDès réception du paiement, nous lançons la production après validation de votre épreuve.\n\nUne question ? Répondez simplement à ce courriel.\n\nL'équipe EliteTap\n",
+                ['nom' => $o['name'], 'carte' => t($o['card_type']), 'qte' => (int) $o['quantity'], 'montant' => money((int) $o['amount_cents']), 'lien' => $link])));
+        flash('success', 'Lien de paiement envoyé à ' . $o['email'] . '.');
+    } else {
+        flash('success', 'Lien de paiement prêt : copiez-le ci-dessous.');
+    }
     redirect('/admin/commandes/' . $o['id']);
 }
 
@@ -207,6 +236,22 @@ function admin_cards_export(): void
     fclose($out);
 }
 
+/** Planche de QR : ?statut=stock|active|disabled ou ?commande=ID */
+function admin_cards_qr(): void
+{
+    require_admin();
+    $params = [];
+    $sql = 'SELECT code FROM cards';
+    if (!empty($_GET['commande'])) {
+        $sql .= ' WHERE order_id = ?';
+        $params[] = (int) $_GET['commande'];
+    } elseif (in_array($_GET['statut'] ?? '', ['stock', 'active', 'disabled'], true)) {
+        $sql .= ' WHERE status = ?';
+        $params[] = $_GET['statut'];
+    }
+    view('admin/qr', ['cards' => rows($sql . ' ORDER BY id LIMIT 1000', $params)]);
+}
+
 function admin_clients(): void
 {
     $user = require_admin();
@@ -229,6 +274,7 @@ function admin_client_create(): void
     $company = input('company', 120);
     $phone = input('phone', 40);
     $cardId = (int) ($_POST['card_id'] ?? 0);
+    $clang = in_array($_POST['lang'] ?? '', LANGS, true) ? $_POST['lang'] : 'fr';
 
     if ($name === '' || !valid_email($email)) {
         flash('error', 'Indiquez un nom et un courriel valide.');
@@ -243,6 +289,7 @@ function admin_client_create(): void
 
     [$userId] = create_client($name, $email);
     q('UPDATE profiles SET company = ?, phone = ?, updated_at = ? WHERE user_id = ?', [$company, $phone, now(), $userId]);
+    q('UPDATE users SET lang = ? WHERE id = ?', [$clang, $userId]);
     $profileId = (int) scalar('SELECT id FROM profiles WHERE user_id = ?', [$userId]);
 
     $msg = 'Client créé.';
@@ -256,10 +303,9 @@ function admin_client_create(): void
 
     if (isset($_POST['send_access'])) {
         $link = make_reset_link($userId, 72);
-        send_mail($email, 'Votre nouvel espace EliteTap',
-            "Bonjour $name,\n\nEliteTap a une nouvelle plateforme. Votre espace client est prêt : c'est là que vous modifiez le profil qui s'ouvre quand on tape votre carte.\n\n"
-            . "Choisissez votre mot de passe ici (lien valable 72 heures) :\n$link\n\n"
-            . "Ensuite, connectez-vous sur " . url('/connexion') . "\n\nL'équipe EliteTap\n");
+        in_lang($clang, fn() => send_mail($email, t('Votre nouvel espace EliteTap'),
+            t("Bonjour {nom},\n\nEliteTap a une nouvelle plateforme. Votre espace client est prêt : c'est là que vous modifiez le profil qui s'ouvre quand on tape votre carte.\n\nChoisissez votre mot de passe ici (lien valable 72 heures) :\n{lien}\n\nEnsuite, connectez-vous sur {connexion}\n\nL'équipe EliteTap\n",
+                ['nom' => $name, 'lien' => $link, 'connexion' => url('/connexion')])));
         $msg .= " Lien d'accès envoyé.";
     }
     flash('success', $msg);
@@ -269,11 +315,11 @@ function admin_client_create(): void
 function admin_client_reset_link(string $id): void
 {
     require_admin();
-    $u = row("SELECT id, name, email FROM users WHERE id = ? AND role = 'client'", [(int) $id]);
+    $u = row("SELECT id, name, email, lang FROM users WHERE id = ? AND role = 'client'", [(int) $id]);
     if (!$u) abort(404);
     $link = make_reset_link((int) $u['id'], 72);
-    send_mail($u['email'], 'Accès à votre espace EliteTap',
-        "Bonjour {$u['name']},\n\nVoici un lien pour choisir votre mot de passe (valable 72 heures) :\n$link\n\nL'équipe EliteTap\n");
+    in_lang($u['lang'], fn() => send_mail($u['email'], t('Accès à votre espace EliteTap'),
+        t("Bonjour {nom},\n\nVoici un lien pour choisir votre mot de passe (valable 72 heures) :\n{lien}\n\nL'équipe EliteTap\n", ['nom' => $u['name'], 'lien' => $link])));
     flash('success', "Lien d'accès envoyé à {$u['email']}.");
     redirect('/admin/clients');
 }

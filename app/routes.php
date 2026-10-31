@@ -6,6 +6,7 @@ require APP_DIR . '/controllers/profile.php';
 require APP_DIR . '/controllers/auth.php';
 require APP_DIR . '/controllers/account.php';
 require APP_DIR . '/controllers/admin.php';
+require APP_DIR . '/controllers/payment.php';
 
 const ROUTES = [
     // Site public
@@ -21,6 +22,12 @@ const ROUTES = [
     ['GET',  '/u/([a-z0-9-]{2,60})',           'profile_show'],
     ['GET',  '/u/([a-z0-9-]{2,60})/contact\.vcf', 'profile_vcard'],
     ['GET',  '/l/(\d+)',                       'link_go'],
+
+    // Paiement en ligne
+    ['GET',  '/payer/(ET-[A-Z0-9]{6})/([a-f0-9]{32})', 'pay_show'],
+    ['POST', '/payer/(ET-[A-Z0-9]{6})/([a-f0-9]{32})', 'pay_start'],
+    ['GET',  '/paiement/merci',                'pay_thanks'],
+    ['POST', '/stripe/webhook',                'stripe_webhook'],
 
     // Authentification
     ['GET',  '/connexion',                     'auth_login_form'],
@@ -49,10 +56,12 @@ const ROUTES = [
     ['POST', '/admin/commandes/(\d+)',         'admin_order_save'],
     ['POST', '/admin/commandes/(\d+)/client',  'admin_order_client'],
     ['GET',  '/admin/commandes/(\d+)/fichier', 'admin_order_file'],
+    ['POST', '/admin/commandes/(\d+)/paiement', 'admin_order_payment'],
     ['GET',  '/admin/cartes',                  'admin_cards'],
     ['POST', '/admin/cartes',                  'admin_cards_generate'],
     ['POST', '/admin/cartes/(\d+)',            'admin_card_save'],
     ['GET',  '/admin/cartes/export\.csv',      'admin_cards_export'],
+    ['GET',  '/admin/cartes/qr',               'admin_cards_qr'],
     ['GET',  '/admin/clients',                 'admin_clients'],
     ['POST', '/admin/clients',                 'admin_client_create'],
     ['POST', '/admin/clients/(\d+)/lien',      'admin_client_reset_link'],
@@ -69,7 +78,8 @@ function dispatch(string $method, string $path): void
         if ($m !== $method && !($m === 'GET' && $method === 'HEAD')) {
             continue;
         }
-        if ($method === 'POST') {
+        // Le webhook Stripe est authentifié par sa signature, pas par un jeton CSRF
+        if ($method === 'POST' && $handler !== 'stripe_webhook') {
             csrf_check();
         }
         array_shift($matches);

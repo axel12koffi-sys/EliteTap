@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="<?= lang() ?>">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,6 +20,7 @@
     <?php endforeach; ?>
     <?= $content ?>
   </div>
+  <a class="auth-lang" href="<?= e(switch_lang_url()) ?>"><?= e(lang_switch_label()) ?></a>
 </main>
 </body>
 </html>

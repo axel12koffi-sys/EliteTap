@@ -20,7 +20,10 @@
           <?php foreach ($stock as $s): ?><option value="<?= (int) $s['id'] ?>"><?= e($s['code']) ?> · <?= e($s['material']) ?></option><?php endforeach; ?>
         </select>
       </label>
-      <label class="check"><input type="checkbox" name="send_access" value="1" checked> Envoyer au client son lien d'accès (72 h)</label>
+      <label>Langue du client
+        <select name="lang"><option value="fr">Français</option><option value="en">English</option></select>
+      </label>
+      <label class="check span-2"><input type="checkbox" name="send_access" value="1" checked> Envoyer au client son lien d'accès (72 h)</label>
     </div>
     <?php if (!$stock): ?><p class="hint">Aucun code en stock : <a href="/admin/cartes">générez des codes</a> pour pouvoir en relier un.</p><?php endif; ?>
     <div><button class="btn btn-primary" type="submit">Créer le client</button></div>

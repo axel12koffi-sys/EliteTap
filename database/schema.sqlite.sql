@@ -7,6 +7,7 @@ CREATE TABLE users (
   password_hash TEXT NOT NULL,
   name TEXT NOT NULL,
   role TEXT NOT NULL DEFAULT 'client' CHECK (role IN ('client','admin')),
+  lang TEXT NOT NULL DEFAULT 'fr',
   reset_token_hash TEXT NULL,
   reset_expires_at TEXT NULL,
   last_login_at TEXT NULL,
@@ -60,6 +61,10 @@ CREATE TABLE orders (
   amount_cents INTEGER NULL,
   user_id INTEGER NULL REFERENCES users(id) ON DELETE SET NULL,
   admin_notes TEXT NULL,
+  lang TEXT NOT NULL DEFAULT 'fr',
+  pay_token TEXT NULL,
+  paid_at TEXT NULL,
+  payment_ref TEXT NULL,
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL
 );

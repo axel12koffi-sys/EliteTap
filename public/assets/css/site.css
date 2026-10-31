@@ -221,3 +221,12 @@ input, select, textarea, button { font: inherit; }
 .footer-links { display: flex; flex-wrap: wrap; gap: 24px; }
 .footer-links a { color: #C9CDD4; }
 .footer-links a:hover { color: #FFF; }
+
+/* Paiement */
+.pay-box { margin: 28px auto 0; max-width: 420px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px 24px; text-align: left; }
+.pay-box dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 12px 20px; }
+.pay-box dt { color: var(--muted); font-size: 15px; }
+.pay-box dd { margin: 0; text-align: right; font-weight: 500; }
+.pay-total { font-family: var(--display); font-size: 24px; font-weight: 700 !important; }
+.fine-dark { margin-top: 18px; font-size: 13px; color: var(--muted); }
+.lang-link { font-size: 14px; }

@@ -38,7 +38,7 @@ function card_activate(string $code): void
     $user = require_login();
     $card = row('SELECT * FROM cards WHERE code = ?', [$code]);
     if (!$card || $card['status'] !== 'stock') {
-        flash('error', 'Cette carte ne peut pas être activée.');
+        flash('error', t('Cette carte ne peut pas être activée.'));
         redirect('/compte/cartes');
     }
     $profileId = scalar('SELECT id FROM profiles WHERE user_id = ?', [$user['id']]);
@@ -47,7 +47,7 @@ function card_activate(string $code): void
     }
     q("UPDATE cards SET profile_id = ?, status = 'active', activated_at = ? WHERE id = ? AND status = 'stock'",
         [$profileId, now(), $card['id']]);
-    flash('success', 'Carte activée. Elle ouvre maintenant votre profil.');
+    flash('success', t('Carte activée. Elle ouvre maintenant votre profil.'));
     redirect('/compte/cartes');
 }
 

@@ -6,7 +6,7 @@ function auth_login_form(): void
     if (current_user()) {
         redirect(current_user()['role'] === 'admin' ? '/admin' : '/compte');
     }
-    view('auth/login', ['title' => 'Connexion | EliteTap'], 'auth');
+    view('auth/login', ['title' => t('Connexion | EliteTap')], 'auth');
 }
 
 function auth_login(): void
@@ -16,7 +16,7 @@ function auth_login(): void
     $key = throttle_key('login', $email);
 
     if (too_many_attempts($key, 8, 15)) {
-        flash('error', 'Trop de tentatives. Réessayez dans 15 minutes.');
+        flash('error', t('Trop de tentatives. Réessayez dans 15 minutes.'));
         with_old(['email' => $email]);
         redirect('/connexion');
     }
@@ -24,7 +24,7 @@ function auth_login(): void
     $user = row('SELECT id, password_hash, role FROM users WHERE email = ?', [$email]);
     if (!$user || !is_string($password) || !password_verify($password, $user['password_hash'])) {
         hit_attempt($key);
-        flash('error', 'Courriel ou mot de passe incorrect.');
+        flash('error', t('Courriel ou mot de passe incorrect.'));
         with_old(['email' => $email]);
         redirect('/connexion');
     }
@@ -52,7 +52,7 @@ function auth_logout(): void
 
 function auth_forgot_form(): void
 {
-    view('auth/forgot', ['title' => 'Mot de passe oublié | EliteTap'], 'auth');
+    view('auth/forgot', ['title' => t('Mot de passe oublié | EliteTap')], 'auth');
 }
 
 /** Crée un lien de réinitialisation valable 1 h (ou 72 h pour un nouveau compte). */
@@ -73,13 +73,14 @@ function auth_forgot(): void
         $user = row('SELECT id, name FROM users WHERE email = ?', [$email]);
         if ($user) {
             $link = make_reset_link((int) $user['id']);
-            send_mail($email, 'Réinitialiser votre mot de passe EliteTap',
-                "Bonjour {$user['name']},\n\nPour choisir un nouveau mot de passe, ouvrez ce lien (valable 1 heure) :\n$link\n\n"
-                . "Si vous n'avez rien demandé, ignorez ce message.\n\nL'équipe EliteTap\n");
+            $ulang = scalar('SELECT lang FROM users WHERE id = ?', [$user['id']]) ?: lang();
+            in_lang($ulang, fn() => send_mail($email, t('Réinitialiser votre mot de passe EliteTap'),
+                t("Bonjour {nom},\n\nPour choisir un nouveau mot de passe, ouvrez ce lien (valable 1 heure) :\n{lien}\n\nSi vous n'avez rien demandé, ignorez ce message.\n\nL'équipe EliteTap\n",
+                    ['nom' => $user['name'], 'lien' => $link])));
         }
     }
     // Même message dans tous les cas : ne révèle pas si le compte existe
-    flash('success', 'Si un compte existe pour ce courriel, un lien de réinitialisation vient d\'être envoyé.');
+    flash('success', t('Si un compte existe pour ce courriel, un lien de réinitialisation vient d\'être envoyé.'));
     redirect('/mot-de-passe-oublie');
 }
 
@@ -96,29 +97,29 @@ function find_reset_user(string $token): ?array
 function auth_reset_form(string $token): void
 {
     $u = find_reset_user($token);
-    view('auth/reset', ['title' => 'Nouveau mot de passe | EliteTap', 'token' => $token, 'valid' => $u !== null, 'email' => $u['email'] ?? ''], 'auth');
+    view('auth/reset', ['title' => t('Nouveau mot de passe | EliteTap'), 'token' => $token, 'valid' => $u !== null, 'email' => $u['email'] ?? ''], 'auth');
 }
 
 function auth_reset(string $token): void
 {
     $u = find_reset_user($token);
     if (!$u) {
-        flash('error', 'Ce lien a expiré. Demandez-en un nouveau.');
+        flash('error', t('Ce lien a expiré. Demandez-en un nouveau.'));
         redirect('/mot-de-passe-oublie');
     }
     $pw = $_POST['password'] ?? '';
     $pw2 = $_POST['password_confirm'] ?? '';
     if (!is_string($pw) || mb_strlen($pw) < 10) {
-        flash('error', 'Le mot de passe doit contenir au moins 10 caractères.');
+        flash('error', t('Le mot de passe doit contenir au moins 10 caractères.'));
         redirect('/reinitialiser/' . $token);
     }
     if ($pw !== $pw2) {
-        flash('error', 'Les deux mots de passe ne correspondent pas.');
+        flash('error', t('Les deux mots de passe ne correspondent pas.'));
         redirect('/reinitialiser/' . $token);
     }
     q('UPDATE users SET password_hash = ?, reset_token_hash = NULL, reset_expires_at = NULL WHERE id = ?',
         [password_hash($pw, PASSWORD_DEFAULT), $u['id']]);
     login_user((int) $u['id']);
-    flash('success', 'Mot de passe enregistré. Bienvenue !');
+    flash('success', t('Mot de passe enregistré. Bienvenue !'));
     redirect('/compte');
 }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="<?= lang() ?>">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,7 +18,7 @@
       <a href="/" class="side-logo"><img src="<?= asset('img/logo-white.png') ?>" alt="EliteTap" width="112" height="32"></a>
       <?php if ($isAdminShell): ?><span class="tag">ADMIN</span><?php endif; ?>
     </div>
-    <nav class="side-nav" aria-label="<?= $isAdminShell ? 'Administration' : 'Espace client' ?>">
+    <nav class="side-nav" aria-label="<?= $isAdminShell ? 'Administration' : te('Espace client') ?>">
       <?php foreach ($menu as [$key, $href, $label]): ?>
         <a href="<?= e($href) ?>"<?= ($nav ?? '') === $key ? ' aria-current="page"' : '' ?>><?= e($label) ?></a>
       <?php endforeach; ?>
@@ -26,14 +26,15 @@
     <div class="side-bottom">
       <?php if (!$isAdminShell && isset($p)): ?>
         <a class="side-link" href="/u/<?= e($p['slug']) ?>" target="_blank" rel="noopener">
-          <span>Votre lien public</span>
+          <span><?= te('Votre lien public') ?></span>
           <strong><?= e(public_host()) ?>/u/<?= e($p['slug']) ?></strong>
         </a>
       <?php endif; ?>
-      <?php if ($isAdminShell): ?><a class="side-switch" href="/compte">Mon profil</a><?php elseif (($user['role'] ?? '') === 'admin'): ?><a class="side-switch" href="/admin">Administration</a><?php endif; ?>
+      <?php if ($isAdminShell): ?><a class="side-switch" href="/compte"><?= te('Mon profil') ?></a><?php elseif (($user['role'] ?? '') === 'admin'): ?><a class="side-switch" href="/admin">Administration</a><?php endif; ?>
+      <?php if (!$isAdminShell): ?><a class="side-switch" href="<?= e(switch_lang_url()) ?>"><?= e(lang_switch_label()) ?></a><?php endif; ?>
       <form method="post" action="/deconnexion">
         <?= csrf_field() ?>
-        <button type="submit" class="side-logout"><?= e($user['name'] ?? '') ?> · Se déconnecter</button>
+        <button type="submit" class="side-logout"><?= e($user['name'] ?? '') ?> · <?= te('Se déconnecter') ?></button>
       </form>
     </div>
   </aside>
@@ -44,6 +45,7 @@
     <?= $content ?>
   </main>
 </div>
+<?php if (($nav ?? '') === 'cartes' && !$isAdminShell): ?><script src="<?= asset('js/vendor/qrcode.js') ?>"></script><script src="<?= asset('js/qr.js') ?>"></script><?php endif; ?>
 <script src="<?= asset('js/app.js') ?>" defer></script>
 </body>
 </html>

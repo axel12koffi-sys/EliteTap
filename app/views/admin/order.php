@@ -24,6 +24,7 @@
     <div class="panel">
       <h2 class="h2">Cartes de la commande</h2>
       <?php if ($cards): ?>
+        <p style="margin-bottom: 12px;"><a class="btn btn-light btn-sm" href="/admin/cartes/qr?commande=<?= (int) $o['id'] ?>" target="_blank">QR codes de ces cartes</a></p>
         <table class="table">
           <thead><tr><th>Code</th><th>Matière</th><th>Statut</th><th>URL à encoder</th></tr></thead>
           <tbody>
@@ -59,6 +60,28 @@
       <label>Notes internes<textarea name="admin_notes" rows="4"><?= e($o['admin_notes'] ?? '') ?></textarea></label>
       <button class="btn btn-primary btn-block" type="submit">Enregistrer</button>
     </form>
+
+    <div class="panel">
+      <h2 class="h2">Paiement en ligne</h2>
+      <?php if ($o['paid_at']): ?>
+        <p><span class="status status-active">Payée</span> le <?= date_fr($o['paid_at']) ?></p>
+        <p class="muted small">Montant : <?= money((int) $o['amount_cents']) ?><br>Référence Stripe : <span class="mono"><?= e($o['payment_ref']) ?></span></p>
+      <?php elseif (!stripe_enabled()): ?>
+        <p class="muted small">Ajoutez les clés Stripe dans <span class="mono">app/config.php</span> pour activer le paiement en ligne.</p>
+      <?php elseif ($o['amount_cents'] === null): ?>
+        <p class="muted small">Indiquez le montant total (taxes incluses) dans « Suivi » pour pouvoir envoyer un lien de paiement.</p>
+      <?php else: ?>
+        <p class="muted small">Le client paie <?= money((int) $o['amount_cents']) ?> par carte sur une page Stripe sécurisée. La commande passe à « payée » automatiquement.</p>
+        <?php if ($o['pay_token']): $payLink = url('/payer/' . $o['reference'] . '/' . $o['pay_token']); ?>
+          <label class="form" style="margin-top: 12px;"><span class="small">Lien à partager (WhatsApp, texto…)</span><input type="text" readonly value="<?= e($payLink) ?>" onclick="this.select()" class="cell-input mono"></label>
+        <?php endif; ?>
+        <form method="post" action="/admin/commandes/<?= (int) $o['id'] ?>/paiement" class="row-actions">
+          <?= csrf_field() ?>
+          <button class="btn btn-primary" type="submit" name="send" value="1"><?= $o['pay_token'] ? 'Renvoyer par courriel' : 'Envoyer le lien par courriel' ?></button>
+          <?php if (!$o['pay_token']): ?><button class="btn btn-light" type="submit">Créer le lien seulement</button><?php endif; ?>
+        </form>
+      <?php endif; ?>
+    </div>
 
     <div class="panel">
       <h2 class="h2">Compte client</h2>

@@ -12,7 +12,7 @@
   var $ = function (sel) { return document.querySelector(sel); };
   var name = function () {
     var n = (form.elements.first_name.value + ' ' + form.elements.last_name.value).trim();
-    return n || form.elements.company.value || 'Votre nom';
+    return n || form.elements.company.value || document.querySelector('[data-pv=name]').getAttribute('data-empty');
   };
   var sub = function () {
     return [form.elements.title.value, form.elements.company.value].filter(Boolean).join(' · ');

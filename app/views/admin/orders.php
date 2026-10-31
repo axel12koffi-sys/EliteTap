@@ -28,7 +28,7 @@
           <td><?= e($o['name']) ?><?= $o['company'] !== '' ? '<br><span class="muted small">' . e($o['company']) . '</span>' : '' ?></td>
           <td><?= e($o['card_type']) ?></td>
           <td class="num"><?= (int) $o['quantity'] ?></td>
-          <td class="num"><?= money($o['amount_cents'] !== null ? (int) $o['amount_cents'] : null) ?></td>
+          <td class="num"><?= money($o['amount_cents'] !== null ? (int) $o['amount_cents'] : null) ?><?= $o['paid_at'] ? '<br><span class="status status-active">Payée</span>' : '' ?></td>
           <td><span class="badge badge-<?= e($o['status']) ?>"><?= e(ORDER_STATUSES[$o['status']] ?? $o['status']) ?></span></td>
           <td class="small muted"><?= date_fr($o['created_at']) ?></td>
           <td class="right"><a href="/admin/commandes/<?= (int) $o['id'] ?>">Ouvrir</a></td>

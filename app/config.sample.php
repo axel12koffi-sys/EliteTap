@@ -16,6 +16,14 @@ return [
         'notify_to'  => 'info@elitetap.ca',      // reçoit les nouvelles demandes de devis
     ],
 
+    // Paiement en ligne (facultatif). Laisser vide pour désactiver.
+    // Stripe > Développeurs > Clés API ; webhook vers https://VOTRE-DOMAINE/stripe/webhook
+    // (événements : checkout.session.completed, checkout.session.async_payment_succeeded)
+    'stripe' => [
+        'secret_key'     => '',   // sk_test_… pour tester, sk_live_… en production
+        'webhook_secret' => '',   // whsec_…
+    ],
+
     'whatsapp'  => '14382207167',
     // Chaîne aléatoire longue (ex. : php -r "echo bin2hex(random_bytes(32));")
     // Sert à anonymiser les visiteurs dans les statistiques.

@@ -19,7 +19,7 @@ function account_profile(): void
     $p = my_profile($user);
     $links = rows('SELECT label FROM links WHERE profile_id = ? AND is_active = 1 ORDER BY position, id', [$p['id']]);
     view('account/profile', [
-        'title' => 'Mon profil | EliteTap', 'nav' => 'profil', 'user' => $user, 'p' => $p,
+        'title' => t('Mon profil | EliteTap'), 'nav' => 'profil', 'user' => $user, 'p' => $p,
         'links' => $links, 'totals' => stats_totals((int) $p['id'], 30),
         'activeCards' => (int) scalar("SELECT COUNT(*) FROM cards WHERE profile_id = ? AND status = 'active'", [$p['id']]),
     ], 'app');
@@ -44,21 +44,21 @@ function account_profile_save(): void
     ];
     $errors = [];
     if ($f['first_name'] === '' && $f['company'] === '') {
-        $errors[] = 'Indiquez au moins un prénom ou une entreprise.';
+        $errors[] = t('Indiquez au moins un prénom ou une entreprise.');
     }
     if ($f['email'] !== '' && !valid_email($f['email'])) {
-        $errors[] = 'Le courriel affiché n\'est pas valide.';
+        $errors[] = t('Le courriel affiché n\'est pas valide.');
     }
     $web = clean_url($f['website']);
     if ($web === null) {
-        $errors[] = 'L\'adresse du site web n\'est pas valide.';
+        $errors[] = t('L\'adresse du site web n\'est pas valide.');
     }
     if (strlen($f['slug']) < 2) {
-        $errors[] = 'L\'adresse du profil doit contenir au moins 2 caractères.';
+        $errors[] = t('L\'adresse du profil doit contenir au moins 2 caractères.');
     } elseif (in_array($f['slug'], ['admin', 'compte', 'api', 'elitetap'], true)) {
-        $errors[] = 'Cette adresse de profil est réservée.';
+        $errors[] = t('Cette adresse de profil est réservée.');
     } elseif (unique_slug($f['slug'], (int) $p['id']) !== $f['slug']) {
-        $errors[] = 'Cette adresse de profil est déjà prise.';
+        $errors[] = t('Cette adresse de profil est déjà prise.');
     }
 
     if ($errors) {
@@ -75,7 +75,7 @@ function account_profile_save(): void
         clean_color(input('accent_color', 7), $p['accent_color']),
         isset($_POST['is_public']) ? 1 : 0, now(), $p['id'],
     ]);
-    flash('success', 'Profil enregistré. Vos cartes affichent déjà la nouvelle version.');
+    flash('success', t('Profil enregistré. Vos cartes affichent déjà la nouvelle version.'));
     redirect('/compte');
 }
 
@@ -89,13 +89,13 @@ function account_avatar(): void
     if (isset($_POST['remove'])) {
         if ($p['avatar_path']) @unlink($dir . '/' . basename($p['avatar_path']));
         q('UPDATE profiles SET avatar_path = NULL, updated_at = ? WHERE id = ?', [now(), $p['id']]);
-        flash('success', 'Photo retirée.');
+        flash('success', t('Photo retirée.'));
         redirect('/compte');
     }
 
     $f = $_FILES['avatar'] ?? null;
     if (!$f || $f['error'] !== UPLOAD_ERR_OK || $f['size'] > 8 * 1024 * 1024) {
-        flash('error', 'Choisissez une image de moins de 8 Mo.');
+        flash('error', t('Choisissez une image de moins de 8 Mo.'));
         redirect('/compte');
     }
     $mime = (new finfo(FILEINFO_MIME_TYPE))->file($f['tmp_name']);
@@ -106,7 +106,7 @@ function account_avatar(): void
         default      => false,
     };
     if (!$src) {
-        flash('error', 'Formats acceptés : JPG, PNG ou WEBP.');
+        flash('error', t('Formats acceptés : JPG, PNG ou WEBP.'));
         redirect('/compte');
     }
     $w = imagesx($src);
@@ -124,7 +124,7 @@ function account_avatar(): void
 
     if ($p['avatar_path']) @unlink($dir . '/' . basename($p['avatar_path']));
     q('UPDATE profiles SET avatar_path = ?, updated_at = ? WHERE id = ?', [$name, now(), $p['id']]);
-    flash('success', 'Photo mise à jour.');
+    flash('success', t('Photo mise à jour.'));
     redirect('/compte');
 }
 
@@ -137,7 +137,7 @@ function account_links(): void
     foreach (rows("SELECT link_id, COUNT(*) n FROM events WHERE profile_id = ? AND type = 'link' GROUP BY link_id", [$p['id']]) as $r) {
         $clicks[(int) $r['link_id']] = (int) $r['n'];
     }
-    view('account/links', ['title' => 'Liens | EliteTap', 'nav' => 'liens', 'user' => $user, 'p' => $p,
+    view('account/links', ['title' => t('Liens | EliteTap'), 'nav' => 'liens', 'user' => $user, 'p' => $p,
         'links' => $links, 'clicks' => $clicks], 'app');
 }
 
@@ -158,25 +158,25 @@ function account_links_save(): void
         $label = input('label', 80);
         $u = clean_url(input('url', 500));
         if ($label === '' || !$u) {
-            flash('error', 'Indiquez un libellé et une adresse web valide (https://…).');
+            flash('error', t('Indiquez un libellé et une adresse web valide (https://…).'));
             redirect('/compte/liens');
         }
         if ($action === 'add') {
             if ((int) scalar('SELECT COUNT(*) FROM links WHERE profile_id = ?', [$p['id']]) >= 20) {
-                flash('error', 'Maximum 20 liens.');
+                flash('error', t('Maximum 20 liens.'));
                 redirect('/compte/liens');
             }
             $pos = (int) scalar('SELECT COALESCE(MAX(position), 0) + 1 FROM links WHERE profile_id = ?', [$p['id']]);
             q('INSERT INTO links (profile_id, label, url, position, is_active, created_at) VALUES (?, ?, ?, ?, 1, ?)',
                 [$p['id'], $label, $u, $pos, now()]);
-            flash('success', 'Lien ajouté.');
+            flash('success', t('Lien ajouté.'));
         } else {
             q('UPDATE links SET label = ?, url = ?, is_active = ? WHERE id = ?', [$label, $u, isset($_POST['is_active']) ? 1 : 0, $id]);
-            flash('success', 'Lien mis à jour.');
+            flash('success', t('Lien mis à jour.'));
         }
     } elseif ($action === 'delete') {
         q('DELETE FROM links WHERE id = ?', [$id]);
-        flash('success', 'Lien supprimé.');
+        flash('success', t('Lien supprimé.'));
     } elseif ($action === 'up' || $action === 'down') {
         $ids = array_map('intval', array_column(rows('SELECT id FROM links WHERE profile_id = ? ORDER BY position, id', [$p['id']]), 'id'));
         $i = array_search($id, $ids, true);
@@ -200,7 +200,7 @@ function account_stats(): void
     $topLinks = rows("SELECT l.label, COUNT(*) n FROM events e JOIN links l ON l.id = e.link_id
                       WHERE e.profile_id = ? AND e.type = 'link' AND e.created_at >= ?
                       GROUP BY l.id, l.label ORDER BY n DESC LIMIT 10", [$p['id'], $since]);
-    view('account/stats', ['title' => 'Statistiques | EliteTap', 'nav' => 'stats', 'user' => $user, 'p' => $p,
+    view('account/stats', ['title' => t('Statistiques | EliteTap'), 'nav' => 'stats', 'user' => $user, 'p' => $p,
         'days' => $days, 'totals' => stats_totals((int) $p['id'], $days), 'daily' => stats_daily((int) $p['id'], $days),
         'topLinks' => $topLinks], 'app');
 }
@@ -211,7 +211,7 @@ function account_cards(): void
     $p = my_profile($user);
     $cards = rows("SELECT c.*, (SELECT COUNT(*) FROM events e WHERE e.card_id = c.id AND e.type = 'tap') taps
                    FROM cards c WHERE c.profile_id = ? ORDER BY c.id", [$p['id']]);
-    view('account/cards', ['title' => 'Mes cartes | EliteTap', 'nav' => 'cartes', 'user' => $user, 'p' => $p, 'cards' => $cards], 'app');
+    view('account/cards', ['title' => t('Mes cartes | EliteTap'), 'nav' => 'cartes', 'user' => $user, 'p' => $p, 'cards' => $cards], 'app');
 }
 
 function account_card_toggle(string $id): void
@@ -225,15 +225,15 @@ function account_card_toggle(string $id): void
     $new = $card['status'] === 'active' ? 'disabled' : 'active';
     q('UPDATE cards SET status = ? WHERE id = ?', [$new, $card['id']]);
     flash('success', $new === 'disabled'
-        ? 'Carte désactivée : elle n\'ouvre plus votre profil.'
-        : 'Carte réactivée.');
+        ? t('Carte désactivée : elle n\'ouvre plus votre profil.')
+        : t('Carte réactivée.'));
     redirect('/compte/cartes');
 }
 
 function account_security(): void
 {
     $user = require_login();
-    view('account/security', ['title' => 'Sécurité | EliteTap', 'nav' => 'securite', 'user' => $user, 'p' => my_profile($user)], 'app');
+    view('account/security', ['title' => t('Sécurité | EliteTap'), 'nav' => 'securite', 'user' => $user, 'p' => my_profile($user)], 'app');
 }
 
 function account_security_save(): void
@@ -243,15 +243,15 @@ function account_security_save(): void
     $current = $_POST['current'] ?? '';
     $pw = $_POST['password'] ?? '';
     if (!is_string($current) || !password_verify($current, (string) $hash)) {
-        flash('error', 'Mot de passe actuel incorrect.');
+        flash('error', t('Mot de passe actuel incorrect.'));
     } elseif (!is_string($pw) || mb_strlen($pw) < 10) {
-        flash('error', 'Le nouveau mot de passe doit contenir au moins 10 caractères.');
+        flash('error', t('Le nouveau mot de passe doit contenir au moins 10 caractères.'));
     } elseif ($pw !== ($_POST['password_confirm'] ?? '')) {
-        flash('error', 'Les deux mots de passe ne correspondent pas.');
+        flash('error', t('Les deux mots de passe ne correspondent pas.'));
     } else {
         q('UPDATE users SET password_hash = ? WHERE id = ?', [password_hash($pw, PASSWORD_DEFAULT), $user['id']]);
         session_regenerate_id(true);
-        flash('success', 'Mot de passe modifié.');
+        flash('success', t('Mot de passe modifié.'));
     }
     redirect('/compte/securite');
 }

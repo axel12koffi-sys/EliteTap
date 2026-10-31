@@ -12,6 +12,13 @@ PHP 8.1+ / MySQL (ou MariaDB), sans framework ni dépendance Composer.
 | `/u/{adresse}` | Profil public : enregistrer le contact (vCard), appeler, texto, courriel, site, itinéraire, liens |
 | `/compte` | Espace client : profil + aperçu en direct, photo, couleurs, liens, statistiques, cartes, mot de passe |
 | `/admin` | Commandes (statuts, montant, notes, fichier joint, courriel au client), cartes NFC, clients |
+| `/payer/{réf}/{jeton}` | Page de paiement de la commande (Stripe Checkout) |
+
+**Langues** : tout ce que voient les clients et les visiteurs existe en français et en anglais (site, profils, espace client, courriels, pages légales). La langue suit le choix du visiteur (lien FR/EN), sinon celle de son navigateur ; les courriels partent dans la langue du client. L'admin reste en français. Les traductions sont dans `app/lang/en.php`.
+
+**QR codes** : *Admin › Cartes NFC › QR codes* affiche le QR de chaque carte (même URL que la puce), téléchargeable en SVG ou imprimable en PDF. Le client a aussi le QR de son profil dans *Mes cartes*.
+
+**Paiement en ligne** : dans une commande, indiquez le montant total (taxes incluses), puis « Envoyer le lien par courriel » (ou copiez le lien pour WhatsApp). Le client paie par carte sur Stripe ; la commande passe à « Payée » automatiquement et vous recevez un courriel.
 
 **Cycle d'une commande** : devis reçu → l'admin crée le compte client depuis la commande (le client reçoit un lien pour choisir son mot de passe) → l'admin lie un code de carte du stock → la carte ouvre le profil dès son premier tap.
 
@@ -34,8 +41,11 @@ PHP 8.1+ / MySQL (ou MariaDB), sans framework ni dépendance Composer.
    ```
    cd ~/repositories/EliteTap && php bin/create-admin.php info@elitetap.ca "Votre nom"
    ```
-7. **Courriels** — *cPanel › Délivrabilité des courriels* : vérifier SPF et DKIM pour elitetap.ca, sinon les messages risquent d'arriver en indésirables.
-8. **PHP** — *Sélecteur de version PHP* : 8.1 ou plus, extensions `pdo_mysql`, `gd`, `fileinfo`, `mbstring` (et `intl` si disponible).
+7. **Paiement (facultatif)** — sur dashboard.stripe.com : *Développeurs › Clés API* (clé secrète) et *Développeurs › Webhooks › Ajouter un point de terminaison* : URL `https://new.elitetap.ca/stripe/webhook`, événements `checkout.session.completed` et `checkout.session.async_payment_succeeded`. Copier la clé secrète et le secret du webhook (`whsec_…`) dans `app/config.php`. Tester d'abord avec les clés *test* et la carte 4242 4242 4242 4242.
+8. **Courriels** — *cPanel › Délivrabilité des courriels* : vérifier SPF et DKIM pour elitetap.ca, sinon les messages risquent d'arriver en indésirables.
+9. **PHP** — *Sélecteur de version PHP* : 8.1 ou plus, extensions `pdo_mysql`, `gd`, `fileinfo`, `mbstring`, `curl` (et `intl` si disponible).
+
+**Base créée avec une version précédente ?** Exécuter `database/migrations/002-paiement-langue.mysql.sql` dans phpMyAdmin.
 
 **Mises à jour** : *Git Version Control › Gérer › Pull or Deploy › Update from Remote*. `app/config.php` et les fichiers envoyés ne sont jamais écrasés (ignorés par Git).
 
@@ -53,6 +63,7 @@ Astuce : encodez avec l'URL définitive `https://elitetap.ca/t/CODE` pour ne pas
 ## Avant le passage sur elitetap.ca
 
 - [ ] Changer `app_url` pour `https://elitetap.ca`
+- [ ] Stripe : passer aux clés *live* et recréer le webhook sur `https://elitetap.ca/stripe/webhook`
 - [ ] Les cartes déjà distribuées pointent-elles vers d'anciennes URL ? Si oui, ajouter les redirections correspondantes
 - [ ] Remplir les champs entre crochets de `app/views/site/privacy.php` et `refund.php`
 - [ ] Ajouter les photos des réalisations dans `public/assets/img/` : `carte-standard.jpg`, `carte-premium.jpg`, `carte-bois.jpg`, `carte-metal.jpg` (format 1,586:1, ex. 856×540). Elles remplacent automatiquement les aplats de couleur
@@ -80,4 +91,4 @@ storage/        pièces jointes des devis (privées)
 bin/            create-admin.php
 ```
 
-Sécurité : requêtes préparées partout, jeton CSRF sur chaque formulaire, mots de passe `password_hash`, limitation des tentatives (connexion, devis, mot de passe oublié), photos réencodées en JPEG, pièces jointes hors du dossier public, liens limités à http/https.
+Sécurité : webhook Stripe vérifié par signature (rejeu et montant contrôlés), requêtes préparées partout, jeton CSRF sur chaque formulaire, mots de passe `password_hash`, limitation des tentatives (connexion, devis, mot de passe oublié), photos réencodées en JPEG, pièces jointes hors du dossier public, liens limités à http/https.

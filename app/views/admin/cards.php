@@ -3,7 +3,10 @@
     <h1>Cartes NFC</h1>
     <p class="muted">Chaque code devient l'URL encodée dans la puce et le QR : <span class="mono"><?= e(url('/t/')) ?>CODE</span>. Une carte peut être réassignée sans être reprogrammée.</p>
   </div>
-  <a class="btn btn-light" href="/admin/cartes/export.csv?statut=<?= e($filter ?: 'all') ?>">Exporter CSV</a>
+  <div class="head-actions">
+    <a class="btn btn-light" href="/admin/cartes/qr?statut=<?= e($filter ?: 'all') ?>" target="_blank">QR codes</a>
+    <a class="btn btn-light" href="/admin/cartes/export.csv?statut=<?= e($filter ?: 'all') ?>">Exporter CSV</a>
+  </div>
 </div>
 
 <div class="panel">

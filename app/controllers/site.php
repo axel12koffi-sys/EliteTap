@@ -3,23 +3,23 @@ declare(strict_types=1);
 
 function site_home(): void
 {
-    view('site/home', ['title' => 'Carte de visite NFC personnalisée au Québec | EliteTap'], 'site');
+    view('site/home', ['title' => t('Carte de visite NFC personnalisée au Québec | EliteTap')], 'site');
 }
 
 function site_thanks(): void
 {
     $ref = $_SESSION['last_order_ref'] ?? null;
-    view('site/thanks', ['title' => 'Demande reçue | EliteTap', 'ref' => $ref], 'site');
+    view('site/thanks', ['title' => t('Demande reçue | EliteTap'), 'ref' => $ref], 'site');
 }
 
 function site_privacy(): void
 {
-    view('site/privacy', ['title' => 'Politique de confidentialité | EliteTap'], 'site');
+    view(lang() === 'en' ? 'site/privacy.en' : 'site/privacy', ['title' => t('Politique de confidentialité | EliteTap')], 'site');
 }
 
 function site_refund(): void
 {
-    view('site/refund', ['title' => 'Politique de remboursement | EliteTap'], 'site');
+    view(lang() === 'en' ? 'site/refund.en' : 'site/refund', ['title' => t('Politique de remboursement | EliteTap')], 'site');
 }
 
 const UPLOAD_TYPES = [
@@ -49,22 +49,22 @@ function site_quote(): void
 
     $errors = [];
     if ($data['name'] === '') {
-        $errors[] = 'Indiquez votre nom.';
+        $errors[] = t('Indiquez votre nom.');
     }
     if (!valid_email($data['email'])) {
-        $errors[] = 'Indiquez un courriel valide.';
+        $errors[] = t('Indiquez un courriel valide.');
     }
     if (!in_array($data['card_type'], CARD_TYPES, true)) {
-        $errors[] = 'Choisissez un type de carte.';
+        $errors[] = t('Choisissez un type de carte.');
     }
     $qty = (int) $data['quantity'];
     if ($qty < 1 || $qty > 10000) {
-        $errors[] = 'La quantité doit être entre 1 et 10 000.';
+        $errors[] = t('La quantité doit être entre 1 et 10 000.');
     }
 
     $key = throttle_key('devis');
     if (too_many_attempts($key, 5, 60)) {
-        $errors[] = 'Trop de demandes envoyées. Réessayez plus tard ou écrivez-nous sur WhatsApp.';
+        $errors[] = t('Trop de demandes envoyées. Réessayez plus tard ou écrivez-nous sur WhatsApp.');
     }
 
     // Pièce jointe facultative
@@ -73,11 +73,11 @@ function site_quote(): void
     $f = $_FILES['file'] ?? null;
     if ($f && ($f['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
         if ($f['error'] !== UPLOAD_ERR_OK || $f['size'] > 10 * 1024 * 1024) {
-            $errors[] = 'Le fichier doit faire moins de 10 Mo.';
+            $errors[] = t('Le fichier doit faire moins de 10 Mo.');
         } else {
             $mime = (new finfo(FILEINFO_MIME_TYPE))->file($f['tmp_name']);
             if (!isset(UPLOAD_TYPES[$mime])) {
-                $errors[] = 'Formats acceptés : PNG, JPG, WEBP, SVG ou PDF.';
+                $errors[] = t('Formats acceptés : PNG, JPG, WEBP, SVG ou PDF.');
             } elseif (!$errors) {
                 $dir = APP_ROOT . '/storage/uploads/orders/' . date('Y/m');
                 if (!is_dir($dir)) {
@@ -106,10 +106,10 @@ function site_quote(): void
         $ref = 'ET-' . random_code(6);
     } while (scalar('SELECT id FROM orders WHERE reference = ?', [$ref]) !== null);
 
-    q('INSERT INTO orders (reference, name, company, email, phone, card_type, quantity, message, file_path, file_name, status, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+    q('INSERT INTO orders (reference, name, company, email, phone, card_type, quantity, message, file_path, file_name, status, lang, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
         $ref, $data['name'], $data['company'], $data['email'], $data['phone'], $data['card_type'], $qty,
-        $data['message'], $filePath, $fileName, 'devis', now(), now(),
+        $data['message'], $filePath, $fileName, 'devis', lang(), now(), now(),
     ]);
     $orderId = (int) db()->lastInsertId();
 
@@ -117,7 +117,7 @@ function site_quote(): void
     send_mail(
         config('mail')['notify_to'],
         "Nouvelle demande de devis $ref — {$data['name']}",
-        "Nouvelle demande reçue sur elitetap.ca\n\n"
+        "Nouvelle demande reçue sur " . public_host() . " (langue : " . strtoupper(lang()) . ")\n\n"
         . "Référence : $ref\nNom : {$data['name']}\nEntreprise : {$data['company']}\n"
         . "Courriel : {$data['email']}\nTéléphone : {$data['phone']}\n"
         . "Carte : {$data['card_type']} × $qty\n\nMessage :\n{$data['message']}\n\n"
@@ -126,15 +126,12 @@ function site_quote(): void
         $data['email']
     );
 
-    // Accusé de réception au client
+    // Accusé de réception au client, dans sa langue
     send_mail(
         $data['email'],
-        "Votre demande EliteTap ($ref)",
-        "Bonjour {$data['name']},\n\n"
-        . "Merci pour votre demande de carte {$data['card_type']}. Nous vous répondons en moins de 24 h avec votre devis.\n\n"
-        . "Référence : $ref\n\n"
-        . "Une question d'ici là ? Répondez à ce courriel ou écrivez-nous sur WhatsApp : https://wa.me/" . config('whatsapp') . "\n\n"
-        . "L'équipe EliteTap\n" . url('/') . "\n"
+        t('Votre demande EliteTap ({ref})', ['ref' => $ref]),
+        t("Bonjour {nom},\n\nMerci pour votre demande de carte {carte}. Nous vous répondons en moins de 24 h avec votre devis.\n\nRéférence : {ref}\n\nUne question d'ici là ? Répondez à ce courriel ou écrivez-nous sur WhatsApp : {whatsapp}\n\nL'équipe EliteTap\n{site}\n",
+            ['nom' => $data['name'], 'carte' => t($data['card_type']), 'ref' => $ref, 'whatsapp' => 'https://wa.me/' . config('whatsapp'), 'site' => url('/')])
     );
 
     $_SESSION['last_order_ref'] = $ref;
