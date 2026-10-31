@@ -1,6 +1,14 @@
 <?php
 $check = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 $flashes = flashes();
+$faq = [
+      ['Faut-il une application ?', 'Non. Le profil s\'ouvre directement dans le navigateur du téléphone de votre contact.'],
+      ['Puis-je modifier mes informations ?', 'Oui, à tout moment depuis votre espace client, sans réimprimer votre carte.'],
+      ['Combien coûte une carte ?', 'À partir de 89 $ CAD (Standard) et 129 $ CAD (Premium). Bois, métal et commandes d\'équipe sur devis.'],
+      ['Quels sont les délais de livraison ?', 'La production commence après validation de votre épreuve. Le délai exact vous est confirmé avec le devis, selon la matière et la quantité.'],
+      ['Et si je perds ma carte ?', 'Désactivez-la en un clic depuis votre espace client, puis commandez un remplacement relié au même profil.'],
+      ['Puis-je payer en ligne ?', 'Oui. Une fois votre devis accepté, vous recevez un lien de paiement sécurisé par carte de crédit.'],
+    ];
 ?>
 <!-- HERO -->
 <section class="hero dark">
@@ -156,14 +164,7 @@ $flashes = flashes();
 <section id="faq" class="section-bottom container narrow et-rv">
   <h2 class="h2"><?= te('Questions fréquentes') ?></h2>
   <div class="faq">
-    <?php foreach ([
-      ['Faut-il une application ?', 'Non. Le profil s\'ouvre directement dans le navigateur du téléphone de votre contact.'],
-      ['Puis-je modifier mes informations ?', 'Oui, à tout moment depuis votre espace client, sans réimprimer votre carte.'],
-      ['Combien coûte une carte ?', 'À partir de 89 $ CAD (Standard) et 129 $ CAD (Premium). Bois, métal et commandes d\'équipe sur devis.'],
-      ['Quels sont les délais de livraison ?', 'La production commence après validation de votre épreuve. Le délai exact vous est confirmé avec le devis, selon la matière et la quantité.'],
-      ['Et si je perds ma carte ?', 'Désactivez-la en un clic depuis votre espace client, puis commandez un remplacement relié au même profil.'],
-      ['Puis-je payer en ligne ?', 'Oui. Une fois votre devis accepté, vous recevez un lien de paiement sécurisé par carte de crédit.'],
-    ] as $i => [$q, $a]): ?>
+    <?php foreach ($faq as $i => [$q, $a]): ?>
       <details<?= $i === 0 ? ' open' : '' ?>>
         <summary><?= te($q) ?><span class="plus" aria-hidden="true">+</span></summary>
         <p><?= te($a) ?></p>
@@ -210,3 +211,31 @@ $flashes = flashes();
     </form>
   </div>
 </section>
+
+<?php
+// Données structurées : FAQ (résultats enrichis) et offres avec prix
+$ld = [
+    '@context' => 'https://schema.org',
+    '@graph' => [
+        [
+            '@type' => 'FAQPage',
+            'mainEntity' => array_map(fn($qa) => [
+                '@type' => 'Question', 'name' => t($qa[0]),
+                'acceptedAnswer' => ['@type' => 'Answer', 'text' => t($qa[1])],
+            ], $faq),
+        ],
+        [
+            '@type' => 'Product',
+            'name' => t('Carte de visite NFC EliteTap'),
+            'description' => t('Carte de visite NFC personnalisée avec code QR et profil numérique modifiable, sans application.'),
+            'brand' => ['@type' => 'Brand', 'name' => 'EliteTap'],
+            'image' => url('/assets/img/share.jpg'),
+            'offers' => [
+                ['@type' => 'Offer', 'name' => t('Standard'), 'price' => '89.00', 'priceCurrency' => 'CAD', 'availability' => 'https://schema.org/InStock', 'url' => url('/#tarifs')],
+                ['@type' => 'Offer', 'name' => t('Premium'), 'price' => '129.00', 'priceCurrency' => 'CAD', 'availability' => 'https://schema.org/InStock', 'url' => url('/#tarifs')],
+            ],
+        ],
+    ],
+];
+?>
+<script type="application/ld+json"><?= json_encode($ld, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>

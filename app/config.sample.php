@@ -3,6 +3,8 @@
 return [
     'app_url'   => 'https://elitetap.ca',      // sans barre finale
     'debug'     => false,
+    // Indexation Google : automatique (oui sur elitetap.ca, non ailleurs). Forcer avec true/false si besoin.
+    // 'indexable' => false,
 
     'db' => [
         'dsn'  => 'mysql:host=localhost;dbname=CPANELUSER_elitetap;charset=utf8mb4',

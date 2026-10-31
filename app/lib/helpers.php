@@ -23,6 +23,20 @@ function public_host(): string
     return (string) parse_url((string) config('app_url'), PHP_URL_HOST);
 }
 
+/**
+ * Le site peut-il être indexé par les moteurs de recherche ?
+ * Oui seulement sur le domaine de production, sauf réglage 'indexable' explicite.
+ * Évite que new.elitetap.ca (préproduction) entre en concurrence avec elitetap.ca.
+ */
+function is_indexable(): bool
+{
+    $forced = config('indexable');
+    if (is_bool($forced)) {
+        return $forced;
+    }
+    return in_array(public_host(), ['elitetap.ca', 'www.elitetap.ca'], true);
+}
+
 function asset(string $path): string
 {
     $file = APP_ROOT . '/public/assets/' . ltrim($path, '/');

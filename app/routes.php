@@ -15,6 +15,8 @@ const ROUTES = [
     ['GET',  '/merci',                         'site_thanks'],
     ['GET',  '/confidentialite',               'site_privacy'],
     ['GET',  '/remboursement',                 'site_refund'],
+    ['GET',  '/robots\.txt',                  'site_robots'],
+    ['GET',  '/sitemap\.xml',                 'site_sitemap'],
 
     // Cartes et profils
     ['GET',  '/t/([A-Z0-9]{6,16})',            'card_tap'],

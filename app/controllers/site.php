@@ -22,6 +22,43 @@ function site_refund(): void
     view(lang() === 'en' ? 'site/refund.en' : 'site/refund', ['title' => t('Politique de remboursement | EliteTap')], 'site');
 }
 
+function site_robots(): void
+{
+    header('Content-Type: text/plain; charset=utf-8');
+    if (!is_indexable()) {
+        // Préproduction : rien à indexer
+        echo "User-agent: *\nDisallow: /\n";
+        return;
+    }
+    echo "User-agent: *\n"
+        . "Disallow: /admin\nDisallow: /compte\nDisallow: /connexion\nDisallow: /mot-de-passe-oublie\n"
+        . "Disallow: /reinitialiser/\nDisallow: /payer/\nDisallow: /paiement/\nDisallow: /t/\nDisallow: /l/\nDisallow: /merci\n"
+        . "\nSitemap: " . url('/sitemap.xml') . "\n";
+}
+
+function site_sitemap(): void
+{
+    header('Content-Type: application/xml; charset=utf-8');
+    $pages = [
+        '/'               => ['1.0', 'monthly', APP_DIR . '/views/site/home.php'],
+        '/confidentialite' => ['0.3', 'yearly', APP_DIR . '/views/site/privacy.php'],
+        '/remboursement'  => ['0.3', 'yearly', APP_DIR . '/views/site/refund.php'],
+    ];
+    echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+    echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">' . "\n";
+    foreach ($pages as $path => [$prio, $freq, $file]) {
+        foreach (['fr' => 'fr-CA', 'en' => 'en-CA'] as $l => $_) {
+            echo "  <url>\n    <loc>" . e(url($path) . ($l === 'en' ? '?lang=en' : '')) . "</loc>\n";
+            echo '    <lastmod>' . date('Y-m-d', (int) filemtime($file)) . "</lastmod>\n";
+            echo "    <changefreq>$freq</changefreq>\n    <priority>$prio</priority>\n";
+            echo '    <xhtml:link rel="alternate" hreflang="fr-CA" href="' . e(url($path)) . "\"/>\n";
+            echo '    <xhtml:link rel="alternate" hreflang="en-CA" href="' . e(url($path) . '?lang=en') . "\"/>\n";
+            echo "  </url>\n";
+        }
+    }
+    echo "</urlset>\n";
+}
+
 const UPLOAD_TYPES = [
     'image/png'       => 'png',
     'image/jpeg'      => 'jpg',

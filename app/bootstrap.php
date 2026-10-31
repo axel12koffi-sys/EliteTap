@@ -45,4 +45,7 @@ if (PHP_SAPI !== 'cli') {
     header('X-Content-Type-Options: nosniff');
     header('Referrer-Policy: strict-origin-when-cross-origin');
     header('X-Frame-Options: SAMEORIGIN');
+    if (!is_indexable()) {
+        header('X-Robots-Tag: noindex, nofollow');
+    }
 }

@@ -30,7 +30,7 @@ if ($p['address'] !== '') {
 <meta property="og:title" content="<?= e($name) ?>">
 <meta property="og:description" content="<?= e($sub ?: t('Profil EliteTap')) ?>">
 <?php if ($p['avatar_path']): ?><meta property="og:image" content="<?= e(url('/uploads/avatars/' . $p['avatar_path'])) ?>"><?php endif; ?>
-<?php if (!$p['is_public']): ?><meta name="robots" content="noindex"><?php endif; ?>
+<meta name="robots" content="noindex, follow">
 <meta name="theme-color" content="<?= e($cover) ?>">
 <link rel="icon" href="<?= asset('img/favicon.png') ?>">
 <link rel="preconnect" href="https://fonts.googleapis.com">

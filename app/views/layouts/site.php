@@ -10,7 +10,7 @@ $isHome = $path === '/';
 <title><?= e($title ?? t('Carte de visite NFC personnalisée au Québec | EliteTap')) ?></title>
 <meta name="description" content="<?= te('Cartes de visite NFC personnalisées à Laval, Montréal et partout au Québec. Partagez vos coordonnées par NFC ou code QR, sans application. Devis gratuit en moins de 24 h.') ?>">
 <link rel="canonical" href="<?= e(url($path) . (lang() === 'en' ? '?lang=en' : '')) ?>">
-<link rel="alternate" hreflang="fr-CA" href="<?= e(url($path) . '?lang=fr') ?>">
+<link rel="alternate" hreflang="fr-CA" href="<?= e(url($path)) ?>">
 <link rel="alternate" hreflang="en-CA" href="<?= e(url($path) . '?lang=en') ?>">
 <link rel="alternate" hreflang="x-default" href="<?= e(url($path)) ?>">
 <meta property="og:type" content="website">
@@ -20,6 +20,7 @@ $isHome = $path === '/';
 <meta property="og:description" content="<?= te('Votre carte d\'affaires, partagée en un seul geste. Sans application.') ?>">
 <meta property="og:image" content="<?= e(url('/assets/img/share.jpg')) ?>">
 <meta name="twitter:card" content="summary_large_image">
+<?php if (!is_indexable()): ?><meta name="robots" content="noindex, nofollow"><?php endif; ?>
 <meta name="theme-color" content="#0E0F12">
 <link rel="icon" href="<?= asset('img/favicon.png') ?>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +29,7 @@ $isHome = $path === '/';
 <link rel="stylesheet" href="<?= asset('css/site.css') ?>">
 <?php if ($isHome): ?>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"LocalBusiness","name":"EliteTap","url":"<?= e(url('/')) ?>","email":"info@elitetap.ca","telephone":"+1-438-220-7167","address":{"@type":"PostalAddress","addressLocality":"Laval","addressRegion":"QC","addressCountry":"CA"},"areaServed":"Québec","sameAs":["https://www.instagram.com/elitetap_ca/"]}
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"EliteTap","url":"<?= e(url('/')) ?>","email":"info@elitetap.ca","telephone":"+1-438-220-7167","address":{"@type":"PostalAddress","addressLocality":"Laval","addressRegion":"QC","addressCountry":"CA"},"image":"<?= e(url('/assets/img/share.jpg')) ?>","logo":"<?= e(url('/assets/img/logo-color.png')) ?>","priceRange":"$$","areaServed":[{"@type":"City","name":"Laval"},{"@type":"City","name":"Montréal"},{"@type":"AdministrativeArea","name":"Québec"}],"sameAs":["https://www.instagram.com/elitetap_ca/"]}
 </script>
 <?php endif; ?>
 </head>

@@ -128,6 +128,9 @@ return [
     'Recevoir mon devis gratuit' => 'Get my free quote',
     'En envoyant ce formulaire, vous acceptez notre <a href="/confidentialite">politique de confidentialité</a>.' => 'By sending this form, you agree to our <a href="/confidentialite">privacy policy</a>.',
 
+    'Carte de visite NFC EliteTap' => 'EliteTap NFC business card',
+    'Carte de visite NFC personnalisée avec code QR et profil numérique modifiable, sans application.' => 'Custom NFC business card with QR code and an editable digital profile, no app needed.',
+
     // ---- Types, matières, statuts
     'Standard' => 'Standard',
     'Premium' => 'Premium',
