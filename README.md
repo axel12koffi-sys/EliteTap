@@ -64,6 +64,9 @@ Astuce : encodez avec l'URL définitive `https://elitetap.ca/t/CODE` pour ne pas
 
 - [ ] Changer `app_url` pour `https://elitetap.ca`
 - [ ] Stripe : passer aux clés *live* et recréer le webhook sur `https://elitetap.ca/stripe/webhook`
+- [ ] SEO : l'indexation s'active automatiquement sur elitetap.ca (new.elitetap.ca reste en noindex)
+- [ ] Google Search Console : ajouter elitetap.ca et soumettre `https://elitetap.ca/sitemap.xml`
+- [ ] Google Business Profile : créer ou mettre à jour la fiche « EliteTap, Laval » et demander des avis clients
 - [ ] Les cartes déjà distribuées pointent-elles vers d'anciennes URL ? Si oui, ajouter les redirections correspondantes
 - [ ] Remplir les champs entre crochets de `app/views/site/privacy.php` et `refund.php`
 - [ ] Ajouter les photos des réalisations dans `public/assets/img/` : `carte-standard.jpg`, `carte-premium.jpg`, `carte-bois.jpg`, `carte-metal.jpg` (format 1,586:1, ex. 856×540). Elles remplacent automatiquement les aplats de couleur
