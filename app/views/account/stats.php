@@ -1,5 +1,5 @@
 <?php
-$max = max(1, max($daily));
+$max = max(1, ...array_values($daily ?: [0]));
 $opens = $totals['view'] + $totals['tap'];
 $fmt = lang() === 'en' ? 'm/d' : 'd/m';
 ?>

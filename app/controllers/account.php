@@ -278,7 +278,10 @@ function account_stats(): void
 {
     $user = require_feature('stats');
     $p = my_profile($user);
-    $days = in_array((int) ($_GET['jours'] ?? 30), [7, 30, 90], true) ? (int) $_GET['jours'] : 30;
+    $days = (int) ($_GET['jours'] ?? 30);
+    if (!in_array($days, [7, 30, 90], true)) {
+        $days = 30;
+    }
     $since = date('Y-m-d 00:00:00', strtotime('-' . ($days - 1) . ' days'));
     $topLinks = rows("SELECT l.label, COUNT(*) n FROM events e JOIN links l ON l.id = e.link_id
                       WHERE e.profile_id = ? AND e.type = 'link' AND e.created_at >= ?
