@@ -54,6 +54,7 @@ const ROUTES = [
     ['POST', '/admin/cartes/(\d+)',            'admin_card_save'],
     ['GET',  '/admin/cartes/export\.csv',      'admin_cards_export'],
     ['GET',  '/admin/clients',                 'admin_clients'],
+    ['POST', '/admin/clients',                 'admin_client_create'],
     ['POST', '/admin/clients/(\d+)/lien',      'admin_client_reset_link'],
 ];
 

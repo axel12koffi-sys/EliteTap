@@ -215,7 +215,55 @@ function admin_clients(): void
                        (SELECT COUNT(*) FROM events e WHERE e.profile_id = p.id) events
                      FROM users u LEFT JOIN profiles p ON p.user_id = u.id
                      WHERE u.role = 'client' ORDER BY u.created_at DESC LIMIT 500");
-    view('admin/clients', ['title' => 'Clients | Admin EliteTap', 'nav' => 'clients', 'user' => $user, 'clients' => $clients], 'admin');
+    $stock = rows("SELECT id, code, material FROM cards WHERE status = 'stock' ORDER BY id LIMIT 200");
+    view('admin/clients', ['title' => 'Clients | Admin EliteTap', 'nav' => 'clients', 'user' => $user,
+        'clients' => $clients, 'stock' => $stock], 'admin');
+}
+
+/** Création manuelle d'un client (ex. : migration des clients de l'ancien site), sans commande. */
+function admin_client_create(): void
+{
+    require_admin();
+    $name = input('name', 120);
+    $email = strtolower(input('email', 190));
+    $company = input('company', 120);
+    $phone = input('phone', 40);
+    $cardId = (int) ($_POST['card_id'] ?? 0);
+
+    if ($name === '' || !valid_email($email)) {
+        flash('error', 'Indiquez un nom et un courriel valide.');
+        with_old($_POST);
+        redirect('/admin/clients');
+    }
+    if (scalar('SELECT id FROM users WHERE email = ?', [$email]) !== null) {
+        flash('error', "Un compte existe déjà pour $email.");
+        with_old($_POST);
+        redirect('/admin/clients');
+    }
+
+    [$userId] = create_client($name, $email);
+    q('UPDATE profiles SET company = ?, phone = ?, updated_at = ? WHERE user_id = ?', [$company, $phone, now(), $userId]);
+    $profileId = (int) scalar('SELECT id FROM profiles WHERE user_id = ?', [$userId]);
+
+    $msg = 'Client créé.';
+    if ($cardId) {
+        $code = scalar("SELECT code FROM cards WHERE id = ? AND status = 'stock'", [$cardId]);
+        if ($code) {
+            q("UPDATE cards SET profile_id = ?, status = 'active', activated_at = ? WHERE id = ?", [$profileId, now(), $cardId]);
+            $msg .= " Carte $code activée sur son profil.";
+        }
+    }
+
+    if (isset($_POST['send_access'])) {
+        $link = make_reset_link($userId, 72);
+        send_mail($email, 'Votre nouvel espace EliteTap',
+            "Bonjour $name,\n\nEliteTap a une nouvelle plateforme. Votre espace client est prêt : c'est là que vous modifiez le profil qui s'ouvre quand on tape votre carte.\n\n"
+            . "Choisissez votre mot de passe ici (lien valable 72 heures) :\n$link\n\n"
+            . "Ensuite, connectez-vous sur " . url('/connexion') . "\n\nL'équipe EliteTap\n");
+        $msg .= " Lien d'accès envoyé.";
+    }
+    flash('success', $msg);
+    redirect('/admin/clients');
 }
 
 function admin_client_reset_link(string $id): void

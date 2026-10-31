@@ -39,6 +39,17 @@ PHP 8.1+ / MySQL (ou MariaDB), sans framework ni dépendance Composer.
 
 **Mises à jour** : *Git Version Control › Gérer › Pull or Deploy › Update from Remote*. `app/config.php` et les fichiers envoyés ne sont jamais écrasés (ignorés par Git).
 
+## Reprendre les clients de l'ancien site
+
+Les anciennes URL des cartes ne sont pas connues : chaque client est recréé et sa carte reçoit un nouveau code.
+
+1. *Admin › Cartes NFC* : générer autant de codes que de clients à reprendre.
+2. *Admin › Clients › Nouveau client* : nom, courriel, et choisir un code du stock. La carte est activée sur son profil et le client reçoit son lien d'accès.
+3. Réencoder la puce de la carte existante avec l'URL `https://elitetap.ca/t/CODE` (application gratuite **NFC Tools** sur iPhone ou Android : *Écrire › Ajouter un enregistrement › URL*). Ça ne fonctionne que si la puce n'a pas été verrouillée ; sinon, il faut une nouvelle carte.
+4. Le QR imprimé sur l'ancienne carte ne peut pas être changé : il garde l'ancienne URL. Pour retrouver cette URL, lisez une ancienne carte avec NFC Tools (*Lire*) : si elle pointe vers elitetap.ca, une redirection pourra être ajoutée pour que les anciens QR continuent de fonctionner.
+
+Astuce : encodez avec l'URL définitive `https://elitetap.ca/t/CODE` pour ne pas devoir réencoder au lancement. Ces cartes ne fonctionneront qu'une fois elitetap.ca basculé sur la nouvelle plateforme : faites la reprise juste avant le lancement, ou utilisez `new.elitetap.ca` pour quelques cartes de test seulement.
+
 ## Avant le passage sur elitetap.ca
 
 - [ ] Changer `app_url` pour `https://elitetap.ca`

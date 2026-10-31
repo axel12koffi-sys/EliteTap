@@ -1,8 +1,30 @@
 <div class="page-head">
   <div>
     <h1>Clients</h1>
-    <p class="muted">Les comptes se créent depuis une commande (bouton « Créer le compte client »).</p>
+    <p class="muted">Depuis une commande (« Créer le compte client ») ou directement ici, par exemple pour les clients de l'ancien site.</p>
   </div>
+</div>
+
+<div class="panel">
+  <h2 class="h2">Nouveau client</h2>
+  <form method="post" action="/admin/clients" class="form">
+    <?= csrf_field() ?>
+    <div class="grid-2">
+      <label>Nom complet<input type="text" name="name" required maxlength="120" value="<?= e(old('name')) ?>"></label>
+      <label>Courriel<input type="email" name="email" required maxlength="190" value="<?= e(old('email')) ?>"></label>
+      <label>Entreprise <span class="hint">optionnel</span><input type="text" name="company" maxlength="120" value="<?= e(old('company')) ?>"></label>
+      <label>Téléphone <span class="hint">optionnel</span><input type="tel" name="phone" maxlength="40" value="<?= e(old('phone')) ?>"></label>
+      <label>Carte à activer sur son profil
+        <select name="card_id">
+          <option value="">Aucune pour l'instant</option>
+          <?php foreach ($stock as $s): ?><option value="<?= (int) $s['id'] ?>"><?= e($s['code']) ?> · <?= e($s['material']) ?></option><?php endforeach; ?>
+        </select>
+      </label>
+      <label class="check"><input type="checkbox" name="send_access" value="1" checked> Envoyer au client son lien d'accès (72 h)</label>
+    </div>
+    <?php if (!$stock): ?><p class="hint">Aucun code en stock : <a href="/admin/cartes">générez des codes</a> pour pouvoir en relier un.</p><?php endif; ?>
+    <div><button class="btn btn-primary" type="submit">Créer le client</button></div>
+  </form>
 </div>
 <div class="panel table-wrap">
   <?php if (!$clients): ?>
