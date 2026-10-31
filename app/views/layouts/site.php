@@ -21,7 +21,7 @@ $isHome = $path === '/';
 <meta property="og:image" content="<?= e(url('/assets/img/share.jpg')) ?>">
 <meta name="twitter:card" content="summary_large_image">
 <?php if (!is_indexable()): ?><meta name="robots" content="noindex, nofollow"><?php endif; ?>
-<meta name="theme-color" content="#0E0F12">
+<meta name="theme-color" content="#FFFFFF">
 <link rel="icon" href="<?= asset('img/favicon.png') ?>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,13 +37,14 @@ $isHome = $path === '/';
 <a class="skip" href="#contenu"><?= te('Aller au contenu') ?></a>
 <header class="nav-wrap">
   <nav class="nav container" aria-label="<?= te('Navigation principale') ?>">
-    <a href="/" class="nav-logo"><img src="<?= asset('img/logo-white.png') ?>" alt="EliteTap" width="126" height="36"></a>
+    <a href="/" class="nav-logo"><img src="<?= asset('img/logo-color.png') ?>" alt="EliteTap" width="133" height="38"></a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="<?= te('Ouvrir le menu') ?>">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     </button>
     <div class="nav-menu" id="nav-menu">
       <a href="/#fonctionnement"><?= te('Fonctionnement') ?></a>
-      <a href="/#materiaux"><?= te('Cartes') ?></a>
+      <a href="/#plateforme"><?= te('Plateforme') ?></a>
+      <a href="/#materiaux"><?= te('Designs') ?></a>
       <a href="/#tarifs"><?= te('Tarifs') ?></a>
       <a href="/#faq"><?= te('FAQ') ?></a>
       <span class="nav-sep" aria-hidden="true"></span>
@@ -53,6 +54,7 @@ $isHome = $path === '/';
     </div>
   </nav>
 </header>
+<div class="brand-bar" aria-hidden="true"></div>
 
 <main id="contenu">
 <?= $content ?>

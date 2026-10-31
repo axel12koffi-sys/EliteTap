@@ -4,7 +4,7 @@
 body { margin: 0; font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif; color: var(--text); background: #E9E7E2; -webkit-font-smoothing: antialiased; }
 a { color: inherit; }
 :focus-visible { outline: 3px solid #60A5FA; outline-offset: 2px; }
-.owner-bar { background: #14161A; color: #F3F4F6; font-size: 13px; text-align: center; padding: 10px; }
+.owner-bar { background: #14284B; color: #F3F4F6; font-size: 13px; text-align: center; padding: 10px; }
 .owner-bar a { color: #93C5FD; font-weight: 600; }
 
 .profile { max-width: 480px; min-height: 100vh; min-height: 100dvh; margin: 0 auto; background: var(--paper); display: flex; flex-direction: column; padding-bottom: env(safe-area-inset-bottom); }
@@ -31,7 +31,7 @@ a { color: inherit; }
 .links a:active { background: #F0EEE9; }
 
 .made { margin-top: auto; padding: 32px 20px 24px; text-align: center; font-size: 13px; color: var(--muted); }
-.made a { color: #2563EB; font-weight: 600; }
+.made a { color: #3666AF; font-weight: 600; }
 
 /* Thème : police des titres, logo */
 .identity h1 { font-family: var(--title-font, 'Space Grotesk', sans-serif); }

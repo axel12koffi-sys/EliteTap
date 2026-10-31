@@ -1,9 +1,10 @@
 /* EliteTap — espace client, admin et authentification */
 :root {
-  --ink: #0E0F12; --ink-2: #16181D; --ink-3: #1F2229; --ink-line: #2A2D35;
-  --on-ink: #F3F4F6; --on-ink-2: #C9CDD4; --on-ink-3: #A1A6B0;
-  --paper: #F7F6F3; --card: #FFFFFF; --line: #E4E2DD; --line-2: #D6D3CC; --text: #14161A; --muted: #5B606B;
-  --blue: #2563EB; --blue-dark: #1D4ED8; --blue-pale: #93C5FD; --tint: #EEF3FE;
+  /* Couleurs du plan d'évolution : #3666AF, marine #14284B, #7FAEDD, jaune #FFED00 */
+  --ink: #14284B; --ink-2: #1C355F; --ink-3: #26426F; --ink-line: #2C4775;
+  --on-ink: #F5F8FC; --on-ink-2: #C3D3EA; --on-ink-3: #A9BEDD;
+  --paper: #F5F8FC; --card: #FFFFFF; --line: #DCE5F1; --line-2: #C6D3E6; --text: #14284B; --muted: #52617A;
+  --blue: #3666AF; --blue-dark: #2B5596; --blue-pale: #A9C8EC; --tint: #EAF1FA; --yellow: #FFED00;
   --red: #B91C1C;
   --display: 'Space Grotesk', system-ui, sans-serif;
   --body: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -58,7 +59,7 @@ input, select, textarea, button { font: inherit; }
 .fieldset { border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin: 0; display: flex; flex-direction: column; gap: 12px; }
 .fieldset legend { font-weight: 600; padding: 0 6px; }
 .prefix-input { flex-direction: row !important; align-items: stretch; gap: 0 !important; }
-.prefix-input span { display: flex; align-items: center; padding: 0 12px; background: #EFEDE8; border: 1px solid var(--line-2); border-right: 0; border-radius: 10px 0 0 10px; font-size: 14px; color: var(--muted); font-weight: 400; }
+.prefix-input span { display: flex; align-items: center; padding: 0 12px; background: var(--tint); border: 1px solid var(--line-2); border-right: 0; border-radius: 10px 0 0 10px; font-size: 14px; color: var(--muted); font-weight: 400; }
 .prefix-input input { border-radius: 0 10px 10px 0 !important; }
 .inline-form { flex-direction: row; flex-wrap: wrap; align-items: flex-end; gap: 12px; }
 .inline-form label { flex: 1 1 160px; }
@@ -78,7 +79,7 @@ input, select, textarea, button { font: inherit; }
 .side { flex: 1 1 240px; max-width: 100%; background: var(--ink); color: var(--on-ink-2); padding: 24px 16px; display: flex; flex-direction: column; gap: 28px; }
 .side-top { display: flex; align-items: center; gap: 10px; padding: 0 8px; }
 .side-logo img { display: block; height: 32px; width: auto; }
-.tag { font-size: 11px; font-weight: 600; color: var(--ink); background: var(--blue-pale); padding: 3px 8px; border-radius: 6px; }
+.tag { font-size: 11px; font-weight: 600; color: var(--ink); background: var(--yellow); padding: 3px 8px; border-radius: 6px; }
 .side-nav { display: flex; flex-direction: column; gap: 4px; }
 .side-nav a { color: var(--on-ink-2); text-decoration: none; padding: 12px; border-radius: 10px; }
 .side-nav a:hover { background: var(--ink-2); color: #FFF; }
@@ -211,7 +212,7 @@ input, select, textarea, button { font: inherit; }
 .qr-box { width: 160px; height: 160px; }
 .qr-box svg { width: 100%; height: 100%; display: block; }
 .qr-panel { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; }
-.tag-pro { font-size: 10px; font-weight: 700; letter-spacing: .04em; color: #0E0F12; background: #FDE047; padding: 2px 6px; border-radius: 5px; margin-left: 4px; vertical-align: 1px; }
+.tag-pro { font-size: 10px; font-weight: 700; letter-spacing: .04em; color: var(--ink); background: var(--yellow); padding: 2px 6px; border-radius: 5px; margin-left: 4px; vertical-align: 1px; }
 .managing { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; background: #FEF9C3; border: 1px solid #FDE047; color: #713F12; border-radius: 12px; padding: 12px 16px; font-size: 14px; }
 
 /* Thèmes */
