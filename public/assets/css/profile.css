@@ -55,3 +55,5 @@ a { color: inherit; }
 .lead-form .consent a { color: inherit; }
 .lead-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .send { font: inherit; font-weight: 600; font-size: 16px; border: 0; border-radius: 14px; min-height: 52px; background: #14161A; color: #FFF; cursor: pointer; }
+.wallet { display: flex; flex-wrap: wrap; gap: 10px; }
+.wallet-btn { flex: 1 1 180px; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; border-radius: 14px; background: #000; color: #FFF; text-decoration: none; font-weight: 600; font-size: 14px; }

@@ -141,3 +141,45 @@ function link_go(string $id): void
     // L'URL a été validée (http/https) à l'enregistrement
     redirect($l['url']);
 }
+
+/** Profil public utilisable pour le Wallet (Pro, compte actif, profil public). */
+function wallet_profile(string $slug): array
+{
+    $p = row('SELECT * FROM profiles WHERE slug = ?', [$slug]);
+    if (!$p || !$p['is_public'] || !owner_active($p) || !profile_can($p, 'wallet')) {
+        abort(404);
+    }
+    return $p;
+}
+
+function wallet_apple(string $slug): void
+{
+    $p = wallet_profile($slug);
+    if (!wallet_apple_enabled()) {
+        abort(404);
+    }
+    try {
+        $pass = apple_pkpass($p);
+    } catch (Throwable $e) {
+        error_log('Apple Wallet : ' . $e->getMessage());
+        abort(500);
+    }
+    header('Content-Type: application/vnd.apple.pkpass');
+    header('Content-Disposition: attachment; filename="' . (slugify(full_name($p)) ?: 'carte') . '.pkpass"');
+    header('Content-Length: ' . strlen($pass));
+    echo $pass;
+}
+
+function wallet_google(string $slug): void
+{
+    $p = wallet_profile($slug);
+    if (!wallet_google_enabled()) {
+        abort(404);
+    }
+    try {
+        redirect(google_wallet_url($p));
+    } catch (Throwable $e) {
+        error_log('Google Wallet : ' . $e->getMessage());
+        abort(500);
+    }
+}

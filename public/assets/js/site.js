@@ -18,3 +18,21 @@
     a.addEventListener('click', function () { if (select) select.value = a.getAttribute('data-card'); });
   });
 })();
+
+// Agrandissement des photos de réalisations
+(function () {
+  var dlg = document.getElementById('lightbox');
+  if (!dlg || typeof dlg.showModal !== 'function') return;
+  var img = dlg.querySelector('img'), cap = dlg.querySelector('p');
+  document.querySelectorAll('[data-lightbox]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      img.src = a.getAttribute('href');
+      img.alt = a.querySelector('img').alt;
+      cap.textContent = a.getAttribute('data-caption') || '';
+      dlg.showModal();
+    });
+  });
+  dlg.querySelector('.lightbox-close').addEventListener('click', function () { dlg.close(); });
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+})();

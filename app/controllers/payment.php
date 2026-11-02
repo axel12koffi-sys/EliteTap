@@ -65,13 +65,7 @@ function stripe_webhook(): void
         $orderId = (int) ($obj['metadata']['order_id'] ?? $obj['client_reference_id'] ?? 0);
         $o = row('SELECT * FROM orders WHERE id = ?', [$orderId]);
         if ($o && !$o['paid_at'] && (int) ($obj['amount_total'] ?? 0) === (int) $o['amount_cents']) {
-            q('UPDATE orders SET paid_at = ?, payment_ref = ?, updated_at = ? WHERE id = ?',
-                [now(), (string) ($obj['payment_intent'] ?? $obj['id'] ?? ''), now(), $o['id']]);
-            send_mail(config('mail')['notify_to'], "Paiement reçu : {$o['reference']} — " . money((int) $o['amount_cents']),
-                "La commande {$o['reference']} ({$o['name']}) vient d'être payée en ligne.\n\n" . url('/admin/commandes/' . $o['id']) . "\n");
-            in_lang($o['lang'], fn() => send_mail($o['email'], t('Paiement reçu — commande {ref}', ['ref' => $o['reference']]),
-                t("Bonjour {nom},\n\nNous avons bien reçu votre paiement de {montant} pour la commande {ref}. Merci !\n\nNous vous tenons au courant de chaque étape de la production.\n\nL'équipe EliteTap\n",
-                    ['nom' => $o['name'], 'montant' => money((int) $o['amount_cents']), 'ref' => $o['reference']])));
+            order_mark_paid($o, (string) ($obj['payment_intent'] ?? $obj['id'] ?? ''), 'online');
         }
     }
     http_response_code(200);

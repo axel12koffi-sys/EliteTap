@@ -1,6 +1,7 @@
 <?php
 $check = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="#3666AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 $flashes = flashes();
+$designs = public_designs();
 $faq = [
       ['Faut-il une application ?', 'Non. Le profil s\'ouvre directement dans le navigateur du téléphone de votre contact.'],
       ['Puis-je modifier mes informations ?', 'Oui, sans réimprimer votre carte : vous-même depuis votre tableau de bord avec le forfait Pro, ou par l\'équipe EliteTap avec le forfait Essentiel.'],
@@ -144,9 +145,13 @@ $faq = [
         ['Premium', 'Finition mate ou brillante, design avancé sur mesure.', 'img/carte-premium.jpg', '#3666AF'],
         ['Bois', 'Gravure laser sur bois naturel. Chaleureux, écoresponsable.', 'img/carte-bois.jpg', '#A47148'],
         ['Métal', 'Acier gravé, la carte qu\'on garde. Sur devis.', 'img/carte-metal.jpg', '#8E949E'],
-      ] as [$name, $desc, $img, $fallback]): ?>
+      ] as [$name, $desc, $img, $fallback]):
+        $photo = null;
+        foreach ($designs as $d) { if ($d['material'] === $name) { $photo = $d; break; } } ?>
       <article class="material">
-        <?php if (is_file(APP_ROOT . '/public/assets/' . $img)): ?>
+        <?php if ($photo): ?>
+          <img src="/uploads/designs/<?= e($photo['thumb_path']) ?>" alt="<?= te('Carte NFC {matiere} EliteTap', ['matiere' => t($name)]) ?>" loading="lazy" class="material-img">
+        <?php elseif (is_file(APP_ROOT . '/public/assets/' . $img)): ?>
           <img src="<?= asset($img) ?>" alt="<?= te('Carte NFC {matiere} EliteTap', ['matiere' => t($name)]) ?>" loading="lazy" class="material-img">
         <?php else: ?>
           <div class="material-img" style="background: <?= $fallback ?>"></div>
@@ -156,8 +161,26 @@ $faq = [
       </article>
       <?php endforeach; ?>
     </div>
+
+    <?php if ($designs): ?>
+    <h3 class="gallery-title"><?= te('Réalisations') ?></h3>
+    <div class="gallery">
+      <?php foreach (array_slice($designs, 0, 12) as $d): ?>
+        <a class="gallery-item" href="/uploads/designs/<?= e($d['image_path']) ?>" data-lightbox data-caption="<?= e($d['title']) ?>">
+          <img src="/uploads/designs/<?= e($d['thumb_path']) ?>" alt="<?= e($d['title'] ?: t('Carte NFC {matiere} EliteTap', ['matiere' => t($d['material'])])) ?>" loading="lazy">
+          <span><?= e($d['title']) ?></span>
+        </a>
+      <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
   </div>
 </section>
+
+<dialog class="lightbox" id="lightbox" aria-label="<?= te('Agrandissement') ?>">
+  <button type="button" class="lightbox-close" aria-label="<?= te('Fermer') ?>">×</button>
+  <img alt="">
+  <p></p>
+</dialog>
 
 <!-- TARIFS -->
 <section id="tarifs" class="section container et-rv">
@@ -167,13 +190,13 @@ $faq = [
   <div class="plans">
     <article class="plan">
       <div><h3><?= te('Standard') ?></h3><p class="muted"><?= te('Pour démarrer.') ?></p></div>
-      <p class="price-line"><?= te('À partir de') ?> <span class="price"><?= money(8900) ?></span><?= te('par carte, design de base inclus') ?></p>
+      <p class="price-line"><?= te('À partir de') ?> <span class="price"><?= money(display_price('Standard', 8900)) ?></span><?= te('par carte, design de base inclus') ?></p>
       <ul><li><?= te('NFC + code QR') ?></li><li><?= te('Profil hébergé à vie') ?></li><li><?= te('6 thèmes au choix') ?></li><li><?= te('Livraison au Québec') ?></li></ul>
       <a href="#commande" class="btn btn-outline" data-card="Standard"><?= te('Choisir Standard') ?></a>
     </article>
     <article class="plan plan-featured">
       <div><div class="plan-title"><h3><?= te('Premium') ?></h3><span class="badge"><?= te('Le plus choisi') ?></span></div><p class="muted"><?= te('Finition haut de gamme.') ?></p></div>
-      <p class="price-line"><?= te('À partir de') ?> <span class="price"><?= money(12900) ?></span><?= te('par carte, design premium inclus') ?></p>
+      <p class="price-line"><?= te('À partir de') ?> <span class="price"><?= money(display_price('Premium', 12900)) ?></span><?= te('par carte, design premium inclus') ?></p>
       <ul><li><?= te('Tout le plan Standard') ?></li><li><?= te('Finition mate ou brillante') ?></li><li><?= te('Design avancé sur mesure') ?></li><li><?= te('Production prioritaire') ?></li></ul>
       <a href="#commande" class="btn btn-primary" data-card="Premium"><?= te('Choisir Premium') ?></a>
     </article>
@@ -304,8 +327,8 @@ $ld = [
             'brand' => ['@type' => 'Brand', 'name' => 'EliteTap'],
             'image' => url('/assets/img/share.jpg'),
             'offers' => [
-                ['@type' => 'Offer', 'name' => t('Standard'), 'price' => '89.00', 'priceCurrency' => 'CAD', 'availability' => 'https://schema.org/InStock', 'url' => url('/#tarifs')],
-                ['@type' => 'Offer', 'name' => t('Premium'), 'price' => '129.00', 'priceCurrency' => 'CAD', 'availability' => 'https://schema.org/InStock', 'url' => url('/#tarifs')],
+                ['@type' => 'Offer', 'name' => t('Standard'), 'price' => number_format(display_price('Standard', 8900) / 100, 2, '.', ''), 'priceCurrency' => 'CAD', 'availability' => 'https://schema.org/InStock', 'url' => url('/#tarifs')],
+                ['@type' => 'Offer', 'name' => t('Premium'), 'price' => number_format(display_price('Premium', 12900) / 100, 2, '.', ''), 'priceCurrency' => 'CAD', 'availability' => 'https://schema.org/InStock', 'url' => url('/#tarifs')],
             ],
         ],
     ],

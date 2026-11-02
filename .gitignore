@@ -8,3 +8,5 @@ public/uploads/avatars/*
 !public/uploads/avatars/.gitkeep
 *.sqlite
 .DS_Store
+public/uploads/designs/*
+!public/uploads/designs/.gitkeep

@@ -83,26 +83,8 @@ function admin_order_client(string $id): void
     $o = row('SELECT * FROM orders WHERE id = ?', [(int) $id]);
     if (!$o) abort(404);
 
-    $existing = row('SELECT id FROM users WHERE email = ?', [$o['email']]);
-    if ($existing) {
-        $userId = (int) $existing['id'];
-    } else {
-        [$userId] = create_client($o['name'], $o['email']);
-        if ($o['company'] !== '') {
-            q('UPDATE profiles SET company = ?, phone = ? WHERE user_id = ?', [$o['company'], $o['phone'], $userId]);
-        }
-        q('UPDATE users SET lang = ? WHERE id = ?', [$o['lang'], $userId]);
-        $link = make_reset_link($userId, 72);
-        in_lang($o['lang'], fn() => send_mail($o['email'], t('Votre espace EliteTap est prêt'),
-            t("Bonjour {nom},\n\nVotre espace client EliteTap est créé. C'est là que vous modifiez le profil qui s'ouvre quand on tape votre carte.\n\nChoisissez votre mot de passe ici (lien valable 72 heures) :\n{lien}\n\nEnsuite, connectez-vous sur {connexion}\n\nL'équipe EliteTap\n",
-                ['nom' => $o['name'], 'lien' => $link, 'connexion' => url('/connexion')])));
-    }
-    q('UPDATE orders SET user_id = ?, updated_at = ? WHERE id = ?', [$userId, now(), $o['id']]);
-
-    // Les cartes déjà liées à la commande suivent le client
-    $profileId = scalar('SELECT id FROM profiles WHERE user_id = ?', [$userId]);
-    q("UPDATE cards SET profile_id = ?, status = 'active', activated_at = ? WHERE order_id = ? AND status = 'stock'",
-        [$profileId, now(), $o['id']]);
+    [, $created] = order_ensure_client($o);
+    $existing = !$created;
 
     flash('success', $existing ? 'Commande reliée au compte existant.' : 'Compte créé et lien d\'accès envoyé au client.');
     redirect('/admin/commandes/' . $o['id']);
@@ -134,6 +116,31 @@ function admin_order_payment(string $id): void
     } else {
         flash('success', 'Lien de paiement prêt : copiez-le ci-dessous.');
     }
+    redirect('/admin/commandes/' . $o['id']);
+}
+
+/** Paiement reçu hors ligne (virement Interac, comptant…) : même suite qu'un paiement en ligne. */
+function admin_order_mark_paid(string $id): void
+{
+    require_admin();
+    $o = row('SELECT * FROM orders WHERE id = ?', [(int) $id]);
+    if (!$o) abort(404);
+    if ($o['paid_at']) {
+        flash('error', 'Cette commande est déjà payée.');
+        redirect('/admin/commandes/' . $o['id']);
+    }
+    $amount = input('amount', 12);
+    if ($amount !== '') {
+        q('UPDATE orders SET amount_cents = ? WHERE id = ?', [(int) round((float) str_replace([' ', ','], ['', '.'], $amount) * 100), $o['id']]);
+        $o = row('SELECT * FROM orders WHERE id = ?', [$o['id']]);
+    }
+    if ($o['amount_cents'] === null) {
+        flash('error', 'Indiquez le montant reçu.');
+        redirect('/admin/commandes/' . $o['id']);
+    }
+    $how = input('method', 30) ?: 'Autre';
+    order_mark_paid($o, 'manuel : ' . $how, 'service');
+    flash('success', 'Paiement enregistré. Le client a reçu son reçu' . ($o['user_id'] ? '.' : ' et son lien d\'accès à son espace.'));
     redirect('/admin/commandes/' . $o['id']);
 }
 
@@ -298,6 +305,7 @@ function admin_client_plan(string $id): void
     $u = row("SELECT id, name, plan_source, stripe_subscription_id FROM users WHERE id = ? AND role = 'client'", [(int) $id]);
     if (!$u) abort(404);
     // Un forfait choisi ici devient « manuel » : Stripe ne le modifiera plus
+    q("UPDATE users SET plan_started_at = CASE WHEN plan = 'essentiel' AND ? <> 'essentiel' THEN ? ELSE plan_started_at END WHERE id = ?", [$plan, now(), $u['id']]);
     q("UPDATE users SET plan = ?, plan_source = 'manual' WHERE id = ?", [$plan, $u['id']]);
     $msg = "Forfait de {$u['name']} : " . PLANS[$plan] . '.';
     if ($u['stripe_subscription_id']) {
@@ -369,7 +377,7 @@ function admin_client_create(): void
 
     [$userId] = create_client($name, $email);
     q('UPDATE profiles SET company = ?, phone = ?, updated_at = ? WHERE user_id = ?', [$company, $phone, now(), $userId]);
-    q('UPDATE users SET lang = ?, plan = ? WHERE id = ?', [$clang, $cplan, $userId]);
+    q('UPDATE users SET lang = ?, plan = ?, plan_started_at = ? WHERE id = ?', [$clang, $cplan, plan_is_paid($cplan) ? now() : null, $userId]);
     $profileId = (int) scalar('SELECT id FROM profiles WHERE user_id = ?', [$userId]);
 
     $msg = 'Client créé.';

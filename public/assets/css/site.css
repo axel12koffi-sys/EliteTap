@@ -281,3 +281,46 @@ input, select, textarea, button { font: inherit; }
 .footer-links { display: flex; flex-wrap: wrap; gap: 24px; }
 .footer-links a { color: var(--on-navy-2); }
 .footer-links a:hover { color: #FFF; }
+
+/* Page de commande */
+.order-page { max-width: 760px; }
+.order-page h1 { font-family: var(--display); font-size: clamp(30px, 4vw, 42px); letter-spacing: -0.03em; margin-bottom: 14px; }
+.lead-dark { font-size: 17px; line-height: 1.6; color: var(--body); margin-bottom: 8px; }
+.order-choose { margin-top: 28px; display: flex; flex-direction: column; gap: 22px; }
+.choice-grid { border: 0; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.choice { position: relative; cursor: pointer; }
+.choice input { position: absolute; opacity: 0; pointer-events: none; }
+.choice-body { display: flex; flex-direction: column; gap: 6px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; min-height: 92px; transition: border-color .15s, box-shadow .15s; }
+.choice-body strong { font-family: var(--display); font-size: 19px; color: var(--text); }
+.choice-price { font-size: 14px; color: var(--muted); }
+.choice input:checked + .choice-body { border-color: var(--blue); box-shadow: 0 0 0 2px var(--blue); }
+.choice input:focus-visible + .choice-body { outline: 3px solid var(--blue-light); outline-offset: 2px; }
+.order-row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; justify-content: space-between; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+.qty { display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 500; color: var(--text); }
+.qty input { width: 120px; border: 1px solid #C6D3E6; border-radius: 10px; padding: 12px; font-size: 16px; }
+.totals { margin: 0; display: grid; grid-template-columns: auto auto; gap: 6px 24px; min-width: 240px; font-size: 15px; }
+.totals dt { color: var(--muted); }
+.totals dd { margin: 0; text-align: right; color: var(--text); }
+.total-label { font-weight: 600; color: var(--text) !important; padding-top: 6px; border-top: 1px solid var(--line); }
+.total-value { font-family: var(--display); font-size: 22px; font-weight: 700; padding-top: 6px; border-top: 1px solid var(--line); }
+.quote-note { margin: 0; font-size: 14px; background: var(--tint); color: var(--text); padding: 12px 14px; border-radius: 10px; }
+.order-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.order-actions .btn:disabled { opacity: .45; cursor: not-allowed; }
+.order-status { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.order-status span { font-size: 13px; padding: 8px 12px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); color: var(--muted); }
+.order-status span.done { background: var(--blue); border-color: var(--blue); color: #FFF; }
+.order-page .alert { margin-top: 18px; }
+
+/* Galerie de réalisations */
+.gallery-title { margin: 56px 0 18px; font-family: var(--display); font-size: 22px; }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+.gallery-item { position: relative; display: block; border-radius: 14px; overflow: hidden; border: 1px solid var(--navy-line); background: var(--navy-2); text-decoration: none; }
+.gallery-item img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .3s; }
+.gallery-item:hover img { transform: scale(1.04); }
+.gallery-item span { position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 12px 10px; font-size: 13px; color: #FFF; background: linear-gradient(transparent, rgba(20,40,75,.85)); }
+.gallery-item span:empty { display: none; }
+.lightbox { border: 0; padding: 0; background: transparent; max-width: min(92vw, 1100px); }
+.lightbox::backdrop { background: rgba(10,20,40,.88); }
+.lightbox img { display: block; max-width: 100%; max-height: 82vh; border-radius: 12px; margin: 0 auto; }
+.lightbox p { color: #FFF; text-align: center; margin-top: 12px; font-size: 15px; }
+.lightbox-close { position: fixed; top: 16px; right: 16px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255,255,255,.15); color: #FFF; font-size: 26px; cursor: pointer; }

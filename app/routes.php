@@ -9,12 +9,19 @@ require APP_DIR . '/controllers/admin.php';
 require APP_DIR . '/controllers/payment.php';
 require APP_DIR . '/controllers/leads.php';
 require APP_DIR . '/controllers/plan.php';
+require APP_DIR . '/controllers/order.php';
+require APP_DIR . '/controllers/designs.php';
+require APP_DIR . '/controllers/settings.php';
+require APP_DIR . '/controllers/dashboard.php';
 
 const ROUTES = [
     // Site public
     ['GET',  '/',                              'site_home'],
     ['POST', '/devis',                         'site_quote'],
     ['GET',  '/merci',                         'site_thanks'],
+    ['POST', '/merci/renvoyer',                'order_resend'],
+    ['GET',  '/commande/(ET-[A-Z0-9]{6})/([a-f0-9]{32})', 'order_show'],
+    ['POST', '/commande/(ET-[A-Z0-9]{6})/([a-f0-9]{32})', 'order_submit'],
     ['GET',  '/confidentialite',               'site_privacy'],
     ['GET',  '/remboursement',                 'site_refund'],
     ['GET',  '/robots\.txt',                  'site_robots'],
@@ -25,6 +32,8 @@ const ROUTES = [
     ['POST', '/t/([A-Z0-9]{6,16})/activer',    'card_activate'],
     ['GET',  '/u/([a-z0-9-]{2,60})',           'profile_show'],
     ['GET',  '/u/([a-z0-9-]{2,60})/contact\.vcf', 'profile_vcard'],
+    ['GET',  '/u/([a-z0-9-]{2,60})/wallet/apple', 'wallet_apple'],
+    ['GET',  '/u/([a-z0-9-]{2,60})/wallet/google', 'wallet_google'],
     ['POST', '/u/([a-z0-9-]{2,60})/prospect', 'lead_submit'],
     ['GET',  '/l/(\d+)',                       'link_go'],
 
@@ -65,12 +74,21 @@ const ROUTES = [
     ['POST', '/compte/securite',               'account_security_save'],
 
     // Administration
-    ['GET',  '/admin',                         'admin_orders'],
+    ['GET',  '/admin',                         'admin_dashboard'],
+    ['GET',  '/admin/commandes',               'admin_orders'],
     ['GET',  '/admin/commandes/(\d+)',         'admin_order'],
     ['POST', '/admin/commandes/(\d+)',         'admin_order_save'],
     ['POST', '/admin/commandes/(\d+)/client',  'admin_order_client'],
     ['GET',  '/admin/commandes/(\d+)/fichier', 'admin_order_file'],
     ['POST', '/admin/commandes/(\d+)/paiement', 'admin_order_payment'],
+    ['POST', '/admin/commandes/(\d+)/paye',    'admin_order_mark_paid'],
+    ['GET',  '/admin/designs',                 'admin_designs'],
+    ['POST', '/admin/designs',                 'admin_designs_upload'],
+    ['POST', '/admin/designs/(\d+)',           'admin_design_save'],
+    ['GET',  '/admin/courriels',               'admin_mail'],
+    ['POST', '/admin/courriels',               'admin_mail_test'],
+    ['GET',  '/admin/reglages',                'admin_settings'],
+    ['POST', '/admin/reglages',                'admin_settings_save'],
     ['GET',  '/admin/cartes',                  'admin_cards'],
     ['POST', '/admin/cartes',                  'admin_cards_generate'],
     ['POST', '/admin/cartes/(\d+)',            'admin_card_save'],

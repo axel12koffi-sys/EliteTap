@@ -14,7 +14,7 @@ declare(strict_types=1);
 const PLANS = ['essentiel' => 'Essentiel', 'pro' => 'Pro', 'entreprise' => 'Entreprise'];
 
 /** Fonctions réservées aux forfaits Pro et Entreprise. */
-const PRO_FEATURES = ['edit', 'stats', 'leads', 'brand'];
+const PRO_FEATURES = ['edit', 'stats', 'leads', 'brand', 'wallet'];
 
 const THEMES = [
     'marine'   => ['Marine',      '#14254A', '#3666AF'],

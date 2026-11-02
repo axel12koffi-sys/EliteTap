@@ -83,10 +83,11 @@ function stripe_subscription_event(string $type, array $obj): void
         $userId = (int) ($obj['metadata']['user_id'] ?? $obj['client_reference_id'] ?? 0);
         $u = row('SELECT id, plan, email, name, lang FROM users WHERE id = ?', [$userId]);
         if (!$u) return;
+        q("UPDATE users SET plan_started_at = CASE WHEN plan = 'essentiel' OR plan_started_at IS NULL THEN ? ELSE plan_started_at END WHERE id = ?", [now(), $userId]);
         q("UPDATE users SET plan = CASE WHEN plan = 'entreprise' THEN plan ELSE 'pro' END, plan_source = 'stripe', plan_status = 'active',
            stripe_customer_id = ?, stripe_subscription_id = ? WHERE id = ?",
             [(string) ($obj['customer'] ?? ''), (string) ($obj['subscription'] ?? ''), $u['id']]);
-        send_mail(config('mail')['notify_to'], "Nouvel abonnement Pro : {$u['name']}",
+        send_mail(notify_email(), "Nouvel abonnement Pro : {$u['name']}",
             "{$u['name']} ({$u['email']}) vient de s'abonner au forfait Pro.\n\n" . url('/admin/clients') . "\n");
         return;
     }

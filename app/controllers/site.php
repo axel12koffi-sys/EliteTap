@@ -143,16 +143,16 @@ function site_quote(): void
         $ref = 'ET-' . random_code(6);
     } while (scalar('SELECT id FROM orders WHERE reference = ?', [$ref]) !== null);
 
-    q('INSERT INTO orders (reference, name, company, email, phone, card_type, quantity, message, file_path, file_name, status, lang, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+    q('INSERT INTO orders (reference, name, company, email, phone, card_type, quantity, message, file_path, file_name, status, lang, confirm_token, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
         $ref, $data['name'], $data['company'], $data['email'], $data['phone'], $data['card_type'], $qty,
-        $data['message'], $filePath, $fileName, 'devis', lang(), now(), now(),
+        $data['message'], $filePath, $fileName, 'devis', lang(), bin2hex(random_bytes(16)), now(), now(),
     ]);
     $orderId = (int) db()->lastInsertId();
 
     // Notification interne
     send_mail(
-        config('mail')['notify_to'],
+        notify_email(),
         "Nouvelle demande de devis $ref — {$data['name']}",
         "Nouvelle demande reçue sur " . public_host() . " (langue : " . strtoupper(lang()) . ")\n\n"
         . "Référence : $ref\nNom : {$data['name']}\nEntreprise : {$data['company']}\n"
@@ -163,13 +163,8 @@ function site_quote(): void
         $data['email']
     );
 
-    // Accusé de réception au client, dans sa langue
-    send_mail(
-        $data['email'],
-        t('Votre demande EliteTap ({ref})', ['ref' => $ref]),
-        t("Bonjour {nom},\n\nMerci pour votre demande de carte {carte}. Nous vous répondons en moins de 24 h avec votre devis.\n\nRéférence : {ref}\n\nUne question d'ici là ? Répondez à ce courriel ou écrivez-nous sur WhatsApp : {whatsapp}\n\nL'équipe EliteTap\n{site}\n",
-            ['nom' => $data['name'], 'carte' => t($data['card_type']), 'ref' => $ref, 'whatsapp' => 'https://wa.me/' . config('whatsapp'), 'site' => url('/')])
-    );
+    // Courriel au client : lien pour confirmer la commande et choisir son forfait
+    send_order_confirmation(row('SELECT * FROM orders WHERE id = ?', [$orderId]));
 
     $_SESSION['last_order_ref'] = $ref;
     redirect('/merci');

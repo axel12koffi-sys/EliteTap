@@ -11,7 +11,8 @@ PHP 8.1+ / MySQL (ou MariaDB), sans framework ni dépendance Composer.
 | `/t/{CODE}` | URL encodée dans la puce NFC **et** le QR de chaque carte. Compte le tap puis ouvre le profil |
 | `/u/{adresse}` | Profil public : enregistrer le contact (vCard), appeler, texto, courriel, site, itinéraire, liens |
 | `/compte` | Espace client : profil + aperçu en direct, photo, couleurs, liens, statistiques, cartes, mot de passe |
-| `/admin` | Commandes (statuts, montant, notes, fichier joint, courriel au client), cartes NFC, clients |
+| `/admin` | Tableau de bord (indicateurs du plan d'évolution), commandes, clients, cartes NFC, designs, courriels, réglages |
+| `/commande/{réf}/{jeton}` | Lien reçu par courriel après le devis : le client confirme, choisit sa carte et paie en ligne ou avec le service client |
 | `/payer/{réf}/{jeton}` | Page de paiement de la commande (Stripe Checkout) |
 | `/compte/prospects` | Boîte de réception des prospects (Pro) : coordonnées laissées par les visiteurs |
 | `/compte/forfait` | Forfait du client et abonnement Pro (Stripe) |
@@ -34,6 +35,14 @@ L'admin attribue un forfait à la main (*Admin › Clients*) ou le client s'abon
 
 **QR codes** : *Admin › Cartes NFC › QR codes* affiche le QR de chaque carte (même URL que la puce), téléchargeable en SVG ou imprimable en PDF. Le client a aussi le QR de son profil dans *Mes cartes*.
 
+**Parcours de commande** : formulaire de l'accueil → courriel « Confirmez votre demande » (renvoi possible depuis la page de remerciement) → page de commande : type de carte, quantité, total avec taxes → **Payer en ligne** (Stripe) ou **Régler avec le service client** (vous êtes avertis par courriel). Les prix se règlent dans *Admin › Réglages* ; un prix vide = « sur devis » (paiement en ligne impossible pour ce type). Un paiement reçu hors ligne (virement, comptant) se note avec « Marquer comme payée » dans la commande : le reçu et l'accès au compte partent au client.
+
+**Tableau de bord** (*Admin*) : taux d'activation, conversion Pro, revenu récurrent (MRR, d'après le prix mensuel saisi dans *Réglages*), rétention à 6 et 12 mois, prospects, chiffre d'affaires sur 12 mois, entonnoir des commandes, touchers, et une liste « À traiter ».
+
+**Designs** (*Admin › Designs*) : téléversez les photos des cartes réalisées (redimensionnées automatiquement), choisissez la matière, l'ordre, masquez-les. Elles alimentent la galerie « Réalisations » et les vignettes de matières de l'accueil.
+
+**Wallet** (Pro) : boutons « Ajouter à Apple Wallet / Google Wallet » sur le profil, cachés tant que les accès ne sont pas dans `config.php` (`wallet`). Apple : compte Apple Developer (99 $ US/an), *Identifiers › Pass Type IDs*, certificat exporté en `.pem` + certificat WWDR. Google : projet Google Cloud, API Google Wallet, compte de service (clé JSON) et identifiant d'émetteur sur pay.google.com/business/console.
+
 **Paiement en ligne** : dans une commande, indiquez le montant total (taxes incluses), puis « Envoyer le lien par courriel » (ou copiez le lien pour WhatsApp). Le client paie par carte sur Stripe ; la commande passe à « Payée » automatiquement et vous recevez un courriel.
 
 **Cycle d'une commande** : devis reçu → l'admin crée le compte client depuis la commande (le client reçoit un lien pour choisir son mot de passe) → l'admin lie un code de carte du stock → la carte ouvre le profil dès son premier tap.
@@ -52,16 +61,16 @@ L'admin attribue un forfait à la main (*Admin › Clients*) ou le client s'abon
    - `app_url` : `https://new.elitetap.ca` (puis `https://elitetap.ca` au lancement)
    - `db` : nom de la base, utilisateur, mot de passe
    - `secret` : une longue chaîne aléatoire
-5. **Droits d'écriture** — `storage/uploads/` et `public/uploads/avatars/` en 755 (750 pour `storage`).
+5. **Droits d'écriture** — `storage/uploads/`, `public/uploads/avatars/` et `public/uploads/designs/` en 755 (750 pour `storage`).
 6. **Compte admin** — *cPanel › Terminal* :
    ```
    cd ~/repositories/EliteTap && php bin/create-admin.php info@elitetap.ca "Votre nom"
    ```
 7. **Paiement (facultatif)** — sur dashboard.stripe.com : *Développeurs › Clés API* (clé secrète) et *Développeurs › Webhooks › Ajouter un point de terminaison* : URL `https://new.elitetap.ca/stripe/webhook`, événements `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `customer.subscription.updated` et `customer.subscription.deleted`. Pour l'abonnement Pro : *Catalogue de produits › Ajouter* « EliteTap Pro » avec un prix mensuel et/ou annuel, puis coller leurs identifiants `price_…` dans `config.php` (`price_pro_monthly`, `price_pro_yearly`). Activer aussi le *Portail client* (*Paramètres › Facturation › Portail client*) pour que les abonnés gèrent leur carte et leurs factures. Copier la clé secrète et le secret du webhook (`whsec_…`) dans `app/config.php`. Tester d'abord avec les clés *test* et la carte 4242 4242 4242 4242.
-8. **Courriels** — *cPanel › Délivrabilité des courriels* : vérifier SPF et DKIM pour elitetap.ca, sinon les messages risquent d'arriver en indésirables.
+8. **Courriels** — créer la boîte `info@elitetap.ca` (*cPanel › Comptes de messagerie*), puis renseigner `smtp` dans `config.php` (hôte `mail.elitetap.ca`, port 465, `ssl`, la boîte et son mot de passe) : les courriels partent alors par SMTP authentifié, beaucoup plus fiable que `mail()`. Vérifier SPF et DKIM dans *cPanel › Délivrabilité des courriels*. *Admin › Courriels* montre chaque envoi (envoyé / échec) et permet un envoi test. Tant que la boîte n'existe pas, mettre votre adresse personnelle dans *Admin › Réglages › Notifications*.
 9. **PHP** — *Sélecteur de version PHP* : 8.1 ou plus, extensions `pdo_mysql`, `gd`, `fileinfo`, `mbstring`, `curl` (et `intl` si disponible).
 
-**Base créée avec une version précédente ?** Dans phpMyAdmin, onglet SQL, exécuter dans l'ordre les fichiers de `database/migrations/` qui n'ont pas encore été appliqués (`002-…`, puis `003-forfaits-prospects-themes.mysql.sql`).
+**Base créée avec une version précédente ?** Dans phpMyAdmin, onglet SQL, exécuter dans l'ordre les fichiers de `database/migrations/` qui n'ont pas encore été appliqués (`002-…`, `003-forfaits-prospects-themes.mysql.sql`, puis `004-courriels-commande-designs.mysql.sql`).
 
 **Mises à jour** : *Git Version Control › Gérer › Pull or Deploy › Update from Remote*. `app/config.php` et les fichiers envoyés ne sont jamais écrasés (ignorés par Git).
 
@@ -85,7 +94,8 @@ Astuce : encodez avec l'URL définitive `https://elitetap.ca/t/CODE` pour ne pas
 - [ ] Google Business Profile : créer ou mettre à jour la fiche « EliteTap, Laval » et demander des avis clients
 - [ ] Les cartes déjà distribuées pointent-elles vers d'anciennes URL ? Si oui, ajouter les redirections correspondantes
 - [ ] Remplir les champs entre crochets de `app/views/site/privacy.php` et `refund.php`
-- [ ] Ajouter les photos des réalisations dans `public/assets/img/` : `carte-standard.jpg`, `carte-premium.jpg`, `carte-bois.jpg`, `carte-metal.jpg` (format 1,586:1, ex. 856×540). Elles remplacent automatiquement les aplats de couleur
+- [ ] Téléverser les photos des réalisations dans *Admin › Designs* (une par matière au minimum)
+- [ ] `'debug' => false` dans `config.php`
 
 ## Développement local
 

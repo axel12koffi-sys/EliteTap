@@ -29,6 +29,9 @@ require APP_DIR . '/lib/stats.php';
 require APP_DIR . '/lib/i18n.php';
 require APP_DIR . '/lib/stripe.php';
 require APP_DIR . '/lib/plans.php';
+require APP_DIR . '/lib/settings.php';
+require APP_DIR . '/lib/orders.php';
+require APP_DIR . '/lib/wallet.php';
 
 if (PHP_SAPI !== 'cli') {
     $secure = (($_SERVER['HTTPS'] ?? '') !== '' && $_SERVER['HTTPS'] !== 'off')

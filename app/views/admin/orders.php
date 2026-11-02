@@ -1,6 +1,6 @@
 <div class="page-head">
   <h1>Commandes</h1>
-  <form method="get" action="/admin" class="search">
+  <form method="get" action="/admin/commandes" class="search">
     <?php if ($status): ?><input type="hidden" name="statut" value="<?= e($status) ?>"><?php endif; ?>
     <label class="visually-hidden" for="q">Rechercher</label>
     <input type="search" id="q" name="q" value="<?= e($search) ?>" placeholder="Client, courriel, référence">
@@ -8,12 +8,10 @@
   </form>
 </div>
 
-<?php require __DIR__ . '/_kpis.php'; ?>
-
 <nav class="tabs" aria-label="Filtrer par statut">
-  <a href="/admin"<?= $status === '' ? ' aria-current="true"' : '' ?>>Toutes <span><?= $counts[''] ?? 0 ?></span></a>
+  <a href="/admin/commandes"<?= $status === '' ? ' aria-current="true"' : '' ?>>Toutes <span><?= $counts[''] ?? 0 ?></span></a>
   <?php foreach (ORDER_STATUSES as $k => $label): ?>
-    <a href="/admin?statut=<?= $k ?>"<?= $status === $k ? ' aria-current="true"' : '' ?>><?= e($label) ?> <span><?= $counts[$k] ?? 0 ?></span></a>
+    <a href="/admin/commandes?statut=<?= $k ?>"<?= $status === $k ? ' aria-current="true"' : '' ?>><?= e($label) ?> <span><?= $counts[$k] ?? 0 ?></span></a>
   <?php endforeach; ?>
 </nav>
 
@@ -31,7 +29,8 @@
           <td><?= e($o['card_type']) ?></td>
           <td class="num"><?= (int) $o['quantity'] ?></td>
           <td class="num"><?= money($o['amount_cents'] !== null ? (int) $o['amount_cents'] : null) ?><?= $o['paid_at'] ? '<br><span class="status status-active">Payée</span>' : '' ?></td>
-          <td><span class="badge badge-<?= e($o['status']) ?>"><?= e(ORDER_STATUSES[$o['status']] ?? $o['status']) ?></span></td>
+          <td><span class="badge badge-<?= e($o['status']) ?>"><?= e(ORDER_STATUSES[$o['status']] ?? $o['status']) ?></span>
+            <?php if (!$o['paid_at'] && $o['payment_method'] === 'service'): ?><br><span class="muted small">Service client</span><?php elseif (!$o['confirmed_at'] && !$o['paid_at']): ?><br><span class="muted small">Non confirmée</span><?php endif; ?></td>
           <td class="small muted"><?= date_fr($o['created_at']) ?></td>
           <td class="right"><a href="/admin/commandes/<?= (int) $o['id'] ?>">Ouvrir</a></td>
         </tr>

@@ -22,8 +22,32 @@ return [
     'mail' => [
         'from'       => 'info@elitetap.ca',
         'from_name'  => 'EliteTap',
-        'notify_to'  => 'info@elitetap.ca',      // reçoit les nouvelles demandes de devis
+        'notify_to'  => 'info@elitetap.ca',      // notifications internes (modifiable dans Admin › Réglages)
+        // Envoi fiable par SMTP (recommandé). Laisser commenté pour utiliser mail() du serveur.
+        // Créer d'abord la boîte info@elitetap.ca dans cPanel › Comptes de messagerie.
+        // 'smtp' => [
+        //     'host'   => 'mail.elitetap.ca',
+        //     'port'   => 465,
+        //     'secure' => 'ssl',        // 'ssl' (465) ou 'tls' (587)
+        //     'user'   => 'info@elitetap.ca',
+        //     'pass'   => 'MOT_DE_PASSE',
+        // ],
     ],
+
+    // Ajout au Wallet (facultatif, forfait Pro) : voir le README, section « Wallet ».
+    // 'wallet' => [
+    //     'apple' => [
+    //         'pass_type_id'  => 'pass.ca.elitetap.card',
+    //         'team_id'       => 'ABCDE12345',
+    //         'p12_path'      => '/home/UTILISATEUR/wallet/pass.p12',
+    //         'p12_password'  => '',
+    //         'wwdr_path'     => '/home/UTILISATEUR/wallet/AppleWWDRCAG4.pem',
+    //     ],
+    //     'google' => [
+    //         'issuer_id'            => '3388000000000000000',
+    //         'service_account_json' => '/home/UTILISATEUR/wallet/google-service-account.json',
+    //     ],
+    // ],
 
     // Paiement en ligne (facultatif). Laisser vide pour désactiver.
     // Stripe > Développeurs > Clés API ; webhook vers https://VOTRE-DOMAINE/stripe/webhook

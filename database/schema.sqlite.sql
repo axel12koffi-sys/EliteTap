@@ -13,6 +13,7 @@ CREATE TABLE users (
   plan_source TEXT NOT NULL DEFAULT 'manual',
   plan_status TEXT NULL,
   plan_renews_at TEXT NULL,
+  plan_started_at TEXT NULL,
   stripe_customer_id TEXT NULL,
   stripe_subscription_id TEXT NULL,
   reset_token_hash TEXT NULL,
@@ -78,6 +79,11 @@ CREATE TABLE orders (
   pay_token TEXT NULL,
   paid_at TEXT NULL,
   payment_ref TEXT NULL,
+  confirm_token TEXT NULL,
+  confirmed_at TEXT NULL,
+  payment_method TEXT NULL,
+  subtotal_cents INTEGER NULL,
+  tax_cents INTEGER NULL,
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL
 );
@@ -120,6 +126,10 @@ CREATE TABLE leads (
   created_at TEXT NOT NULL
 );
 CREATE INDEX idx_leads_profile ON leads(profile_id, created_at);
+
+CREATE TABLE settings (name TEXT PRIMARY KEY, value TEXT NULL, updated_at TEXT NOT NULL);
+CREATE TABLE mail_log (id INTEGER PRIMARY KEY AUTOINCREMENT, to_email TEXT NOT NULL, subject TEXT NOT NULL, status TEXT NOT NULL, transport TEXT NOT NULL, error TEXT NULL, created_at TEXT NOT NULL);
+CREATE TABLE designs (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL DEFAULT '', material TEXT NOT NULL DEFAULT 'Standard', image_path TEXT NOT NULL, thumb_path TEXT NOT NULL, position INTEGER NOT NULL DEFAULT 0, is_visible INTEGER NOT NULL DEFAULT 1, created_at TEXT NOT NULL);
 
 CREATE TABLE login_attempts (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

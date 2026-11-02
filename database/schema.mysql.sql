@@ -15,6 +15,7 @@ CREATE TABLE users (
   plan_source   ENUM('manual','stripe') NOT NULL DEFAULT 'manual',
   plan_status   VARCHAR(20) NULL,
   plan_renews_at DATETIME NULL,
+  plan_started_at DATETIME NULL,
   stripe_customer_id VARCHAR(64) NULL,
   stripe_subscription_id VARCHAR(64) NULL,
   reset_token_hash CHAR(64) NULL,
@@ -99,6 +100,11 @@ CREATE TABLE orders (
   pay_token    CHAR(32) NULL,
   paid_at      DATETIME NULL,
   payment_ref  VARCHAR(120) NULL,
+  confirm_token CHAR(32) NULL,
+  confirmed_at DATETIME NULL,
+  payment_method VARCHAR(20) NULL,
+  subtotal_cents INT UNSIGNED NULL,
+  tax_cents    INT UNSIGNED NULL,
   created_at   DATETIME NOT NULL,
   updated_at   DATETIME NOT NULL,
   CONSTRAINT fk_orders_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
@@ -136,6 +142,34 @@ CREATE TABLE leads (
   created_at  DATETIME NOT NULL,
   CONSTRAINT fk_leads_profile FOREIGN KEY (profile_id) REFERENCES profiles(id) ON DELETE CASCADE,
   INDEX idx_leads_profile (profile_id, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE settings (
+  name       VARCHAR(60) NOT NULL PRIMARY KEY,
+  value      TEXT NULL,
+  updated_at DATETIME NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE mail_log (
+  id         BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  to_email   VARCHAR(190) NOT NULL,
+  subject    VARCHAR(255) NOT NULL,
+  status     VARCHAR(10)  NOT NULL,
+  transport  VARCHAR(10)  NOT NULL,
+  error      VARCHAR(500) NULL,
+  created_at DATETIME NOT NULL,
+  INDEX idx_mail_log_date (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE designs (
+  id          INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  title       VARCHAR(120) NOT NULL DEFAULT '',
+  material    VARCHAR(40)  NOT NULL DEFAULT 'Standard',
+  image_path  VARCHAR(255) NOT NULL,
+  thumb_path  VARCHAR(255) NOT NULL,
+  position    INT NOT NULL DEFAULT 0,
+  is_visible  TINYINT(1) NOT NULL DEFAULT 1,
+  created_at  DATETIME NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE login_attempts (
