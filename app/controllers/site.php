@@ -150,6 +150,19 @@ function site_quote(): void
     ]);
     $orderId = (int) db()->lastInsertId();
 
+    // La demande ouvre une conversation dans Admin › Messages
+    if (inbox_ready()) {
+        $o = row('SELECT * FROM orders WHERE id = ?', [$orderId]);
+        $tid = order_thread_id($o);
+        thread_add_message($tid, [
+            'direction' => 'in', 'kind' => 'form', 'from_email' => $data['email'], 'from_name' => $data['name'],
+            'subject' => "Demande de devis $ref",
+            'body' => "Carte : {$data['card_type']} × $qty" . ($data['company'] ? "\nEntreprise : {$data['company']}" : '')
+                . ($data['phone'] ? "\nTéléphone : {$data['phone']}" : '') . ($data['message'] !== '' ? "\n\n{$data['message']}" : '')
+                . ($fileName ? "\n\nFichier joint : $fileName (dans la commande)" : ''),
+        ]);
+    }
+
     // Notification interne
     send_mail(
         notify_email(),

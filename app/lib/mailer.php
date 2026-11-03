@@ -20,7 +20,11 @@ function mail_transport(): string
     return !empty($m['smtp']['host']) ? 'smtp' : 'mail';
 }
 
-function send_mail(string $to, string $subject, string $body, ?string $replyTo = null): bool
+/**
+ * $opts (facultatif) : message_id (sans chevrons), in_reply_to, references (chaînes « <id> <id> »),
+ * auto => true pour une réponse automatique (en-tête Auto-Submitted, évite les boucles).
+ */
+function send_mail(string $to, string $subject, string $body, ?string $replyTo = null, array $opts = []): bool
 {
     $to = trim(str_replace(["\r", "\n"], '', $to));
     $subject = str_replace(["\r", "\n"], ' ', $subject);
@@ -37,7 +41,7 @@ function send_mail(string $to, string $subject, string $body, ?string $replyTo =
         $ok = true;
     } elseif ($transport === 'smtp') {
         try {
-            smtp_send($to, $subject, $body, $replyTo);
+            smtp_send($to, $subject, $body, $replyTo, $opts);
             $ok = true;
         } catch (Throwable $e) {
             $ok = false;
@@ -46,7 +50,7 @@ function send_mail(string $to, string $subject, string $body, ?string $replyTo =
         }
     } else {
         $from = config('mail')['from'];
-        $headers = mail_headers($to, $replyTo, false);
+        $headers = mail_headers($to, $replyTo, false, $opts);
         $ok = @mail($to, mb_encode_mimeheader($subject, 'UTF-8', 'B'), quoted_printable_encode(crlf($body)),
             implode("\r\n", $headers), '-f' . $from);
         if (!$ok) {
@@ -62,7 +66,7 @@ function crlf(string $s): string
     return preg_replace("/\r\n|\r|\n/", "\r\n", $s);
 }
 
-function mail_headers(string $to, ?string $replyTo, bool $withAddressing): array
+function mail_headers(string $to, ?string $replyTo, bool $withAddressing, array $opts = []): array
 {
     $from = config('mail')['from'];
     $name = config('mail')['from_name'] ?? 'EliteTap';
@@ -76,7 +80,17 @@ function mail_headers(string $to, ?string $replyTo, bool $withAddressing): array
     if ($replyTo && valid_email($replyTo)) {
         $h[] = 'Reply-To: <' . $replyTo . '>';
     }
-    $h[] = 'Message-ID: <' . bin2hex(random_bytes(12)) . '@' . $domain . '>';
+    $h[] = 'Message-ID: <' . ($opts['message_id'] ?? (bin2hex(random_bytes(12)) . '@' . $domain)) . '>';
+    foreach (['in_reply_to' => 'In-Reply-To', 'references' => 'References'] as $k => $name) {
+        if (!empty($opts[$k])) {
+            $h[] = $name . ': ' . str_replace(["\r", "\n"], ' ', $opts[$k]);
+        }
+    }
+    if (!empty($opts['auto'])) {
+        $h[] = 'Auto-Submitted: auto-replied';
+        $h[] = 'X-Auto-Response-Suppress: All';
+    }
+    $h[] = 'X-EliteTap: 1';
     $h[] = 'MIME-Version: 1.0';
     $h[] = 'Content-Type: text/plain; charset=UTF-8';
     $h[] = 'Content-Transfer-Encoding: quoted-printable';
@@ -84,7 +98,7 @@ function mail_headers(string $to, ?string $replyTo, bool $withAddressing): array
 }
 
 /** Client SMTP minimal : SSL (465), STARTTLS (587) ou sans chiffrement (tests). */
-function smtp_send(string $to, string $subject, string $body, ?string $replyTo): void
+function smtp_send(string $to, string $subject, string $body, ?string $replyTo, array $opts = []): void
 {
     $c = config('mail')['smtp'];
     $host = $c['host'];
@@ -142,7 +156,7 @@ function smtp_send(string $to, string $subject, string $body, ?string $replyTo):
         $cmd("MAIL FROM:<$from>", [250]);
         $cmd("RCPT TO:<$to>", [250, 251]);
         $cmd('DATA', [354]);
-        $headers = mail_headers($to, $replyTo, true);
+        $headers = mail_headers($to, $replyTo, true, $opts);
         $headers[] = 'Subject: ' . mb_encode_mimeheader($subject, 'UTF-8', 'B');
         $content = implode("\r\n", $headers) . "\r\n\r\n" . quoted_printable_encode(crlf($body));
         // « Dot-stuffing » : une ligne qui commence par un point est doublée

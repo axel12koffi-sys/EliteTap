@@ -19,6 +19,7 @@ CREATE TABLE users (
   reset_token_hash TEXT NULL,
   reset_expires_at TEXT NULL,
   last_login_at TEXT NULL,
+  last_seen_at TEXT NULL,
   created_at TEXT NOT NULL
 );
 
@@ -136,3 +137,8 @@ CREATE TABLE login_attempts (
   key_hash TEXT NOT NULL,
   created_at TEXT NOT NULL
 );
+
+CREATE TABLE threads (id INTEGER PRIMARY KEY AUTOINCREMENT, subject TEXT NOT NULL DEFAULT '', contact_email TEXT NOT NULL, contact_name TEXT NOT NULL DEFAULT '', order_id INTEGER NULL, user_id INTEGER NULL, status TEXT NOT NULL DEFAULT 'open', unread INTEGER NOT NULL DEFAULT 0, lang TEXT NULL, last_message_at TEXT NOT NULL, created_at TEXT NOT NULL);
+CREATE TABLE messages (id INTEGER PRIMARY KEY AUTOINCREMENT, thread_id INTEGER NOT NULL REFERENCES threads(id) ON DELETE CASCADE, direction TEXT NOT NULL, kind TEXT NOT NULL DEFAULT 'mail', from_email TEXT NOT NULL DEFAULT '', from_name TEXT NOT NULL DEFAULT '', to_email TEXT NOT NULL DEFAULT '', subject TEXT NOT NULL DEFAULT '', body TEXT NOT NULL, body_full TEXT NULL, message_id TEXT NULL, in_reply_to TEXT NULL, attachments TEXT NULL, sent_by INTEGER NULL, status TEXT NOT NULL DEFAULT 'ok', created_at TEXT NOT NULL);
+CREATE INDEX idx_messages_thread ON messages(thread_id);
+CREATE INDEX idx_messages_mid ON messages(message_id);

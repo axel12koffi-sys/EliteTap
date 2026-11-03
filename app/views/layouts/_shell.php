@@ -20,10 +20,21 @@
     </div>
     <nav class="side-nav" aria-label="<?= $isAdminShell ? 'Administration' : te('Espace client') ?>">
       <?php foreach ($menu as $item): [$key, $href, $label] = $item; $feature = $item[3] ?? null; ?>
-        <a href="<?= e($href) ?>"<?= ($nav ?? '') === $key ? ' aria-current="page"' : '' ?>><?= e($label) ?><?php if ($feature && !can($feature)): ?> <span class="tag-pro">Pro</span><?php endif; ?></a>
+        <a href="<?= e($href) ?>"<?= ($nav ?? '') === $key ? ' aria-current="page"' : '' ?>><?= e($label) ?><?php if ($feature && !can($feature)): ?> <span class="tag-pro">Pro</span><?php endif; ?><?php if (!empty($item[4])): ?> <span class="nav-count" aria-label="<?= (int) $item[4] ?> non lu(s)"><?= (int) $item[4] ?></span><?php endif; ?></a>
       <?php endforeach; ?>
     </nav>
     <div class="side-bottom">
+      <?php if ($isAdminShell): $pr = presence(); $pm = setting('presence_mode', 'auto'); ?>
+        <form method="post" action="/admin/presence" class="side-presence <?= $pr['online'] ? 'is-online' : 'is-away' ?>">
+          <?= csrf_field() ?>
+          <span class="presence-now"><span class="presence-dot" aria-hidden="true"></span><strong><?= $pr['online'] ? 'En ligne' : 'Absent' ?></strong><span><?= e($pr['reason']) ?></span></span>
+          <span class="presence-modes" role="group" aria-label="Présence">
+            <?php foreach (['auto' => 'Auto', 'online' => 'En ligne', 'away' => 'Absent'] as $k => $l): ?>
+              <button type="submit" name="mode" value="<?= $k ?>"<?= $pm === $k ? ' aria-pressed="true"' : ' aria-pressed="false"' ?>><?= $l ?></button>
+            <?php endforeach; ?>
+          </span>
+        </form>
+      <?php endif; ?>
       <?php if (!$isAdminShell && isset($p)): ?>
         <a class="side-link" href="/u/<?= e($p['slug']) ?>" target="_blank" rel="noopener">
           <span><?= te('Votre lien public') ?></span>

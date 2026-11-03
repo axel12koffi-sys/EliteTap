@@ -60,8 +60,13 @@ function order_mark_paid(array $o, string $paymentRef, string $method): void
 /** Courriel de confirmation envoyé après la demande (et sur « Renvoyer le lien »). */
 function send_order_confirmation(array $o): bool
 {
-    return (bool) in_lang($o['lang'], fn() => send_mail($o['email'],
-        t('Confirmez votre commande EliteTap ({ref})', ['ref' => $o['reference']]),
-        t("Bonjour {nom},\n\nMerci pour votre demande de carte {carte}.\n\nConfirmez votre commande et choisissez votre forfait ici :\n{lien}\n\nVous pourrez ensuite payer en ligne, ou régler avec notre service client si vous préférez.\n\nRéférence : {ref}\n\nUne question ? Répondez à ce courriel ou écrivez-nous sur WhatsApp : {whatsapp}\n\nL'équipe EliteTap\n",
-            ['nom' => $o['name'], 'carte' => t($o['card_type']), 'lien' => order_link($o), 'ref' => $o['reference'], 'whatsapp' => 'https://wa.me/' . config('whatsapp')])));
+    return (bool) in_lang($o['lang'], function () use ($o) {
+        $subject = t('Confirmez votre commande EliteTap ({ref})', ['ref' => $o['reference']]);
+        $body = t("Bonjour {nom},\n\nMerci pour votre demande de carte {carte}. {presence}\n\nConfirmez votre commande et choisissez votre forfait ici :\n{lien}\n\nVous pourrez ensuite payer en ligne, ou régler avec notre service client si vous préférez.\n\nRéférence : {ref}\n\nUne question ? Répondez à ce courriel ou écrivez-nous sur WhatsApp : {whatsapp}\n\nL'équipe EliteTap\n",
+            ['nom' => $o['name'], 'carte' => t($o['card_type']), 'presence' => presence_line($o['lang'] ?? 'fr'), 'lien' => order_link($o),
+             'ref' => $o['reference'], 'whatsapp' => 'https://wa.me/' . config('whatsapp')]);
+        // Envoyé dans la conversation de la commande : la réponse du client y revient
+        $tid = order_thread_id($o);
+        return $tid ? thread_send($tid, $subject, $body, 'system') : send_mail($o['email'], $subject, $body);
+    });
 }

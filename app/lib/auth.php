@@ -56,6 +56,7 @@ function require_admin(): array
     if ($u['role'] !== 'admin') {
         abort(403);
     }
+    touch_presence($u);
     return $u;
 }
 

@@ -2,6 +2,7 @@
 $isAdminShell = true;
 $menu = [
     ['tableau',   '/admin',           'Tableau de bord'],
+    ['messages',  '/admin/messages',  'Messages', null, inbox_unread_count()],
     ['commandes', '/admin/commandes', 'Commandes'],
     ['clients',   '/admin/clients',   'Clients'],
     ['cartes',    '/admin/cartes',    'Cartes NFC'],

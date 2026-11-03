@@ -575,8 +575,12 @@ return [
     'Je n\'ai rien reçu : renvoyer le lien' => 'Nothing received? Resend the link',
     'Pensez à vérifier vos courriels indésirables.' => 'Remember to check your spam folder.',
     'Confirmez votre commande EliteTap ({ref})' => 'Confirm your EliteTap order ({ref})',
-    "Bonjour {nom},\n\nMerci pour votre demande de carte {carte}.\n\nConfirmez votre commande et choisissez votre forfait ici :\n{lien}\n\nVous pourrez ensuite payer en ligne, ou régler avec notre service client si vous préférez.\n\nRéférence : {ref}\n\nUne question ? Répondez à ce courriel ou écrivez-nous sur WhatsApp : {whatsapp}\n\nL'équipe EliteTap\n"
-        => "Hi {nom},\n\nThank you for your {carte} card request.\n\nConfirm your order and choose your plan here:\n{lien}\n\nYou can then pay online, or through our customer service if you prefer.\n\nReference: {ref}\n\nAny questions? Reply to this email or message us on WhatsApp: {whatsapp}\n\nThe EliteTap team\n",
+    "Bonjour {nom},\n\nMerci pour votre demande de carte {carte}. {presence}\n\nConfirmez votre commande et choisissez votre forfait ici :\n{lien}\n\nVous pourrez ensuite payer en ligne, ou régler avec notre service client si vous préférez.\n\nRéférence : {ref}\n\nUne question ? Répondez à ce courriel ou écrivez-nous sur WhatsApp : {whatsapp}\n\nL'équipe EliteTap\n"
+        => "Hi {nom},\n\nThank you for your {carte} card request. {presence}\n\nConfirm your order and choose your plan here:\n{lien}\n\nYou can then pay online, or through our customer service if you prefer.\n\nReference: {ref}\n\nAny questions? Reply to this email or message us on WhatsApp: {whatsapp}\n\nThe EliteTap team\n",
+
+    // ---- Présence
+    'En ligne maintenant · réponse rapide' => 'Online now · quick reply',
+    'Absents pour le moment · réponse {retour}' => 'Away right now · reply {retour}',
 
     // ---- Galerie et Wallet
     'Réalisations' => 'Our work',

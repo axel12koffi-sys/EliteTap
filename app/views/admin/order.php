@@ -12,7 +12,7 @@
     <div class="panel">
       <h2 class="h2">Demande</h2>
       <dl class="dl">
-        <dt>Courriel</dt><dd><a href="mailto:<?= e($o['email']) ?>?subject=<?= rawurlencode('Votre demande EliteTap ' . $o['reference']) ?>"><?= e($o['email']) ?></a></dd>
+        <dt>Courriel</dt><dd><?= e($o['email']) ?><br><a href="/admin/messages/nouveau?commande=<?= (int) $o['id'] ?>">Écrire au client</a></dd>
         <dt>Téléphone</dt><dd><?= $o['phone'] !== '' ? '<a href="tel:' . e(preg_replace('/[^0-9+]/', '', $o['phone'])) . '">' . e($o['phone']) . '</a> · <a href="https://wa.me/' . e(preg_replace('/\D/', '', $o['phone'])) . '" rel="noopener">WhatsApp</a>' : '—' ?></dd>
         <dt>Entreprise</dt><dd><?= e($o['company'] ?: '—') ?></dd>
         <dt>Carte</dt><dd><?= e($o['card_type']) ?> × <?= (int) $o['quantity'] ?></dd>

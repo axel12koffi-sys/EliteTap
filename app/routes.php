@@ -6,6 +6,7 @@ require APP_DIR . '/controllers/profile.php';
 require APP_DIR . '/controllers/auth.php';
 require APP_DIR . '/controllers/account.php';
 require APP_DIR . '/controllers/admin.php';
+require APP_DIR . '/controllers/messages.php';
 require APP_DIR . '/controllers/payment.php';
 require APP_DIR . '/controllers/leads.php';
 require APP_DIR . '/controllers/plan.php';
@@ -75,6 +76,16 @@ const ROUTES = [
 
     // Administration
     ['GET',  '/admin',                         'admin_dashboard'],
+    ['GET',  '/admin/messages',                'admin_messages'],
+    ['GET',  '/admin/messages/nouveau',        'admin_message_new'],
+    ['POST', '/admin/messages/nouveau',        'admin_message_create'],
+    ['GET',  '/admin/messages/reglages',       'admin_messages_settings'],
+    ['POST', '/admin/messages/reglages',       'admin_messages_settings_save'],
+    ['GET',  '/admin/messages/(\d+)',          'admin_message'],
+    ['POST', '/admin/messages/(\d+)',          'admin_message_reply'],
+    ['POST', '/admin/messages/(\d+)/action',   'admin_message_action'],
+    ['GET',  '/admin/messages/piece/(\d+)/(\d+)', 'admin_message_file'],
+    ['POST', '/admin/presence',                'admin_presence'],
     ['GET',  '/admin/commandes',               'admin_orders'],
     ['GET',  '/admin/commandes/(\d+)',         'admin_order'],
     ['POST', '/admin/commandes/(\d+)',         'admin_order_save'],

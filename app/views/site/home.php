@@ -275,6 +275,9 @@ $faq = [
     <div class="order-copy">
       <h2 class="h2 h2-xl"><?= te('Parlons de votre carte.') ?></h2>
       <p class="lead"><?= te('Devis gratuit, réponse en moins de 24 h. Vous recevez une épreuve avant toute production.') ?></p>
+      <?php $pres = presence(); ?>
+      <p class="presence-pill <?= $pres['online'] ? 'is-online' : 'is-away' ?>"><span class="presence-dot" aria-hidden="true"></span>
+        <?= $pres['online'] ? te('En ligne maintenant · réponse rapide') : te('Absents pour le moment · réponse {retour}', ['retour' => format_back($pres['back'], lang())]) ?></p>
       <div class="contact-list">
         <a href="https://wa.me/<?= e(config('whatsapp')) ?>" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z" stroke="#7FAEDD" stroke-width="1.8" stroke-linejoin="round"/></svg>WhatsApp · 438 220-7167</a>
         <a href="mailto:info@elitetap.ca"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#7FAEDD" stroke-width="1.8"/><path d="M3 7l9 6 9-6" stroke="#7FAEDD" stroke-width="1.8"/></svg>info@elitetap.ca</a>
