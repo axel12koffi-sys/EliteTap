@@ -16,14 +16,6 @@
     réponse automatique <?= setting('autoreply_enabled', '1') === '1' ? '« ' . ($p['online'] ? 'en ligne' : 'absent') . ' » envoyée aux nouveaux messages' : 'désactivée' ?></span>
 </div>
 
-<?php if (!$lastIn): ?>
-  <div class="panel todo">
-    <h2 class="h2">Recevoir les courriels de info@ ici</h2>
-    <p class="muted">Aucun courriel reçu pour l'instant. Dans cPanel › <strong>Redirecteurs</strong> › Ajouter un redirecteur : adresse <span class="mono">info</span>, puis « Diriger vers un programme » :
-      <span class="mono">repositories/EliteTap/bin/inbound-mail.php</span>. Les courriels restent aussi dans le webmail. Les demandes du formulaire du site arrivent déjà ici.</p>
-  </div>
-<?php endif; ?>
-
 <div class="page-head" style="align-items: center;">
   <nav class="tabs" aria-label="Filtrer les conversations">
     <?php foreach (THREAD_VIEWS as $k => $label): ?>
