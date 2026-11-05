@@ -15,6 +15,9 @@ $fmtPrice = fn(?int $c) => $c === null ? t('Sur devis') : money($c);
         <span class="<?= $done ? 'done' : '' ?>"><?= te($label) ?></span>
       <?php endforeach; ?>
     </div>
+    <?php foreach ((shipping_ready() ? rows("SELECT * FROM shipments WHERE order_id = ? AND status NOT IN ('a_preparer','preparee') ORDER BY id", [$o['id']]) : []) as $sh): ?>
+      <p><a class="btn btn-primary" href="/suivi/<?= e($sh['token']) ?>"><?= te('Suivre ma livraison') ?></a> <span class="muted"><?= e(ship_status_public($sh['status'])) ?></span></p>
+    <?php endforeach; ?>
   <?php elseif ($sent === 'service' || ($o['payment_method'] === 'service')): ?>
     <h1><?= te('C\'est noté, notre équipe vous écrit.') ?></h1>
     <p class="lead-dark"><?= te('Vous avez choisi de régler avec notre service client. Nous vous écrivons dans les 24 h à {courriel} pour le paiement et votre épreuve de design.', ['courriel' => $o['email']]) ?></p>

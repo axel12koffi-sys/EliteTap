@@ -73,6 +73,7 @@ $pct = fn(int $a, int $b) => $b ? (int) round($a / $b * 100) . ' %' : '—';
       <dt>Discussions</dt><dd><?= $chat['week'] ?? 0 ?></dd>
       <dt>Nouvelles demandes</dt><dd><?= $orders['new'] ?> commande(s)</dd>
       <dt>En design / épreuve</dt><dd><?= $orders['design'] ?></dd>
+      <?php if ($ship): ?><dt>Livraisons</dt><dd><a href="/admin/livraisons"><?= $ship['toShip'] ?> à expédier · <?= $ship['attention'] ?> à préparer ou en problème</a><?= $ship['problems'] ? ' <span class="status status-disabled">' . $ship['problems'] . ' problème(s)</span>' : '' ?></dd><?php endif; ?>
       <dt>Infolettre</dt><dd><?= $news === null ? '—' : $news . ' nouvel(s) abonné(s) confirmé(s)' ?></dd>
     </dl>
   </div>

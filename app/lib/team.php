@@ -9,13 +9,14 @@ declare(strict_types=1);
  *  - tous : clavardage interne de l'équipe.
  */
 
-const SERVICES = ['service' => 'Service client', 'compta' => 'Comptabilité'];
+const SERVICES = ['service' => 'Service client', 'compta' => 'Comptabilité', 'livraison' => 'Livraison'];
 
 /** Permissions → services qui y donnent accès (l'admin a toujours tout). */
 const PERMISSIONS = [
     'service'    => ['service'],              // clavardage, messages, tableau du service client, présence
     'compta'     => ['compta'],               // comptabilité, lien de paiement, marquer payée
-    'orders'     => ['service', 'compta'],    // voir les commandes
+    'orders'     => ['service', 'compta', 'livraison'],  // voir les commandes
+    'shipping'   => ['service', 'livraison'],  // suivi des livraisons (département Livraison)
     'clients'    => ['service'],              // voir les clients
     'newsletter' => ['service'],
 ];
@@ -67,7 +68,8 @@ function staff_home(array $u): string
         return '/admin';
     }
     $s = user_services($u);
-    return in_array('service', $s, true) ? '/admin/service' : (in_array('compta', $s, true) ? '/admin/comptabilite' : '/admin/equipe/chat');
+    return in_array('service', $s, true) ? '/admin/service' : (in_array('compta', $s, true) ? '/admin/comptabilite'
+        : (in_array('livraison', $s, true) ? '/admin/livraisons' : '/admin/equipe/chat'));
 }
 
 /** Membres actifs de l'équipe (pour l'affectation, le clavardage interne). */

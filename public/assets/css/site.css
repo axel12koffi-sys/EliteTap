@@ -410,3 +410,20 @@ input, select, textarea, button { font: inherit; }
 @media print { .et-chat { display: none; } }
 
 .et-badge[hidden] { display: none; }
+
+/* Page de suivi de livraison */
+.track-steps { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 0; }
+.track-steps li { display: flex; gap: 16px; align-items: flex-start; padding: 0 0 22px 0; position: relative; color: #52617A; }
+.track-steps li::before { content: ""; position: absolute; left: 9px; top: 22px; bottom: 0; width: 2px; background: #DCE5F1; }
+.track-steps li:last-child::before { display: none; }
+.track-steps li.is-done { color: #14284B; }
+.track-steps li.is-done::before { background: #3666AF; }
+.track-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #C6D3E6; background: #FFF; flex: none; margin-top: 1px; }
+.track-steps li.is-done .track-dot { background: #3666AF; border-color: #3666AF; }
+.track-steps li.is-current .track-dot { box-shadow: 0 0 0 5px rgba(54, 102, 175, .18); }
+.track-info { display: grid; grid-template-columns: 170px 1fr; gap: 10px 16px; margin: 0; padding: 20px; background: #FFF; border: 1px solid #DCE5F1; border-radius: 16px; }
+.track-info dt { color: #52617A; }
+.track-info dd { margin: 0; font-weight: 600; }
+.track-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+@media (max-width: 520px) { .track-info { grid-template-columns: 1fr; gap: 4px; } .track-info dd { margin-bottom: 8px; } }

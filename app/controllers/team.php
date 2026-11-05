@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 /* Admin › Employés (affectation aux services) et clavardage interne de l'équipe. */
 
-const TEAM_CHANNELS = ['general' => 'Général', 'service' => 'Service client', 'compta' => 'Comptabilité'];
+const TEAM_CHANNELS = ['general' => 'Général', 'service' => 'Service client', 'compta' => 'Comptabilité', 'livraison' => 'Livraison'];
 
 /* ------------------------------------------------------------------ */
 /* Employés                                                            */
@@ -100,7 +100,8 @@ function team_channels_for(array $u): array
 {
     $list = [];
     foreach (TEAM_CHANNELS as $k => $label) {
-        if ($k === 'general' || $u['role'] === 'admin' || in_array($k, user_services($u), true)) {
+        if ($k === 'general' || $u['role'] === 'admin' || in_array($k, user_services($u), true)
+            || ($k === 'livraison' && staff_can($u, 'shipping'))) {
             $list[$k] = ['key' => $k, 'label' => $label, 'type' => 'channel'];
         }
     }

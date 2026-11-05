@@ -36,8 +36,9 @@ function admin_order(string $id): void
     $existing = !$client ? row('SELECT id, name FROM users WHERE email = ?', [$o['email']]) : null;
     $cards = rows('SELECT * FROM cards WHERE order_id = ? ORDER BY id', [$o['id']]);
     $stock = rows("SELECT id, code FROM cards WHERE status = 'stock' AND order_id IS NULL ORDER BY id LIMIT 200");
+    $shipments = shipping_ready() ? rows('SELECT * FROM shipments WHERE order_id = ? ORDER BY id', [$o['id']]) : [];
     view('admin/order', ['title' => $o['reference'] . ' | Admin EliteTap', 'nav' => 'commandes', 'user' => $user,
-        'o' => $o, 'client' => $client, 'existing' => $existing, 'cards' => $cards, 'stock' => $stock], 'admin');
+        'o' => $o, 'client' => $client, 'existing' => $existing, 'cards' => $cards, 'stock' => $stock, 'shipments' => $shipments], 'admin');
 }
 
 function admin_order_save(string $id): void

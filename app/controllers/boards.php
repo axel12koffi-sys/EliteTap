@@ -46,10 +46,12 @@ function admin_service_dashboard(): void
         'design'      => (int) scalar("SELECT COUNT(*) FROM orders WHERE status IN ('design','epreuve')"),
         'new'         => (int) scalar("SELECT COUNT(*) FROM orders WHERE created_at >= ?", [$d7]),
     ];
+    $ship = shipping_ready() ? ['attention' => shipping_attention_count(), 'toShip' => count(orders_to_ship()),
+        'problems' => (int) scalar("SELECT COUNT(*) FROM shipments WHERE status = 'probleme'")] : null;
     $news = newsletter_ready() ? (int) scalar("SELECT COUNT(*) FROM newsletter_subscribers WHERE status = 'confirmed' AND confirmed_at >= ?", [$d7]) : null;
     $agents = array_values(array_filter(team_members(), fn($m) => staff_can($m, 'service')));
     view('admin/service', ['title' => 'Service client | Admin EliteTap', 'nav' => 'service', 'user' => $user,
-        'chat' => $chat, 'inbox' => $inbox, 'orders' => $orders, 'news' => $news, 'agents' => $agents, 'presence' => presence()], 'admin');
+        'chat' => $chat, 'inbox' => $inbox, 'orders' => $orders, 'news' => $news, 'ship' => $ship, 'agents' => $agents, 'presence' => presence()], 'admin');
 }
 
 /* ------------------------------------------------------------------ */

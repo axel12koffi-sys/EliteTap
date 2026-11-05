@@ -40,6 +40,19 @@
   </div>
 
   <div class="col-side">
+    <?php if (shipping_ready() && staff_can($user, 'shipping') && $o['status'] !== 'annulee'): ?>
+      <div class="panel">
+        <h2 class="h2">Livraison</h2>
+        <?php if (!$shipments): ?>
+          <p class="muted small"><?= $o['paid_at'] ? 'Aucune expédition pour l\'instant.' : 'La commande n\'est pas encore payée.' ?></p>
+        <?php else: foreach ($shipments as $sh): ?>
+          <p><a href="/admin/livraisons/<?= (int) $sh['id'] ?>"><span class="ship-status ship-<?= e($sh['status']) ?>"><?= e(SHIP_STATUSES[$sh['status']]) ?></span></a>
+            <span class="small"><?= e(carrier_label($sh['carrier'])) ?><?= $sh['tracking_number'] ? ' · <span class="mono">' . e($sh['tracking_number']) . '</span>' : '' ?></span></p>
+        <?php endforeach; endif; ?>
+        <form method="post" action="/admin/livraisons"><?= csrf_field() ?><input type="hidden" name="order_id" value="<?= (int) $o['id'] ?>">
+          <button class="btn btn-light btn-sm" type="submit"><?= $shipments ? 'Ajouter un colis' : 'Créer l\'expédition' ?></button></form>
+      </div>
+    <?php endif; ?>
     <form method="post" action="/admin/commandes/<?= (int) $o['id'] ?>" class="panel form">
       <?= csrf_field() ?>
       <h2 class="h2">Suivi</h2>

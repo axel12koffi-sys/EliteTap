@@ -10,6 +10,7 @@ require APP_DIR . '/controllers/messages.php';
 require APP_DIR . '/controllers/team.php';
 require APP_DIR . '/controllers/chat.php';
 require APP_DIR . '/controllers/boards.php';
+require APP_DIR . '/controllers/shipping.php';
 require APP_DIR . '/controllers/payment.php';
 require APP_DIR . '/controllers/leads.php';
 require APP_DIR . '/controllers/plan.php';
@@ -88,6 +89,11 @@ const ROUTES = [
     ['POST', '/infolettre',                    'newsletter_signup'],
     ['GET',  '/infolettre/confirmer/([a-f0-9]{32})',  'newsletter_confirm'],
     ['GET',  '/infolettre/desabonner/([a-f0-9]{32})', 'newsletter_unsubscribe'],
+    ['GET',  '/suivi/([a-f0-9]{32})',          'public_tracking'],
+    ['GET',  '/admin/livraisons',              'admin_shipments'],
+    ['POST', '/admin/livraisons',              'admin_shipment_create'],
+    ['GET',  '/admin/livraisons/(\d+)',        'admin_shipment'],
+    ['POST', '/admin/livraisons/(\d+)',        'admin_shipment_save'],
     ['GET',  '/admin/service',                 'admin_service_dashboard'],
     ['GET',  '/admin/chat',                    'admin_chat'],
     ['POST', '/admin/chat/suivre',             'admin_chat_poll'],

@@ -13,6 +13,9 @@ $menu = array_values(array_filter([
         ['messages', '/admin/messages', 'Messages', null, inbox_unread_count()],
         $can('newsletter') ? ['infolettre', '/admin/infolettre', 'Infolettre'] : null,
     ])] : null,
+    $can('shipping') ? ['_group', 'livraison', 'Livraison', [
+        ['livraisons', '/admin/livraisons', 'Suivi des livraisons', null, shipping_attention_count()],
+    ]] : null,
     $can('orders') ? ['_group', 'ventes', 'Ventes', $only([
         ['commandes', '/admin/commandes', 'Commandes'],
         $can('clients') ? ['clients', '/admin/clients', 'Clients'] : null,

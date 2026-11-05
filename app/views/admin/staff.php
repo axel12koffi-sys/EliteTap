@@ -65,7 +65,8 @@
     <div class="panel">
       <h2 class="h2">Accès par service</h2>
       <dl class="dl dl-wide">
-        <dt>Service client</dt><dd>Vue d'ensemble, clavardage du site, messages, infolettre, commandes (statut, compte client), clients (lecture), présence</dd>
+        <dt>Service client</dt><dd>Vue d'ensemble, clavardage du site, messages, infolettre, suivi des livraisons, commandes (statut, compte client), clients (lecture), présence</dd>
+        <dt>Livraison</dt><dd>Suivi des livraisons (expéditions, numéros de suivi, courriels au client), commandes</dd>
         <dt>Comptabilité</dt><dd>Comptabilité (ventes, taxes, export), commandes, liens de paiement, paiements reçus</dd>
         <dt>Administrateur</dt><dd>Tout, dont employés, cartes, designs, réglages</dd>
       </dl>
