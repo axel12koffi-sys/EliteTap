@@ -18,9 +18,38 @@
       <a href="/" class="side-logo"><img src="<?= asset('img/logo-white.png') ?>" alt="EliteTap" width="112" height="32"></a>
       <?php if ($isAdminShell): ?><span class="tag">ADMIN</span><?php endif; ?>
     </div>
-    <nav class="side-nav" aria-label="<?= $isAdminShell ? 'Administration' : te('Espace client') ?>">
-      <?php foreach ($menu as $item): if ($item[0] === '_'): ?><span class="side-heading"><?= e($item[1]) ?></span><?php continue; endif; [$key, $href, $label] = $item; $feature = $item[3] ?? null; ?>
-        <a href="<?= e($href) ?>"<?= ($nav ?? '') === $key ? ' aria-current="page"' : '' ?>><?= e($label) ?><?php if ($feature && !can($feature)): ?> <span class="tag-pro">Pro</span><?php endif; ?><?php if (!empty($item[4])): ?> <span class="nav-count" aria-label="<?= (int) $item[4] ?> non lu(s)"><?= (int) $item[4] ?></span><?php endif; ?></a>
+    <?php
+    $curNav = $nav ?? '';
+    $navLink = function (array $item) use ($curNav) {
+        [$key, $href, $label] = $item;
+        $feature = $item[3] ?? null;
+        $count = (int) ($item[4] ?? 0);
+        $h = '<a href="' . e($href) . '"' . ($curNav === $key ? ' aria-current="page"' : '') . '>' . e($label);
+        if ($feature && !can($feature)) $h .= ' <span class="tag-pro">Pro</span>';
+        if ($count) $h .= ' <span class="nav-count" aria-label="' . $count . ' non lu(s)">' . $count . '</span>';
+        return $h . '</a>';
+    };
+    ?>
+    <button type="button" class="side-toggle" aria-expanded="false" aria-controls="side-nav" data-side-toggle>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span>Menu</span>
+      <?php $allCount = 0; foreach ($menu as $it) { $allCount += $it[0] === '_group' ? array_sum(array_map(fn($l) => (int) ($l[4] ?? 0), $it[3])) : (int) ($it[4] ?? 0); } ?>
+      <?php if ($allCount): ?><span class="nav-count" aria-label="<?= $allCount ?> non lu(s)"><?= $allCount ?></span><?php endif; ?>
+    </button>
+    <nav class="side-nav" id="side-nav" aria-label="<?= $isAdminShell ? 'Administration' : te('Espace client') ?>">
+      <?php foreach ($menu as $item): ?>
+        <?php if ($item[0] === '_group'): [$_, $gid, $glabel, $links] = $item; if (!$links) continue;
+          $active = in_array($nav ?? '', array_column($links, 0), true);
+          $total = array_sum(array_map(fn($l) => (int) ($l[4] ?? 0), $links)); ?>
+          <details class="nav-group" data-group="<?= e($gid) ?>"<?= $active ? ' open data-active' : '' ?>>
+            <summary>
+              <span><?= e($glabel) ?></span>
+              <?php if ($total): ?><span class="nav-count nav-count-group" aria-label="<?= $total ?> non lu(s)"><?= $total ?></span><?php endif; ?>
+              <svg class="nav-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="nav-group-links"><?php foreach ($links as $l) echo $navLink($l); ?></div>
+          </details>
+        <?php else: echo $navLink($item); endif; ?>
       <?php endforeach; ?>
     </nav>
     <div class="side-bottom">

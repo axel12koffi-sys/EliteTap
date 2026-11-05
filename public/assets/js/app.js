@@ -86,3 +86,24 @@ document.addEventListener('submit', function (e) {
   var msg = e.target.getAttribute('data-confirm');
   if (msg && !window.confirm(msg)) e.preventDefault();
 });
+
+// Menu latéral : sections dépliables (état retenu) et bouton « Menu » sur mobile
+(function () {
+  var KEY = 'et_nav_open';
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
+  document.querySelectorAll('.nav-group').forEach(function (g) {
+    var id = g.getAttribute('data-group');
+    if (!g.hasAttribute('data-active') && saved[id] !== undefined) g.open = !!saved[id];
+    g.addEventListener('toggle', function () {
+      saved[id] = g.open;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+    });
+  });
+  var btn = document.querySelector('[data-side-toggle]');
+  if (btn) btn.addEventListener('click', function () {
+    var side = btn.closest('.side');
+    var open = side.classList.toggle('is-menu-open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();

@@ -400,3 +400,28 @@ tr.is-off td { opacity: .55; }
 
 .nav-count[hidden], [data-count][hidden] { display: none; }
 .live-head form { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* Menu latéral : sections dépliables */
+.side-toggle { display: none; }
+.nav-group { border-radius: 12px; }
+.nav-group summary { list-style: none; display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 12px; border-radius: 10px; cursor: pointer; color: var(--on-ink-3); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; user-select: none; }
+.nav-group summary::-webkit-details-marker { display: none; }
+.nav-group summary:hover { background: var(--ink-2); color: #FFF; }
+.nav-group summary > span:first-child { flex: 1; }
+.nav-chevron { flex: none; transition: transform .18s ease; transform: rotate(-90deg); }
+.nav-group[open] .nav-chevron { transform: none; }
+.nav-group[open] .nav-count-group { display: none; }
+.nav-group[data-active] > summary { color: var(--on-ink); }
+.nav-group-links { display: flex; flex-direction: column; gap: 2px; padding: 2px 0 8px 10px; margin-left: 12px; border-left: 1px solid var(--ink-line); }
+.nav-group-links a { padding: 10px 12px; }
+@media (prefers-reduced-motion: reduce) { .nav-chevron { transition: none; } }
+@media (max-width: 880px) {
+  .side-toggle { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--ink-line); background: var(--ink-2); color: var(--on-ink); font: inherit; font-weight: 600; cursor: pointer; align-self: flex-start; }
+  .side { position: relative; }
+  .side-top { padding-right: 120px; }
+  .side-toggle { position: absolute; top: 12px; right: 16px; }
+  .side-nav, .side .side-nav { display: none; flex-direction: column; overflow: visible; }
+  .side.is-menu-open .side-nav { display: flex; }
+  .side-nav a { white-space: normal; }
+}
+@media (max-width: 880px) { .side-bottom { display: none; } .side.is-menu-open .side-bottom { display: flex; } .side-toggle .nav-count { margin-left: 2px; } }
