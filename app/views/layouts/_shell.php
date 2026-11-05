@@ -19,12 +19,12 @@
       <?php if ($isAdminShell): ?><span class="tag">ADMIN</span><?php endif; ?>
     </div>
     <nav class="side-nav" aria-label="<?= $isAdminShell ? 'Administration' : te('Espace client') ?>">
-      <?php foreach ($menu as $item): [$key, $href, $label] = $item; $feature = $item[3] ?? null; ?>
+      <?php foreach ($menu as $item): if ($item[0] === '_'): ?><span class="side-heading"><?= e($item[1]) ?></span><?php continue; endif; [$key, $href, $label] = $item; $feature = $item[3] ?? null; ?>
         <a href="<?= e($href) ?>"<?= ($nav ?? '') === $key ? ' aria-current="page"' : '' ?>><?= e($label) ?><?php if ($feature && !can($feature)): ?> <span class="tag-pro">Pro</span><?php endif; ?><?php if (!empty($item[4])): ?> <span class="nav-count" aria-label="<?= (int) $item[4] ?> non lu(s)"><?= (int) $item[4] ?></span><?php endif; ?></a>
       <?php endforeach; ?>
     </nav>
     <div class="side-bottom">
-      <?php if ($isAdminShell): $pr = presence(); $pm = setting('presence_mode', 'auto'); ?>
+      <?php if ($isAdminShell && staff_can($user ?? current_user(), 'service')): $pr = presence(); $pm = setting('presence_mode', 'auto'); ?>
         <form method="post" action="/admin/presence" class="side-presence <?= $pr['online'] ? 'is-online' : 'is-away' ?>">
           <?= csrf_field() ?>
           <span class="presence-now"><span class="presence-dot" aria-hidden="true"></span><strong><?= $pr['online'] ? 'En ligne' : 'Absent' ?></strong><span><?= e($pr['reason']) ?></span></span>
@@ -41,7 +41,7 @@
           <strong><?= e(public_host()) ?>/u/<?= e($p['slug']) ?></strong>
         </a>
       <?php endif; ?>
-      <?php if ($isAdminShell): ?><a class="side-switch" href="/compte"><?= te('Mon profil') ?></a><?php elseif (($user['role'] ?? '') === 'admin'): ?><a class="side-switch" href="/admin">Administration</a><?php endif; ?>
+      <?php if ($isAdminShell && ($user['role'] ?? '') === 'admin'): ?><a class="side-switch" href="/compte"><?= te('Mon profil') ?></a><?php elseif (!$isAdminShell && ($user['role'] ?? '') === 'admin'): ?><a class="side-switch" href="/admin">Administration</a><?php endif; ?>
       <?php if (!$isAdminShell): ?><a class="side-switch" href="<?= e(switch_lang_url()) ?>"><?= e(lang_switch_label()) ?></a><?php endif; ?>
       <form method="post" action="/deconnexion">
         <?= csrf_field() ?>
@@ -63,6 +63,7 @@
     <?= $content ?>
   </main>
 </div>
+<?php if ($isAdminShell && in_array($nav ?? '', ['clavardage', 'equipe'], true)): ?><script src="<?= asset('js/live.js') ?>" defer></script><?php endif; ?>
 <?php if (($nav ?? '') === 'cartes' && !$isAdminShell): ?><script src="<?= asset('js/vendor/qrcode.js') ?>"></script><script src="<?= asset('js/qr.js') ?>"></script><?php endif; ?>
 <script src="<?= asset('js/app.js') ?>" defer></script>
 </body>

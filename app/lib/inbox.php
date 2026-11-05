@@ -25,7 +25,7 @@ const WEEKDAYS_EN = [1 => 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'
 /** Note l'activité d'un admin (au plus une écriture par minute). */
 function touch_presence(array $user): void
 {
-    if (($user['role'] ?? '') !== 'admin' || PHP_SAPI === 'cli') {
+    if (!in_array($user['role'] ?? '', ['admin', 'staff'], true) || PHP_SAPI === 'cli') {
         return;
     }
     if (($_SESSION['seen_at'] ?? 0) > time() - 60) {
@@ -83,7 +83,8 @@ function away_until(): ?int
 function last_admin_activity(): ?int
 {
     try {
-        $v = scalar("SELECT MAX(last_seen_at) FROM users WHERE role = 'admin'");
+        // Présence du service client : admins et employés du service client
+        $v = scalar("SELECT MAX(last_seen_at) FROM users WHERE is_active = 1 AND (role = 'admin' OR (role = 'staff' AND services LIKE '%service%'))");
         return $v ? strtotime((string) $v) : null;
     } catch (Throwable $e) {
         return null;
@@ -104,10 +105,10 @@ function presence(): array
             'back' => next_opening($until) ?? $until + 1];
     }
     if ($mode === 'online') {
-        return ['online' => true, 'mode' => 'online', 'reason' => 'En ligne (manuel)', 'back' => null];
+        return ['online' => true, 'mode' => 'online', 'reason' => 'Statut réglé à la main', 'back' => null];
     }
     if ($mode === 'away') {
-        return ['online' => false, 'mode' => 'away', 'reason' => 'Absent (manuel)', 'back' => null];
+        return ['online' => false, 'mode' => 'away', 'reason' => 'Statut réglé à la main', 'back' => null];
     }
     $active = ($seen = last_admin_activity()) && $seen > time() - PRESENCE_ACTIVE_MINUTES * 60;
     if (within_business_hours()) {

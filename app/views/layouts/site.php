@@ -61,6 +61,26 @@ $isHome = $path === '/';
 </main>
 
 <footer class="footer">
+  <?php if (newsletter_ready()): ?>
+  <div class="container footer-news" id="infolettre">
+    <div>
+      <h2 class="footer-news-title"><?= te('Restez informé') ?></h2>
+      <p><?= te('Recevez nos nouveautés et offres EliteTap, environ une fois par mois.') ?></p>
+    </div>
+    <form method="post" action="/infolettre" class="news-form" data-news>
+      <?= csrf_field() ?>
+      <input type="hidden" name="source" value="footer">
+      <input type="text" name="website" value="" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
+      <div class="news-row">
+        <label class="visually-hidden" for="news-email"><?= te('Votre courriel') ?></label>
+        <input type="email" id="news-email" name="email" required placeholder="<?= te('Votre courriel') ?>" autocomplete="email">
+        <button type="submit" class="btn btn-primary"><?= te('M\'abonner') ?></button>
+      </div>
+      <label class="news-consent"><input type="checkbox" name="consent" value="1" required> <span><?= e(newsletter_consent_text(lang())) ?> <a href="/confidentialite"><?= te('Confidentialité') ?></a></span></label>
+      <p class="news-msg" data-news-msg role="status" hidden></p>
+    </form>
+  </div>
+  <?php endif; ?>
   <div class="container footer-inner">
     <div class="footer-brand">
       <img src="<?= asset('img/logo-white.png') ?>" alt="EliteTap" width="98" height="28">
@@ -75,6 +95,11 @@ $isHome = $path === '/';
     </div>
   </div>
 </footer>
+<?php if (chat_ready()): $pres = presence(); ?>
+<div id="et-chat" class="et-chat" data-csrf="<?= e(csrf_token()) ?>" data-online="<?= $pres['online'] ? '1' : '0' ?>" data-lang="<?= lang() ?>"
+     data-i18n="<?= e(json_encode(chat_widget_strings(), JSON_UNESCAPED_UNICODE)) ?>"></div>
+<script src="<?= asset('js/chat-widget.js') ?>" defer></script>
+<?php endif; ?>
 <script src="<?= asset('js/site.js') ?>" defer></script>
 </body>
 </html>

@@ -14,6 +14,10 @@ function pct(int $part, int $total): ?float
 
 function admin_dashboard(): void
 {
+    $u = require_login();
+    if (($u['role'] ?? '') === 'staff') {
+        redirect(staff_home($u));
+    }
     $user = require_admin();
     $now = time();
     $d30 = date('Y-m-d H:i:s', $now - 30 * 86400);

@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 function my_profile(array $user): array
 {
+    // Les employés n'ont pas de profil de carte : on les renvoie à leur espace
+    if (($user['role'] ?? '') === 'staff' && !acting_as_admin()) {
+        redirect(staff_home($user));
+    }
     $p = row('SELECT * FROM profiles WHERE user_id = ?', [$user['id']]);
     if (!$p) {
         // Un admin sans profil, par exemple

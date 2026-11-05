@@ -4,7 +4,7 @@ declare(strict_types=1);
 function auth_login_form(): void
 {
     if (current_user()) {
-        redirect(current_user()['role'] === 'admin' ? '/admin' : '/compte');
+        redirect(is_team(current_user()) ? staff_home(current_user()) : '/compte');
     }
     view('auth/login', ['title' => t('Connexion | EliteTap')], 'auth');
 }
@@ -40,7 +40,7 @@ function auth_login(): void
     clear_attempts($key);
     login_user((int) $user['id']);
 
-    $to = $_SESSION['intended'] ?? ($user['role'] === 'admin' ? '/admin' : '/compte');
+    $to = $_SESSION['intended'] ?? home_for((int) $user['id']);
     unset($_SESSION['intended']);
     // Redirection interne uniquement
     if (!is_string($to) || !str_starts_with($to, '/') || str_starts_with($to, '//')) {

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 function admin_orders(): void
 {
-    $user = require_admin();
+    $user = require_perm('orders');
     $status = $_GET['statut'] ?? '';
     $search = trim((string) ($_GET['q'] ?? ''));
 
@@ -29,7 +29,7 @@ function admin_orders(): void
 
 function admin_order(string $id): void
 {
-    $user = require_admin();
+    $user = require_perm('orders');
     $o = row('SELECT * FROM orders WHERE id = ?', [(int) $id]);
     if (!$o) abort(404);
     $client = $o['user_id'] ? row('SELECT u.id, u.email, u.name, p.slug FROM users u LEFT JOIN profiles p ON p.user_id = u.id WHERE u.id = ?', [$o['user_id']]) : null;
@@ -42,7 +42,7 @@ function admin_order(string $id): void
 
 function admin_order_save(string $id): void
 {
-    require_admin();
+    require_perm('service');
     $o = row('SELECT * FROM orders WHERE id = ?', [(int) $id]);
     if (!$o) abort(404);
 
@@ -79,7 +79,7 @@ function admin_order_save(string $id): void
 /** Crée le compte client à partir de la commande (ou relie un compte existant) et envoie le lien d'accès. */
 function admin_order_client(string $id): void
 {
-    require_admin();
+    require_perm('service');
     $o = row('SELECT * FROM orders WHERE id = ?', [(int) $id]);
     if (!$o) abort(404);
 
@@ -93,7 +93,7 @@ function admin_order_client(string $id): void
 /** Prépare le lien de paiement et l'envoie au client dans sa langue. */
 function admin_order_payment(string $id): void
 {
-    require_admin();
+    require_perm('compta');
     $o = row('SELECT * FROM orders WHERE id = ?', [(int) $id]);
     if (!$o) abort(404);
     if ($o['paid_at']) {
@@ -122,7 +122,7 @@ function admin_order_payment(string $id): void
 /** Paiement reçu hors ligne (virement Interac, comptant…) : même suite qu'un paiement en ligne. */
 function admin_order_mark_paid(string $id): void
 {
-    require_admin();
+    require_perm('compta');
     $o = row('SELECT * FROM orders WHERE id = ?', [(int) $id]);
     if (!$o) abort(404);
     if ($o['paid_at']) {
@@ -146,7 +146,7 @@ function admin_order_mark_paid(string $id): void
 
 function admin_order_file(string $id): void
 {
-    require_admin();
+    require_perm('orders');
     $o = row('SELECT file_path, file_name FROM orders WHERE id = ?', [(int) $id]);
     if (!$o || !$o['file_path']) abort(404);
     $base = realpath(APP_ROOT . '/storage/uploads/orders');
@@ -275,7 +275,7 @@ function admin_kpis(): array
 
 function admin_clients(): void
 {
-    $user = require_admin();
+    $user = require_perm('clients');
     $month = date('Y-m-d H:i:s', time() - 30 * 86400);
     $filter = $_GET['forfait'] ?? '';
     $where = "u.role = 'client'";

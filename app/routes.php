@@ -7,6 +7,9 @@ require APP_DIR . '/controllers/auth.php';
 require APP_DIR . '/controllers/account.php';
 require APP_DIR . '/controllers/admin.php';
 require APP_DIR . '/controllers/messages.php';
+require APP_DIR . '/controllers/team.php';
+require APP_DIR . '/controllers/chat.php';
+require APP_DIR . '/controllers/boards.php';
 require APP_DIR . '/controllers/payment.php';
 require APP_DIR . '/controllers/leads.php';
 require APP_DIR . '/controllers/plan.php';
@@ -76,6 +79,31 @@ const ROUTES = [
 
     // Administration
     ['GET',  '/admin',                         'admin_dashboard'],
+    ['POST', '/chat/demarrer',                 'chat_start'],
+    ['POST', '/chat/envoyer',                  'chat_send'],
+    ['POST', '/chat/suivre',                   'chat_poll'],
+    ['POST', '/chat/courriel',                 'chat_email'],
+    ['POST', '/chat/fermer',                   'chat_close_visitor'],
+    ['POST', '/chat/avis',                     'chat_rate'],
+    ['POST', '/infolettre',                    'newsletter_signup'],
+    ['GET',  '/infolettre/confirmer/([a-f0-9]{32})',  'newsletter_confirm'],
+    ['GET',  '/infolettre/desabonner/([a-f0-9]{32})', 'newsletter_unsubscribe'],
+    ['GET',  '/admin/service',                 'admin_service_dashboard'],
+    ['GET',  '/admin/chat',                    'admin_chat'],
+    ['POST', '/admin/chat/suivre',             'admin_chat_poll'],
+    ['POST', '/admin/chat/(\d+)',              'admin_chat_send'],
+    ['POST', '/admin/chat/(\d+)/action',       'admin_chat_action'],
+    ['GET',  '/admin/comptabilite',            'admin_accounting'],
+    ['GET',  '/admin/comptabilite/export\.csv', 'admin_accounting_export'],
+    ['GET',  '/admin/infolettre',              'admin_newsletter'],
+    ['GET',  '/admin/infolettre/export\.csv',  'admin_newsletter_export'],
+    ['POST', '/admin/infolettre/(\d+)/supprimer', 'admin_newsletter_delete'],
+    ['GET',  '/admin/employes',                'admin_staff'],
+    ['POST', '/admin/employes',                'admin_staff_create'],
+    ['POST', '/admin/employes/(\d+)',          'admin_staff_save'],
+    ['GET',  '/admin/equipe/chat',             'team_chat'],
+    ['POST', '/admin/equipe/chat',             'team_chat_send'],
+    ['POST', '/admin/equipe/chat/suivre',      'team_chat_poll'],
     ['GET',  '/admin/messages',                'admin_messages'],
     ['GET',  '/admin/messages/nouveau',        'admin_message_new'],
     ['POST', '/admin/messages/nouveau',        'admin_message_create'],

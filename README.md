@@ -11,6 +11,9 @@ PHP 8.1+ / MySQL (ou MariaDB), sans framework ni dépendance Composer.
 | `/t/{CODE}` | URL encodée dans la puce NFC **et** le QR de chaque carte. Compte le tap puis ouvre le profil |
 | `/u/{adresse}` | Profil public : enregistrer le contact (vCard), appeler, texto, courriel, site, itinéraire, liens |
 | `/compte` | Espace client : profil + aperçu en direct, photo, couleurs, liens, statistiques, cartes, mot de passe |
+| `/admin/service` | Service client : vue d'ensemble, clavardage du site (`/admin/chat`), messages, infolettre |
+| `/admin/comptabilite` | Comptabilité : ventes par période, TPS/TVQ, moyens de paiement, à recevoir, export CSV |
+| `/admin/employes` | Employés et services ; `/admin/equipe/chat` : discussion d'équipe |
 | `/admin/messages` | Messagerie : courriels reçus sur info@ et demandes du site, réponses, réponses automatiques, présence |
 | `/admin` | Tableau de bord (indicateurs du plan d'évolution), commandes, clients, cartes NFC, designs, courriels, réglages |
 | `/commande/{réf}/{jeton}` | Lien reçu par courriel après le devis : le client confirme, choisit sa carte et paie en ligne ou avec le service client |
@@ -41,6 +44,20 @@ L'admin attribue un forfait à la main (*Admin › Clients*) ou le client s'abon
 **Messagerie** (*Admin › Messages*) : chaque courriel reçu sur info@ et chaque demande du formulaire ouvre une conversation (avec la commande et le compte du client à côté). Vous répondez depuis l'admin ; la réponse part de info@ et la réponse du client revient dans la même conversation. Pièces jointes reçues téléchargeables, historique cité masqué, robots et listes de diffusion rangés à part, conversations archivables. *Écrire au client* depuis une commande ouvre sa conversation. Les courriels restent aussi dans le webmail.
 
 **Présence et réponses automatiques** (*Admin › Messages › Présence et réponses auto*) : statut **En ligne / Absent** dans la barre latérale (Auto, En ligne, Absent). En automatique : en ligne pendant les heures d'ouverture ou quand un admin utilise l'administration (moins de 15 min), absent sinon ; une date « absent jusqu'au » sert pour les vacances. Chaque nouveau courriel reçoit la réponse automatique correspondante (« en ligne » ou « absent… nous vous répondrons lundi à 9 h »), en français ou en anglais selon le client, au plus une fois par 24 h et jamais aux robots ni pendant un échange en cours. Le courriel de confirmation de commande et l'accueil du site (section commande) affichent aussi la présence.
+
+**Équipe et services** (*Admin › Employés*) : ajoutez un employé (nom, courriel) et affectez-le au **service client**, à la **comptabilité** ou aux deux ; il reçoit un lien pour choisir son mot de passe. Chacun ne voit que les pages de ses services :
+- service client : vue d'ensemble, clavardage, messages, infolettre, commandes (statut, compte client), clients en lecture, bouton de présence ;
+- comptabilité : comptabilité, commandes, liens de paiement, paiements reçus ;
+- administrateur : tout (employés, cartes, designs, courriels, réglages).
+Un employé désactivé ne peut plus se connecter.
+
+**Clavardage du site** : bulle « Discutez avec nous » en bas à droite des pages du site (pas sur les profils des clients). Équipe en ligne : discussion en direct, l'agent répond depuis *Clavardage* (son, compteur dans l'onglet, prise en charge, transfert à un collègue). Sans réponse après 2 min, le visiteur est invité à laisser son courriel. Équipe absente : le visiteur laisse un message, qui arrive dans *Messages* avec la réponse automatique « absent ». À la fermeture, la transcription rejoint ses conversations dans *Messages* (non lue si personne n'a répondu, pour le rappeler par courriel) ; le visiteur peut recevoir la transcription et donner son avis. Fonctionne sans serveur temps réel (mise à jour toutes les 3 s), aucune adresse IP conservée, conversations effacées après 12 mois.
+
+**Infolettre** : inscription dans le clavardage, après une discussion et en pied de page. Double confirmation par courriel ; le texte du consentement et sa date sont conservés (LCAP, Loi 25). *Admin › Infolettre* : abonnés confirmés, en attente, désabonnés, export CSV (avec le lien de désabonnement de chacun) pour Mailchimp, Brevo… et effacement sur demande.
+
+**Comptabilité** (*Admin › Comptabilité*) : ventes encaissées par période (mois, trimestre, année, dates au choix), sous-total, TPS, TVQ, total, par moyen de paiement et type de carte, 12 derniers mois, commandes à recevoir, export CSV (séparateur « ; », pour Excel). Les commandes antérieures au détail des taxes sont calculées à partir du total (marquées « estimé »).
+
+**Discussion d'équipe** (*Équipe › Discussion d'équipe*) : canaux Général, Service client, Comptabilité et messages directs entre employés, avec pastilles de non-lus et présence.
 
 **Tableau de bord** (*Admin*) : taux d'activation, conversion Pro, revenu récurrent (MRR, d'après le prix mensuel saisi dans *Réglages*), rétention à 6 et 12 mois, prospects, chiffre d'affaires sur 12 mois, entonnoir des commandes, touchers, et une liste « À traiter ».
 
@@ -75,7 +92,7 @@ L'admin attribue un forfait à la main (*Admin › Clients*) ou le client s'abon
 8. **Courriels** — créer la boîte `info@elitetap.ca` (*cPanel › Comptes de messagerie*), puis renseigner `smtp` dans `config.php` (hôte `mail.elitetap.ca`, port 465, `ssl`, la boîte et son mot de passe) : les courriels partent alors par SMTP authentifié, beaucoup plus fiable que `mail()`. Vérifier SPF et DKIM dans *cPanel › Délivrabilité des courriels*. *Admin › Courriels* montre chaque envoi (envoyé / échec) et permet un envoi test. **Réception dans l'admin** : *cPanel › Redirecteurs › Ajouter un redirecteur*, adresse `info`, *Options avancées › Diriger vers un programme* : `repositories/EliteTap/bin/inbound-mail.php` (le fichier doit être en 755). Journal de réception : `storage/inbound.log` ; un courriel qui n'a pas pu être traité est gardé dans `storage/inbound-failed/` (le retraiter : `php bin/inbound-mail.php < storage/inbound-failed/FICHIER.eml`). Tant que la boîte n'existe pas, mettre votre adresse personnelle dans *Admin › Réglages › Notifications*.
 9. **PHP** — *Sélecteur de version PHP* : 8.1 ou plus, extensions `pdo_mysql`, `gd`, `fileinfo`, `mbstring`, `curl` (et `intl` si disponible).
 
-**Base créée avec une version précédente ?** Dans phpMyAdmin, onglet SQL, exécuter dans l'ordre les fichiers de `database/migrations/` qui n'ont pas encore été appliqués (`002-…`, `003-forfaits-prospects-themes.mysql.sql`, `004-courriels-commande-designs.mysql.sql`, puis `005-messagerie.mysql.sql`).
+**Base créée avec une version précédente ?** Dans phpMyAdmin, onglet SQL, exécuter dans l'ordre les fichiers de `database/migrations/` qui n'ont pas encore été appliqués (`002-…`, `003-forfaits-prospects-themes.mysql.sql`, `004-courriels-commande-designs.mysql.sql`, `005-messagerie.mysql.sql`, puis `006-equipe-clavardage-infolettre.mysql.sql`).
 
 **Mises à jour** : *Git Version Control › Gérer › Pull or Deploy › Update from Remote*. `app/config.php` et les fichiers envoyés ne sont jamais écrasés (ignorés par Git).
 

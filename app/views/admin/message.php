@@ -1,5 +1,5 @@
 <?php
-$kinds = ['form' => 'Formulaire du site', 'auto' => 'Réponse automatique', 'system' => 'Courriel automatique de la plateforme'];
+$kinds = ['form' => 'Formulaire du site', 'chat' => 'Clavardage du site', 'auto' => 'Réponse automatique', 'system' => 'Courriel automatique de la plateforme'];
 $fmtSize = fn(int $b) => $b > 1048576 ? number_format($b / 1048576, 1, ',', ' ') . ' Mo' : max(1, (int) round($b / 1024)) . ' Ko';
 $name = $t['contact_name'] ?: $t['contact_email'];
 ?>

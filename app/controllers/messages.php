@@ -22,7 +22,7 @@ function require_inbox(): void
 
 function admin_messages(): void
 {
-    $user = require_admin();
+    $user = require_perm('service');
     require_inbox();
     $vue = $_GET['vue'] ?? 'ouvertes';
     $vue = isset(THREAD_VIEWS[$vue]) ? $vue : 'ouvertes';
@@ -58,7 +58,7 @@ function admin_messages(): void
 
 function admin_message(string $id): void
 {
-    $user = require_admin();
+    $user = require_perm('service');
     require_inbox();
     $t = row('SELECT * FROM threads WHERE id = ?', [(int) $id]) ?? abort(404);
     if ($t['unread'] > 0) {
@@ -82,7 +82,7 @@ function admin_message(string $id): void
 /** Réponse de l'admin : texte + signature + dernier message du client cité. */
 function admin_message_reply(string $id): void
 {
-    $admin = require_admin();
+    $admin = require_perm('service');
     require_inbox();
     $t = row('SELECT * FROM threads WHERE id = ?', [(int) $id]) ?? abort(404);
     $body = trim(input('body', 20000));
@@ -116,7 +116,7 @@ function admin_message_reply(string $id): void
 
 function admin_message_action(string $id): void
 {
-    require_admin();
+    require_perm('service');
     require_inbox();
     $t = row('SELECT * FROM threads WHERE id = ?', [(int) $id]) ?? abort(404);
     $action = input('action', 20);
@@ -143,7 +143,7 @@ function admin_message_action(string $id): void
 /** Nouvelle conversation : depuis une commande (?commande=ID) ou vers une adresse. */
 function admin_message_new(): void
 {
-    $user = require_admin();
+    $user = require_perm('service');
     require_inbox();
     if ($oid = (int) ($_GET['commande'] ?? 0)) {
         $o = row('SELECT * FROM orders WHERE id = ?', [$oid]) ?? abort(404);
@@ -155,7 +155,7 @@ function admin_message_new(): void
 
 function admin_message_create(): void
 {
-    $admin = require_admin();
+    $admin = require_perm('service');
     require_inbox();
     $to = strtolower(input('to', 190));
     $name = input('name', 120);
@@ -175,7 +175,7 @@ function admin_message_create(): void
 
 function admin_message_file(string $msgId, string $idx): void
 {
-    require_admin();
+    require_perm('service');
     require_inbox();
     $m = row('SELECT attachments FROM messages WHERE id = ?', [(int) $msgId]) ?? abort(404);
     $list = json_decode((string) $m['attachments'], true) ?: [];
@@ -196,7 +196,7 @@ function admin_message_file(string $msgId, string $idx): void
 /** Bouton de présence de la barre latérale. */
 function admin_presence(): void
 {
-    require_admin();
+    require_perm('service');
     $mode = input('mode', 10);
     if (in_array($mode, ['auto', 'online', 'away'], true)) {
         set_setting('presence_mode', $mode);
@@ -212,7 +212,7 @@ function admin_presence(): void
 
 function admin_messages_settings(): void
 {
-    $user = require_admin();
+    $user = require_perm('service');
     $tpl = [];
     foreach (AUTOREPLY_DEFAULTS as $k => $v) {
         $tpl[$k] = setting($k, $v);
@@ -224,7 +224,7 @@ function admin_messages_settings(): void
 
 function admin_messages_settings_save(): void
 {
-    require_admin();
+    require_perm('service');
     $errors = [];
     $mode = input('presence_mode', 10);
     set_setting('presence_mode', in_array($mode, ['auto', 'online', 'away'], true) ? $mode : 'auto');

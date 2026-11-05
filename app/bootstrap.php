@@ -33,6 +33,8 @@ require APP_DIR . '/lib/settings.php';
 require APP_DIR . '/lib/orders.php';
 require APP_DIR . '/lib/wallet.php';
 require APP_DIR . '/lib/inbox.php';
+require APP_DIR . '/lib/team.php';
+require APP_DIR . '/lib/chat.php';
 
 if (PHP_SAPI !== 'cli') {
     $secure = (($_SERVER['HTTPS'] ?? '') !== '' && $_SERVER['HTTPS'] !== 'off')

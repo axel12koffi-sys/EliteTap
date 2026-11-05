@@ -6,8 +6,11 @@ function current_user(): ?array
     static $user = false;
     if ($user === false) {
         $id = $_SESSION['uid'] ?? null;
-        $user = $id ? row('SELECT id, email, name, role, lang, is_active, plan, plan_source, plan_status, plan_renews_at, stripe_customer_id, stripe_subscription_id
-                           FROM users WHERE id = ?', [$id]) : null;
+        // SELECT * : fonctionne avant comme après les migrations (colonnes ajoutées au fil des versions)
+        $user = $id ? row('SELECT * FROM users WHERE id = ?', [$id]) : null;
+        if ($user) {
+            unset($user['password_hash'], $user['reset_token_hash']);
+        }
         // Compte désactivé par EliteTap : la session ne vaut plus rien (sauf si un admin gère ce profil)
         if ($user && !$user['is_active'] && !acting_as_admin()) {
             $user = null;

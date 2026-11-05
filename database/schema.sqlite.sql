@@ -6,7 +6,8 @@ CREATE TABLE users (
   email TEXT NOT NULL UNIQUE,
   password_hash TEXT NOT NULL,
   name TEXT NOT NULL,
-  role TEXT NOT NULL DEFAULT 'client' CHECK (role IN ('client','admin')),
+  role TEXT NOT NULL DEFAULT 'client' CHECK (role IN ('client','admin','staff')),
+  services TEXT NULL,
   lang TEXT NOT NULL DEFAULT 'fr',
   is_active INTEGER NOT NULL DEFAULT 1,
   plan TEXT NOT NULL DEFAULT 'essentiel',
@@ -142,3 +143,8 @@ CREATE TABLE threads (id INTEGER PRIMARY KEY AUTOINCREMENT, subject TEXT NOT NUL
 CREATE TABLE messages (id INTEGER PRIMARY KEY AUTOINCREMENT, thread_id INTEGER NOT NULL REFERENCES threads(id) ON DELETE CASCADE, direction TEXT NOT NULL, kind TEXT NOT NULL DEFAULT 'mail', from_email TEXT NOT NULL DEFAULT '', from_name TEXT NOT NULL DEFAULT '', to_email TEXT NOT NULL DEFAULT '', subject TEXT NOT NULL DEFAULT '', body TEXT NOT NULL, body_full TEXT NULL, message_id TEXT NULL, in_reply_to TEXT NULL, attachments TEXT NULL, sent_by INTEGER NULL, status TEXT NOT NULL DEFAULT 'ok', created_at TEXT NOT NULL);
 CREATE INDEX idx_messages_thread ON messages(thread_id);
 CREATE INDEX idx_messages_mid ON messages(message_id);
+CREATE TABLE chat_sessions (id INTEGER PRIMARY KEY AUTOINCREMENT, token_hash TEXT NOT NULL UNIQUE, visitor_name TEXT NOT NULL DEFAULT '', visitor_email TEXT NULL, lang TEXT NOT NULL DEFAULT 'fr', page TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'waiting', assigned_to INTEGER NULL, thread_id INTEGER NULL, agent_last_read INTEGER NOT NULL DEFAULT 0, rating INTEGER NULL, first_reply_at TEXT NULL, last_message_at TEXT NOT NULL, last_visitor_at TEXT NOT NULL, closed_at TEXT NULL, closed_by TEXT NULL, created_at TEXT NOT NULL);
+CREATE TABLE chat_messages (id INTEGER PRIMARY KEY AUTOINCREMENT, session_id INTEGER NOT NULL REFERENCES chat_sessions(id) ON DELETE CASCADE, sender TEXT NOT NULL, user_id INTEGER NULL, body TEXT NOT NULL, created_at TEXT NOT NULL);
+CREATE TABLE newsletter_subscribers (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT NOT NULL UNIQUE, name TEXT NOT NULL DEFAULT '', lang TEXT NOT NULL DEFAULT 'fr', source TEXT NOT NULL DEFAULT 'site', status TEXT NOT NULL DEFAULT 'pending', consent_text TEXT NOT NULL, consented_at TEXT NOT NULL, confirmed_at TEXT NULL, unsubscribed_at TEXT NULL, confirm_token TEXT NOT NULL, unsub_token TEXT NOT NULL, created_at TEXT NOT NULL);
+CREATE TABLE team_messages (id INTEGER PRIMARY KEY AUTOINCREMENT, channel TEXT NOT NULL, user_id INTEGER NOT NULL, body TEXT NOT NULL, created_at TEXT NOT NULL);
+CREATE TABLE team_reads (user_id INTEGER NOT NULL, channel TEXT NOT NULL, last_read_id INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (user_id, channel));
