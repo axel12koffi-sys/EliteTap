@@ -80,6 +80,14 @@ function profile_show(string $slug): void
     }
 
     $links = rows('SELECT id, label, url FROM links WHERE profile_id = ? AND is_active = 1 ORDER BY position, id', [$p['id']]);
+    // Profil sur mesure publié et activé par le client
+    if ($design = active_design($p)) {
+        design_csp_header();
+        view('profile/custom', ['p' => $p, 'links' => $links, 'isOwner' => $isOwner, 'design' => $design,
+            'assets' => design_assets((int) $p['id']), 'leadForm' => $p['lead_form'] && profile_can($p, 'leads'),
+            'leadSent' => isset($_GET['merci']), 'flashes' => flashes()]);
+        return;
+    }
     view('profile/show', ['p' => $p, 'links' => $links, 'isOwner' => $isOwner,
         'leadForm' => $p['lead_form'] && profile_can($p, 'leads'),
         'leadSent' => isset($_GET['merci']), 'flashes' => flashes()]);

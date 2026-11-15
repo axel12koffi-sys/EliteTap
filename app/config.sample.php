@@ -34,6 +34,14 @@ return [
         // ],
     ],
 
+    // Agent IA du profil sur mesure (Admin › Clients › Profil sur mesure) : clé créée sur console.anthropic.com.
+    // Sans clé, le gabarit peut être écrit à la main. Ne jamais publier ce fichier.
+    // 'anthropic' => [
+    //     'api_key'    => 'sk-ant-...',
+    //     'model'      => 'claude-sonnet-5-5',   // ou 'claude-opus-5-5' pour plus de fidélité
+    //     'max_tokens' => 12000,
+    // ],
+
     // Ajout au Wallet (facultatif, forfait Pro) : voir le README, section « Wallet ».
     // 'wallet' => [
     //     'apple' => [

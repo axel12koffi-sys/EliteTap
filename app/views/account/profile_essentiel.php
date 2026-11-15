@@ -12,6 +12,8 @@ $name = full_name($p) ?: $p['company'];
   </div>
 </div>
 
+<?php require __DIR__ . '/_custom_design.php'; ?>
+
 <div class="editor">
   <div class="editor-form" style="display: flex; flex-direction: column; gap: 24px;">
     <form method="post" action="/compte/theme" class="panel form">

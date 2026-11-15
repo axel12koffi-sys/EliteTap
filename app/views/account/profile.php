@@ -26,6 +26,8 @@ $fontStack = profile_font($p)[2];
   <div class="kpi"><span><?= te('Cartes actives') ?></span><strong><?= $activeCards ?></strong></div>
 </div>
 
+<?php require __DIR__ . '/_custom_design.php'; ?>
+
 <div class="editor">
   <div class="panel editor-form">
     <div class="avatar-row">

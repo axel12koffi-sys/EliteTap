@@ -11,6 +11,7 @@ require APP_DIR . '/controllers/team.php';
 require APP_DIR . '/controllers/chat.php';
 require APP_DIR . '/controllers/boards.php';
 require APP_DIR . '/controllers/shipping.php';
+require APP_DIR . '/controllers/profile_design.php';
 require APP_DIR . '/controllers/payment.php';
 require APP_DIR . '/controllers/leads.php';
 require APP_DIR . '/controllers/plan.php';
@@ -139,6 +140,15 @@ const ROUTES = [
     ['POST', '/admin/cartes/(\d+)',            'admin_card_save'],
     ['GET',  '/admin/cartes/export\.csv',      'admin_cards_export'],
     ['GET',  '/admin/cartes/qr',               'admin_cards_qr'],
+    ['GET',  '/admin/clients/(\d+)/design',    'admin_profile_design'],
+    ['POST', '/admin/clients/(\d+)/design/source', 'admin_profile_design_source'],
+    ['POST', '/admin/clients/(\d+)/design/image',  'admin_profile_design_asset'],
+    ['POST', '/admin/clients/(\d+)/design/(\d+)/generer', 'admin_profile_design_generate'],
+    ['POST', '/admin/clients/(\d+)/design/(\d+)', 'admin_profile_design_save'],
+    ['GET',  '/admin/clients/(\d+)/design/(\d+)/apercu', 'admin_profile_design_preview'],
+    ['GET',  '/admin/clients/(\d+)/design/(\d+)/carte',  'admin_profile_design_source_file'],
+    ['POST', '/compte/sur-mesure',             'account_design_toggle'],
+    ['POST', '/compte/sur-mesure/demande',     'account_design_request'],
     ['GET',  '/admin/clients',                 'admin_clients'],
     ['POST', '/admin/clients',                 'admin_client_create'],
     ['POST', '/admin/clients/(\d+)/lien',      'admin_client_reset_link'],

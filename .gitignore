@@ -10,3 +10,5 @@ public/uploads/avatars/*
 .DS_Store
 public/uploads/designs/*
 !public/uploads/designs/.gitkeep
+public/uploads/custom/*
+!public/uploads/custom/.gitkeep

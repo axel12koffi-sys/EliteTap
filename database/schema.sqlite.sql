@@ -41,6 +41,8 @@ CREATE TABLE profiles (
   avatar_path TEXT NULL,
   logo_path TEXT NULL,
   theme TEXT NOT NULL DEFAULT 'marine',
+  custom_design_id INTEGER NULL,
+  use_custom INTEGER NOT NULL DEFAULT 1,
   font TEXT NOT NULL DEFAULT 'moderne',
   lead_form INTEGER NOT NULL DEFAULT 1,
   lead_alerts INTEGER NOT NULL DEFAULT 1,
@@ -150,3 +152,5 @@ CREATE TABLE team_messages (id INTEGER PRIMARY KEY AUTOINCREMENT, channel TEXT N
 CREATE TABLE team_reads (user_id INTEGER NOT NULL, channel TEXT NOT NULL, last_read_id INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (user_id, channel));
 CREATE TABLE shipments (id INTEGER PRIMARY KEY AUTOINCREMENT, order_id INTEGER NOT NULL, token TEXT NOT NULL UNIQUE, carrier TEXT NOT NULL DEFAULT 'postes_canada', tracking_number TEXT NULL, tracking_url TEXT NULL, status TEXT NOT NULL DEFAULT 'a_preparer', recipient TEXT NOT NULL DEFAULT '', address TEXT NOT NULL DEFAULT '', city TEXT NOT NULL DEFAULT '', province TEXT NOT NULL DEFAULT 'QC', postal_code TEXT NOT NULL DEFAULT '', phone TEXT NOT NULL DEFAULT '', packages INTEGER NOT NULL DEFAULT 1, estimated_at TEXT NULL, shipped_at TEXT NULL, delivered_at TEXT NULL, notes TEXT NULL, created_by INTEGER NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL);
 CREATE TABLE shipment_events (id INTEGER PRIMARY KEY AUTOINCREMENT, shipment_id INTEGER NOT NULL REFERENCES shipments(id) ON DELETE CASCADE, status TEXT NOT NULL, note TEXT NOT NULL DEFAULT '', notified INTEGER NOT NULL DEFAULT 0, user_id INTEGER NULL, created_at TEXT NOT NULL);
+CREATE TABLE profile_designs (id INTEGER PRIMARY KEY AUTOINCREMENT, profile_id INTEGER NOT NULL REFERENCES profiles(id) ON DELETE CASCADE, version INTEGER NOT NULL DEFAULT 1, source_path TEXT NULL, source_name TEXT NULL, source_mime TEXT NULL, html TEXT NULL, css TEXT NULL, instruction TEXT NULL, status TEXT NOT NULL DEFAULT 'draft', ai_used INTEGER NOT NULL DEFAULT 0, created_by INTEGER NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, published_at TEXT NULL);
+CREATE TABLE profile_design_assets (id INTEGER PRIMARY KEY AUTOINCREMENT, profile_id INTEGER NOT NULL REFERENCES profiles(id) ON DELETE CASCADE, name TEXT NOT NULL, path TEXT NOT NULL, created_at TEXT NOT NULL, UNIQUE (profile_id, name));

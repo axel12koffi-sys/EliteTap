@@ -14,6 +14,7 @@ PHP 8.1+ / MySQL (ou MariaDB), sans framework ni dépendance Composer.
 | `/admin/service` | Service client : vue d'ensemble, clavardage du site (`/admin/chat`), messages, infolettre |
 | `/admin/comptabilite` | Comptabilité : ventes par période, TPS/TVQ, moyens de paiement, à recevoir, export CSV |
 | `/admin/livraisons` | Livraison : expéditions, transporteurs, numéros de suivi, courriels au client ; `/suivi/{jeton}` : page de suivi du client |
+| `/admin/clients/{id}/design` | Profil sur mesure : design de la carte → gabarit HTML/CSS généré par l'IA, aperçu, versions, publication |
 | `/admin/employes` | Employés et services ; `/admin/equipe/chat` : discussion d'équipe |
 | `/admin/messages` | Messagerie : courriels reçus sur info@ et demandes du site, réponses, réponses automatiques, présence |
 | `/admin` | Tableau de bord (indicateurs du plan d'évolution), commandes, clients, cartes NFC, designs, courriels, réglages |
@@ -53,6 +54,13 @@ L'admin attribue un forfait à la main (*Admin › Clients*) ou le client s'abon
 - administrateur : tout (employés, cartes, designs, courriels, réglages).
 Un employé désactivé ne peut plus se connecter.
 
+**Profil sur mesure** (*Admin › Clients › Profil sur mesure*, réservé à l'admin ; option payante, incluse dans le forfait Entreprise) : après la commande, l'admin téléverse le design de la carte (PNG, JPG, WEBP ou PDF). L'agent IA (API Claude d'Anthropic) crée un gabarit HTML/CSS dans le même style ; l'admin le corrige par une consigne (« logo plus grand ») ou directement dans le code, vérifie l'aperçu mobile et ordinateur, puis publie. Rien n'est publié sans validation, chaque version est conservée et peut être republiée.
+- Le gabarit ne contient que des emplacements (`{{nom_complet}}`, `{{poste}}`, `{{photo}}`…) : le client modifie toujours ses informations dans son espace et le design suit. Les éléments de la plateforme (`{{bouton_contact}}`, `{{actions}}`, `{{liens}}`, `{{prospects}}`, `{{wallet}}`) sont insérés par EliteTap : statistiques, vCard et consentement Loi 25 continuent de fonctionner ; s'ils manquent, ils sont ajoutés à la fin.
+- Sécurité : liste blanche de balises et d'attributs, aucun script, formulaire, cadre ni adresse externe (sauf les polices Google), page servie avec une politique de sécurité (CSP) qui interdit tout script. Le rapport du filtre et un contrôle de lisibilité (contraste, taille du texte, zones tactiles) s'affichent avant publication.
+- Images d'habillage (fond, motif) : téléversées par l'admin, utilisées par `{{asset:nom}}`.
+- Côté client (*Mon profil*) : revenir au thème standard ou réafficher le design sur mesure, et « Demander une modification » (arrive dans *Messages*). Sans design sur mesure, le bloc propose de le demander. La personnalisation standard (thèmes, couleurs) reste disponible pour tous.
+- Configuration : bloc `anthropic` dans `config.php` (clé API créée sur console.anthropic.com, modèle). Sans clé, le gabarit peut être écrit à la main.
+
 **Livraison** (*Livraison › Suivi des livraisons*, ouvert à l'admin, au service client et au service Livraison) : les commandes payées sans expédition apparaissent dans « à expédier ». Pour chaque colis : transporteur (Postes Canada, Purolator, UPS, FedEx, DHL, Intelcom, main propre, ramassage), numéro de suivi (lien vers le site du transporteur créé automatiquement, ou lien collé), adresse, date prévue, nombre de colis, notes internes. Statuts : à préparer, prête à partir, expédiée, en transit, livrée, problème, retournée, avec historique. Le client reçoit un courriel (dans sa langue, rangé dans la conversation de la commande) quand le colis part, avance, est livré ou rencontre un problème, avec un lien vers sa page de suivi (`/suivi/…`, sans adresse ni notes internes) ; la page de sa commande affiche aussi « Suivre ma livraison ». Expédier passe la commande à « Expédiée ». Plusieurs colis par commande possibles. Les statuts sont mis à jour par l'équipe (pas de liaison automatique avec les transporteurs).
 
 **Clavardage du site** : bulle « Discutez avec nous » en bas à droite des pages du site (pas sur les profils des clients). Équipe en ligne : discussion en direct, l'agent répond depuis *Clavardage* (son, compteur dans l'onglet, prise en charge, transfert à un collègue). Sans réponse après 2 min, le visiteur est invité à laisser son courriel. Équipe absente : le visiteur laisse un message, qui arrive dans *Messages* avec la réponse automatique « absent ». À la fermeture, la transcription rejoint ses conversations dans *Messages* (non lue si personne n'a répondu, pour le rappeler par courriel) ; le visiteur peut recevoir la transcription et donner son avis. Fonctionne sans serveur temps réel (mise à jour toutes les 3 s), aucune adresse IP conservée, conversations effacées après 12 mois.
@@ -87,7 +95,7 @@ Un employé désactivé ne peut plus se connecter.
    - `app_url` : `https://new.elitetap.ca` (puis `https://elitetap.ca` au lancement)
    - `db` : nom de la base, utilisateur, mot de passe
    - `secret` : une longue chaîne aléatoire
-5. **Droits d'écriture** — `storage/uploads/`, `public/uploads/avatars/` et `public/uploads/designs/` en 755 (750 pour `storage`).
+5. **Droits d'écriture** — `storage/uploads/`, `public/uploads/avatars/`, `public/uploads/designs/` et `public/uploads/custom/` en 755 (750 pour `storage`).
 6. **Compte admin** — *cPanel › Terminal* :
    ```
    cd ~/repositories/EliteTap && php bin/create-admin.php info@elitetap.ca "Votre nom"
@@ -96,7 +104,7 @@ Un employé désactivé ne peut plus se connecter.
 8. **Courriels** — créer la boîte `info@elitetap.ca` (*cPanel › Comptes de messagerie*), puis renseigner `smtp` dans `config.php` (hôte `mail.elitetap.ca`, port 465, `ssl`, la boîte et son mot de passe) : les courriels partent alors par SMTP authentifié, beaucoup plus fiable que `mail()`. Vérifier SPF et DKIM dans *cPanel › Délivrabilité des courriels*. *Admin › Courriels* montre chaque envoi (envoyé / échec) et permet un envoi test. **Réception dans l'admin** : *cPanel › Redirecteurs › Ajouter un redirecteur*, adresse `info`, *Options avancées › Diriger vers un programme* : `repositories/EliteTap/bin/inbound-mail.php` (le fichier doit être en 755). Journal de réception : `storage/inbound.log` ; un courriel qui n'a pas pu être traité est gardé dans `storage/inbound-failed/` (le retraiter : `php bin/inbound-mail.php < storage/inbound-failed/FICHIER.eml`). Tant que la boîte n'existe pas, mettre votre adresse personnelle dans *Admin › Réglages › Notifications*.
 9. **PHP** — *Sélecteur de version PHP* : 8.1 ou plus, extensions `pdo_mysql`, `gd`, `fileinfo`, `mbstring`, `curl` (et `intl` si disponible).
 
-**Base créée avec une version précédente ?** Dans phpMyAdmin, onglet SQL, exécuter dans l'ordre les fichiers de `database/migrations/` qui n'ont pas encore été appliqués (`002-…`, `003-forfaits-prospects-themes.mysql.sql`, `004-courriels-commande-designs.mysql.sql`, `005-messagerie.mysql.sql`, `006-equipe-clavardage-infolettre.mysql.sql`, puis `007-livraisons.mysql.sql`).
+**Base créée avec une version précédente ?** Dans phpMyAdmin, onglet SQL, exécuter dans l'ordre les fichiers de `database/migrations/` qui n'ont pas encore été appliqués (`002-…`, `003-forfaits-prospects-themes.mysql.sql`, `004-courriels-commande-designs.mysql.sql`, `005-messagerie.mysql.sql`, `006-equipe-clavardage-infolettre.mysql.sql`, `007-livraisons.mysql.sql`, puis `008-profil-sur-mesure.mysql.sql`).
 
 **Mises à jour** : *Git Version Control › Gérer › Pull or Deploy › Update from Remote*. `app/config.php` et les fichiers envoyés ne sont jamais écrasés (ignorés par Git).
 

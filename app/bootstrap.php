@@ -36,6 +36,7 @@ require APP_DIR . '/lib/inbox.php';
 require APP_DIR . '/lib/team.php';
 require APP_DIR . '/lib/chat.php';
 require APP_DIR . '/lib/shipping.php';
+require APP_DIR . '/lib/design.php';
 
 if (PHP_SAPI !== 'cli') {
     $secure = (($_SERVER['HTTPS'] ?? '') !== '' && $_SERVER['HTTPS'] !== 'off')

@@ -578,6 +578,27 @@ return [
     "Bonjour {nom},\n\nMerci pour votre demande de carte {carte}. {presence}\n\nConfirmez votre commande et choisissez votre forfait ici :\n{lien}\n\nVous pourrez ensuite payer en ligne, ou régler avec notre service client si vous préférez.\n\nRéférence : {ref}\n\nUne question ? Répondez à ce courriel ou écrivez-nous sur WhatsApp : {whatsapp}\n\nL'équipe EliteTap\n"
         => "Hi {nom},\n\nThank you for your {carte} card request. {presence}\n\nConfirm your order and choose your plan here:\n{lien}\n\nYou can then pay online, or through our customer service if you prefer.\n\nReference: {ref}\n\nAny questions? Reply to this email or message us on WhatsApp: {whatsapp}\n\nThe EliteTap team\n",
 
+    // ---- Profil sur mesure
+    "Profil sur mesure" => "Custom profile",
+    "Votre profil affiche un design créé à partir de votre carte. Vos informations se modifient ici : le design suit automatiquement." => "Your profile shows a design created from your card. Edit your details here: the design follows automatically.",
+    "Votre profil affiche actuellement le thème standard. Votre design sur mesure reste disponible." => "Your profile currently shows the standard theme. Your custom design is still available.",
+    "Revenir au thème standard" => "Switch back to the standard theme",
+    "Afficher mon design sur mesure" => "Show my custom design",
+    "Un profil aux couleurs exactes de votre carte : typographie, motifs et logo repris par notre équipe. Vos informations restent modifiables ici." => "A profile that matches your card exactly: typography, patterns and logo recreated by our team. Your details stay editable here.",
+    "Demander une modification du design" => "Request a design change",
+    "Demander mon profil sur mesure" => "Request my custom profile",
+    "Votre demande" => "Your request",
+    "Ex. agrandir le logo, utiliser le bleu de ma carte pour les boutons" => "E.g. make the logo bigger, use my card's blue for the buttons",
+    "Ex. reprendre le fond noir et doré de ma carte" => "E.g. reuse the black and gold background of my card",
+    "Envoyer la demande" => "Send request",
+    "Votre profil EliteTap sur mesure est en ligne" => "Your custom EliteTap profile is live",
+    "Bonjour {nom},\n\nVotre profil aux couleurs de votre carte est en ligne :\n{lien}\n\nVos informations se modifient toujours depuis votre espace ; le design suit automatiquement. Vous pouvez revenir au thème standard ou nous demander une modification depuis votre espace.\n\nL'équipe EliteTap\n" => "Hi {nom},\n\nYour profile, designed to match your card, is now live:\n{lien}\n\nYou still edit your details from your account; the design follows automatically. You can switch back to the standard theme or ask us for a change from your account.\n\nThe EliteTap team\n",
+    "Votre profil sur mesure est de nouveau affiché." => "Your custom profile is shown again.",
+    "Votre profil affiche maintenant le thème standard. Vous pouvez revenir au design sur mesure à tout moment." => "Your profile now shows the standard theme. You can switch back to the custom design at any time.",
+    "Décrivez la modification souhaitée." => "Describe the change you would like.",
+    "Trop de demandes aujourd'hui. Écrivez-nous à info@elitetap.ca." => "Too many requests today. Email us at info@elitetap.ca.",
+    "Demande envoyée. Notre équipe vous répond rapidement." => "Request sent. Our team will get back to you shortly.",
+
     // ---- Livraisons
     "En préparation" => "Being prepared",
     "Prête à partir" => "Ready to ship",

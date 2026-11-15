@@ -35,6 +35,7 @@
           <td>
             <div class="row-forms">
               <form method="post" action="/admin/clients/<?= (int) $c['id'] ?>/gerer"><?= csrf_field() ?><button class="btn btn-primary btn-sm" type="submit">Gérer le profil</button></form>
+              <?php if (($user['role'] ?? '') === 'admin'): ?><a class="btn btn-light btn-sm" href="/admin/clients/<?= (int) $c['id'] ?>/design">Profil sur mesure</a><?php endif; ?>
               <form method="post" action="/admin/clients/<?= (int) $c['id'] ?>/forfait" class="row-forms">
                 <?= csrf_field() ?>
                 <label class="visually-hidden" for="plan-<?= (int) $c['id'] ?>">Forfait de <?= e($c['name']) ?></label>
