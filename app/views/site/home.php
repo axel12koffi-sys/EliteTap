@@ -30,6 +30,14 @@ $faq = [
       </ul>
     </div>
 
+    <?php if (is_file(APP_ROOT . '/public/assets/media/hero-tap.mp4')): ?>
+    <figure class="hero-media et-visual">
+      <video class="hero-video" muted loop playsinline preload="none" disablepictureinpicture
+             poster="<?= asset('media/hero-tap.jpg') ?>" data-src="<?= asset('media/hero-tap.mp4') ?>"
+             aria-label="<?= te('Une carte EliteTap touche un téléphone et le profil s\'ouvre') ?>"></video>
+      <figcaption class="hero-badge"><span class="hero-badge-dot" aria-hidden="true"></span><?= te('Un toucher, le profil s\'ouvre') ?></figcaption>
+    </figure>
+    <?php else: ?>
     <div class="hero-visual et-visual" aria-hidden="true">
       <div class="demo-card et-card">
         <div class="demo-card-top">
@@ -60,6 +68,7 @@ $faq = [
         </div>
       </div>
     </div>
+    <?php endif; ?>
   </div>
 </section>
 
@@ -74,6 +83,12 @@ $faq = [
     <li><span class="step-tag"><?= te('Étape') ?></span><span class="step-n">03</span><h3><?= te('Agir') ?></h3><p><?= te('Le visiteur enregistre votre contact, vous appelle, vous écrit ou vous laisse ses coordonnées.') ?></p></li>
     <li><span class="step-tag"><?= te('Plateforme') ?></span><span class="step-n">04</span><h3><?= te('Gérer & mesurer') ?></h3><p><?= te('Votre tableau de bord : modifiez votre profil et voyez chaque toucher, visite et prospect.') ?></p></li>
   </ol>
+  <?php if (is_file(APP_ROOT . '/public/assets/media/reseautage.jpg')): ?>
+  <figure class="scene">
+    <img src="<?= asset('media/reseautage.jpg') ?>" alt="<?= te('Une professionnelle touche le téléphone d\'un contact avec sa carte EliteTap lors d\'un événement de réseautage') ?>" loading="lazy" width="1600" height="900">
+    <figcaption><?= te('En réseautage, un toucher suffit : votre contact a vos coordonnées avant la fin de la poignée de main.') ?></figcaption>
+  </figure>
+  <?php endif; ?>
 </section>
 
 <!-- PLATEFORME : ce que voit chaque entreprise -->

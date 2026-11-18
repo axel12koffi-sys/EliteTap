@@ -578,6 +578,12 @@ return [
     "Bonjour {nom},\n\nMerci pour votre demande de carte {carte}. {presence}\n\nConfirmez votre commande et choisissez votre forfait ici :\n{lien}\n\nVous pourrez ensuite payer en ligne, ou régler avec notre service client si vous préférez.\n\nRéférence : {ref}\n\nUne question ? Répondez à ce courriel ou écrivez-nous sur WhatsApp : {whatsapp}\n\nL'équipe EliteTap\n"
         => "Hi {nom},\n\nThank you for your {carte} card request. {presence}\n\nConfirm your order and choose your plan here:\n{lien}\n\nYou can then pay online, or through our customer service if you prefer.\n\nReference: {ref}\n\nAny questions? Reply to this email or message us on WhatsApp: {whatsapp}\n\nThe EliteTap team\n",
 
+    // ---- Accueil : médias réels
+    "Une carte EliteTap touche un téléphone et le profil s'ouvre" => "An EliteTap card taps a phone and the profile opens",
+    "Un toucher, le profil s'ouvre" => "One tap, the profile opens",
+    "Une professionnelle touche le téléphone d'un contact avec sa carte EliteTap lors d'un événement de réseautage" => "A professional taps a contact's phone with her EliteTap card at a networking event",
+    "En réseautage, un toucher suffit : votre contact a vos coordonnées avant la fin de la poignée de main." => "At networking events, one tap is enough: your contact has your details before the handshake is over.",
+
     // ---- Profil sur mesure
     "Profil sur mesure" => "Custom profile",
     "Votre profil affiche un design créé à partir de votre carte. Vos informations se modifient ici : le design suit automatiquement." => "Your profile shows a design created from your card. Edit your details here: the design follows automatically.",

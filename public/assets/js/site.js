@@ -36,3 +36,20 @@
   dlg.querySelector('.lightbox-close').addEventListener('click', function () { dlg.close(); });
   dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
 })();
+
+// Vidéo de la bannière : chargée seulement si les animations sont permises et la connexion n'est pas en mode économie
+(function () {
+  var v = document.querySelector('.hero-video[data-src]');
+  if (!v) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var save = navigator.connection && navigator.connection.saveData;
+  if (reduce || save) return;                      // l'image d'attente (poster) reste affichée
+  v.src = v.getAttribute('data-src');
+  v.removeAttribute('data-src');
+  var play = function () { var p = v.play(); if (p && p.catch) p.catch(function () {}); };
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) play(); else v.pause(); });
+    }, { threshold: 0.2 }).observe(v);
+  } else { play(); }
+})();
