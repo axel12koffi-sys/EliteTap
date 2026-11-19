@@ -83,13 +83,18 @@ $faq = [
     <li><span class="step-tag"><?= te('Étape') ?></span><span class="step-n">03</span><h3><?= te('Agir') ?></h3><p><?= te('Le visiteur enregistre votre contact, vous appelle, vous écrit ou vous laisse ses coordonnées.') ?></p></li>
     <li><span class="step-tag"><?= te('Plateforme') ?></span><span class="step-n">04</span><h3><?= te('Gérer & mesurer') ?></h3><p><?= te('Votre tableau de bord : modifiez votre profil et voyez chaque toucher, visite et prospect.') ?></p></li>
   </ol>
-  <?php if (is_file(APP_ROOT . '/public/assets/img/reseautage.jpg')): ?>
-  <figure class="scene">
-    <img src="<?= asset('img/reseautage.jpg') ?>" alt="<?= te('Une professionnelle touche le téléphone d\'un contact avec sa carte EliteTap lors d\'un événement de réseautage') ?>" loading="lazy" width="1600" height="900">
-    <figcaption><?= te('En réseautage, un toucher suffit : votre contact a vos coordonnées avant la fin de la poignée de main.') ?></figcaption>
-  </figure>
-  <?php endif; ?>
 </section>
+
+<?php if (is_file(APP_ROOT . '/public/assets/img/reseautage.jpg')): ?>
+<figure class="scene" data-scene>
+  <div class="scene-sticky">
+    <div class="scene-window" data-scene-window>
+      <img src="<?= asset('img/reseautage.jpg') ?>" alt="<?= te('Une professionnelle touche le téléphone d\'un contact avec sa carte EliteTap lors d\'un événement de réseautage') ?>" loading="lazy" width="1600" height="900">
+    </div>
+    <figcaption class="scene-caption"><?= te('En réseautage, un toucher suffit : votre contact a vos coordonnées avant la fin de la poignée de main.') ?></figcaption>
+  </div>
+</figure>
+<?php endif; ?>
 
 <!-- PLATEFORME : ce que voit chaque entreprise -->
 <section id="plateforme" class="section-bottom container et-rv">

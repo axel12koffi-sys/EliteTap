@@ -437,6 +437,19 @@ input, select, textarea, button { font: inherit; }
 @keyframes etPulse { 50% { box-shadow: 0 0 0 9px rgba(54, 102, 175, 0); } }
 @media (max-width: 760px) { .hero-media { aspect-ratio: 16 / 11; max-height: none; border-radius: 20px; } .hero-video { object-position: 62% 50%; } }
 @media (prefers-reduced-motion: reduce) { .hero-badge-dot { animation: none; } }
-.scene { margin: 48px 0 0; display: grid; gap: 12px; }
-.scene img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 24px; box-shadow: 0 24px 48px -24px rgba(20, 40, 75, .35); }
-.scene figcaption { color: var(--muted, #52617A); font-size: 15px; max-width: 70ch; }
+/* Photo de réseautage : fenêtre fixe qui s'ouvre puis se referme au défilement */
+.scene { position: relative; height: 170vh; margin: 24px 0 0; }
+.scene-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; display: grid; place-items: center; }
+.scene-window { position: absolute; inset: 0; clip-path: inset(var(--sc-y, 22%) var(--sc-x, 14%) round var(--sc-r, 28px)); will-change: clip-path; }
+.scene-window img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; transform: scale(var(--sc-s, 1.12)); will-change: transform; }
+.scene-caption { position: absolute; left: 50%; bottom: max(28px, calc(var(--sc-y, 22%) - 64px)); transform: translateX(-50%); width: min(640px, calc(100% - 32px));
+  margin: 0; padding: 14px 18px; border-radius: 14px; background: rgba(255, 255, 255, .92); color: #1E2A4A; font-size: 15px; line-height: 1.45; text-align: center;
+  box-shadow: 0 12px 32px -12px rgba(20, 40, 75, .4); opacity: var(--sc-o, 0); transition: opacity .25s ease; }
+@media (max-width: 720px) { .scene { height: 140vh; } .scene-window img { object-position: 60% 50%; } }
+@media (prefers-reduced-motion: reduce) {
+  .scene { height: auto; margin: 48px auto 0; width: min(1200px, calc(100% - 32px)); }
+  .scene-sticky { position: static; height: auto; display: block; }
+  .scene-window { position: relative; clip-path: inset(0 round 24px); aspect-ratio: 16 / 9; }
+  .scene-window img { transform: none; }
+  .scene-caption { position: static; transform: none; opacity: 1; box-shadow: none; background: none; padding: 12px 0 0; width: auto; text-align: left; color: var(--muted, #52617A); }
+}
