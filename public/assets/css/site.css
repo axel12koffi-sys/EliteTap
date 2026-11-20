@@ -472,6 +472,7 @@ input, select, textarea, button { font: inherit; }
 .tap-profile { position: absolute; inset: 0; display: flex; flex-direction: column; animation: tapProfile var(--T) cubic-bezier(.2, .8, .2, 1) infinite; }
 .tap-cover { height: 98px; flex: none; background: linear-gradient(120deg, #14284B, #2B5596 60%, #7FAEDD); }
 .tap-avatar { width: 70px; height: 70px; margin: -35px auto 0; border-radius: 50%; display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 22px; color: var(--navy); background: linear-gradient(135deg, #EAF1FA, #A9C8EC); border: 3px solid #F5F8FC; }
+img.tap-avatar { display: block; object-fit: cover; }
 .tap-who { text-align: center; padding: 8px 14px 0; }
 .tap-who b { display: block; font-family: var(--display); font-size: 16px; }
 .tap-who span { display: block; font-size: 11.5px; color: var(--muted); margin-top: 2px; }

@@ -47,7 +47,7 @@ $faq = [
             </div>
             <div class="tap-profile">
               <div class="tap-cover"></div>
-              <div class="tap-avatar">SL</div>
+              <?php if (is_file(APP_ROOT . '/public/assets/img/demo-sophie.jpg')): ?><img class="tap-avatar" src="<?= asset('img/demo-sophie.jpg') ?>" alt="" width="70" height="70"><?php else: ?><div class="tap-avatar">SL</div><?php endif; ?>
               <div class="tap-who"><b>Sophie Lavoie</b><span><?= te('Courtière immobilière') ?></span></div>
               <div class="tap-save"><?= te('Enregistrer le contact') ?></div>
               <div class="tap-rows">
