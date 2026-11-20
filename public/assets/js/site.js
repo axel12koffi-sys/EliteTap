@@ -79,7 +79,7 @@
   update();
 })();
 
-// Bannière : mise à l'échelle de la scène, code QR décoratif, bouton pause
+// Bannière : mise à l'échelle de la scène et code QR décoratif
 (function () {
   var wrap = document.querySelector('[data-tap]');
   if (!wrap) return;
@@ -101,10 +101,4 @@
       g.fillStyle = '#14284B'; g.fillRect((p[0] + 4) * u, (p[1] + 4) * u, 3 * u, 3 * u);
     });
   }
-  var btn = wrap.querySelector('[data-tap-toggle]');
-  if (btn) btn.addEventListener('click', function () {
-    var paused = wrap.classList.toggle('is-paused');
-    btn.textContent = btn.getAttribute(paused ? 'data-l-play' : 'data-l-pause');
-    btn.setAttribute('aria-pressed', String(paused));
-  });
 })();

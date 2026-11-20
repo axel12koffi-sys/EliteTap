@@ -36,10 +36,14 @@ $faq = [
         <div class="tap-glow" aria-hidden="true"></div>
         <div class="tap-phone" aria-hidden="true">
           <div class="tap-screen">
-            <div class="tap-lock"><div class="tap-time">9:41</div><div class="tap-date"><?= te('Mardi 3 décembre') ?></div></div>
+            <div class="tap-lock"><div class="tap-time">9:41</div></div>
             <div class="tap-notif">
               <span class="tap-notif-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFED00" stroke-width="2.2" stroke-linecap="round"><path d="M6 8a8 8 0 0 1 0 8"/><path d="M10 6a12 12 0 0 1 0 12"/><path d="M14 4a16 16 0 0 1 0 16"/></svg></span>
               <span><b>EliteTap</b><span><?= te('Ouvrir le profil de Sophie Lavoie') ?></span></span>
+            </div>
+            <div class="tap-notif tap-added">
+              <span class="tap-notif-ic tap-added-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+              <span><b><?= te('Contact ajouté') ?></b><span><?= te('Sophie Lavoie est dans vos contacts') ?></span></span>
             </div>
             <div class="tap-profile">
               <div class="tap-cover"></div>
@@ -66,7 +70,6 @@ $faq = [
           </div>
         </div>
       </div>
-      <button type="button" class="tap-toggle" data-tap-toggle aria-pressed="false" data-l-pause="<?= te('Pause') ?>" data-l-play="<?= te('Lecture') ?>"><?= te('Pause') ?></button>
     </div>
   </div>
 </section>
@@ -84,16 +87,6 @@ $faq = [
   </ol>
 </section>
 
-<?php if (is_file(APP_ROOT . '/public/assets/img/reseautage.jpg')): ?>
-<figure class="scene" data-scene>
-  <div class="scene-sticky">
-    <div class="scene-window" data-scene-window>
-      <img src="<?= asset('img/reseautage.jpg') ?>" alt="<?= te('Une professionnelle touche le téléphone d\'un contact avec sa carte EliteTap lors d\'un événement de réseautage') ?>" loading="lazy" width="1600" height="900">
-    </div>
-    <figcaption class="scene-caption"><?= te('En réseautage, un toucher suffit : votre contact a vos coordonnées avant la fin de la poignée de main.') ?></figcaption>
-  </div>
-</figure>
-<?php endif; ?>
 
 <!-- PLATEFORME : ce que voit chaque entreprise -->
 <section id="plateforme" class="section-bottom container et-rv">
