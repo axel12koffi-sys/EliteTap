@@ -97,6 +97,10 @@ $isHome = $path === '/';
     </div>
   </div>
 </footer>
+<div class="cookie-bar" data-cookie-bar role="region" aria-label="<?= te('Témoins (cookies)') ?>" hidden>
+  <p><strong><?= te('Témoins (cookies)') ?></strong> <?= te('Ce site utilise uniquement des témoins essentiels : rester connecté à votre espace client et retenir votre langue. Aucun témoin publicitaire ni de suivi par des tiers.') ?> <a href="/confidentialite"><?= te('En savoir plus') ?></a></p>
+  <button type="button" class="btn btn-primary" data-cookie-ok><?= te('J\'ai compris') ?></button>
+</div>
 <?php if (chat_ready()): $pres = presence(); ?>
 <div id="et-chat" class="et-chat" data-csrf="<?= e(csrf_token()) ?>" data-online="<?= $pres['online'] ? '1' : '0' ?>" data-lang="<?= lang() ?>"
      data-i18n="<?= e(json_encode(chat_widget_strings(), JSON_UNESCAPED_UNICODE)) ?>"></div>

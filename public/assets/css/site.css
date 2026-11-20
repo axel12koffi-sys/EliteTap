@@ -585,3 +585,11 @@ img.tap-avatar { display: block; object-fit: cover; }
   .testi + .testi { border-left: 0; border-top: 1px solid var(--line); padding-top: 40px; }
   .cta-band { flex-direction: column; align-items: flex-start; padding: 28px 24px; }
 }
+
+/* ---- Bandeau de témoins (cookies) : informatif, essentiels seulement ---- */
+.cookie-bar { position: fixed; left: 20px; bottom: 20px; z-index: 55; width: min(440px, calc(100% - 40px)); display: grid; gap: 12px; padding: 16px 18px; border-radius: 16px;
+  background: var(--card); border: 1px solid var(--line); box-shadow: 0 18px 40px -16px rgba(20, 40, 75, .35); font-size: 14px; line-height: 1.5; color: var(--body); }
+.cookie-bar[hidden] { display: none; }
+.cookie-bar strong { color: var(--text); }
+.cookie-bar .btn { justify-self: start; }
+@media (max-width: 560px) { .cookie-bar { left: 12px; right: 12px; bottom: 88px; width: auto; } }

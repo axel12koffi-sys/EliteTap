@@ -610,6 +610,12 @@ return [
     "Mon téléphone est-il compatible ?" => "Is my phone compatible?",
     "iPhone XS / XR et plus récent (iOS 13+) et la plupart des Android depuis 2015, NFC activé. Sans NFC, le code QR au dos fonctionne avec n'importe quel appareil." => "iPhone XS / XR and newer (iOS 13+) and most Android phones since 2015 with NFC turned on. Without NFC, the QR code on the back works with any device.",
 
+    // ---- Bandeau de témoins
+    "Témoins (cookies)" => "Cookies",
+    "Ce site utilise uniquement des témoins essentiels : rester connecté à votre espace client et retenir votre langue. Aucun témoin publicitaire ni de suivi par des tiers." => "This site uses only essential cookies: keeping you signed in to your client space and remembering your language. No advertising or third-party tracking cookies.",
+    "En savoir plus" => "Learn more",
+    "J'ai compris" => "Got it",
+
     // ---- Profil sur mesure
     "Profil sur mesure" => "Custom profile",
     "Votre profil affiche un design créé à partir de votre carte. Vos informations se modifient ici : le design suit automatiquement." => "Your profile shows a design created from your card. Edit your details here: the design follows automatically.",

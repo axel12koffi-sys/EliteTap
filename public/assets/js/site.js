@@ -102,3 +102,17 @@
     });
   }
 })();
+
+// Bandeau de témoins : affiché tant que le visiteur n'a pas cliqué « J'ai compris »
+(function () {
+  var bar = document.querySelector('[data-cookie-bar]');
+  if (!bar) return;
+  var KEY = 'et_cookies_ok', seen = false;
+  try { seen = localStorage.getItem(KEY) === '1'; } catch (e) {}
+  if (seen) return;
+  bar.hidden = false;
+  bar.querySelector('[data-cookie-ok]').addEventListener('click', function () {
+    try { localStorage.setItem(KEY, '1'); } catch (e) {}
+    bar.hidden = true;
+  });
+})();
