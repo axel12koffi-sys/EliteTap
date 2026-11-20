@@ -584,6 +584,31 @@ return [
     "Une professionnelle touche le téléphone d'un contact avec sa carte EliteTap lors d'un événement de réseautage" => "A professional taps a contact's phone with her EliteTap card at a networking event",
     "En réseautage, un toucher suffit : votre contact a vos coordonnées avant la fin de la poignée de main." => "At networking events, one tap is enough: your contact has your details before the handshake is over.",
 
+    // ---- Accueil : animation et matières
+    "Animation : une carte EliteTap touche un téléphone et le profil de sa propriétaire s'ouvre" => "Animation: an EliteTap card taps a phone and its owner's profile opens",
+    "Mardi 3 décembre" => "Tuesday, December 3",
+    "Ouvrir le profil de Sophie Lavoie" => "Open Sophie Lavoie's profile",
+    "COURTIÈRE IMMOBILIÈRE" => "REAL ESTATE BROKER",
+    "Touchez ou scannez" => "Tap or scan",
+    "Lecture" => "Play",
+    "Lien" => "Link",
+    "Mobile" => "Mobile",
+    "Besoin de plus de 10 cartes ?" => "Need more than 10 cards?",
+    "Demander un devis" => "Request a quote",
+    "Essentiel" => "Essential",
+    "Finition au choix" => "Your choice of finish",
+    "Écoresponsable" => "Eco-friendly",
+    "Ultra premium" => "Ultra premium",
+
+    "Client EliteTap · Montréal" => "EliteTap client · Montreal",
+    "Dans mes fonctions de gestion de fonds de retraite, la crédibilité est primordiale. EliteTap m'a permis de moderniser mon approche tout en conservant le professionnalisme requis. La technologie NFC inspire confiance et facilite les échanges lors des rencontres avec nos partenaires institutionnels." => "In managing pension funds, credibility is paramount. EliteTap helped me modernize my approach while keeping the professionalism my role requires. NFC technology inspires trust and makes exchanges easier when we meet our institutional partners.",
+    "Une très belle expérience avec EliteTap ! Ma carte a été entièrement personnalisée selon mes goûts et l'image de mon entreprise. Le résultat est professionnel, moderne et élégant. C'est un outil pratique qui me permet de partager facilement mes coordonnées avec mes clients." => "A great experience with EliteTap! My card was fully customized to my taste and my company's image. The result is professional, modern and elegant. It's a practical tool that lets me share my details easily with my clients.",
+    "Votre carte, à votre image." => "Your card, your image.",
+    "Une carte NFC personnalisée, un profil numérique et un accompagnement à chaque étape." => "A custom NFC card, a digital profile and support at every step.",
+    "Discutons de votre carte" => "Let's talk about your card",
+    "Mon téléphone est-il compatible ?" => "Is my phone compatible?",
+    "iPhone XS / XR et plus récent (iOS 13+) et la plupart des Android depuis 2015, NFC activé. Sans NFC, le code QR au dos fonctionne avec n'importe quel appareil." => "iPhone XS / XR and newer (iOS 13+) and most Android phones since 2015 with NFC turned on. Without NFC, the QR code on the back works with any device.",
+
     // ---- Profil sur mesure
     "Profil sur mesure" => "Custom profile",
     "Votre profil affiche un design créé à partir de votre carte. Vos informations se modifient ici : le design suit automatiquement." => "Your profile shows a design created from your card. Edit your details here: the design follows automatically.",

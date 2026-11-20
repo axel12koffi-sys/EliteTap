@@ -3,6 +3,7 @@ $check = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidde
 $flashes = flashes();
 $designs = public_designs();
 $faq = [
+      ['Mon téléphone est-il compatible ?', 'iPhone XS / XR et plus récent (iOS 13+) et la plupart des Android depuis 2015, NFC activé. Sans NFC, le code QR au dos fonctionne avec n\'importe quel appareil.'],
       ['Faut-il une application ?', 'Non. Le profil s\'ouvre directement dans le navigateur du téléphone de votre contact.'],
       ['Puis-je modifier mes informations ?', 'Oui, sans réimprimer votre carte : vous-même depuis votre tableau de bord avec le forfait Pro, ou par l\'équipe EliteTap avec le forfait Essentiel.'],
       ['Que deviennent les coordonnées laissées par mes visiteurs ?', 'Elles arrivent dans votre boîte de prospects et par courriel. Chaque visiteur coche un consentement, conformément à la Loi 25.'],
@@ -30,45 +31,43 @@ $faq = [
       </ul>
     </div>
 
-    <?php if (is_file(APP_ROOT . '/public/assets/img/hero-tap.mp4')): ?>
-    <figure class="hero-media et-visual">
-      <video class="hero-video" muted loop playsinline preload="none" disablepictureinpicture
-             poster="<?= asset('img/hero-tap.jpg') ?>" data-src="<?= asset('img/hero-tap.mp4') ?>"
-             aria-label="<?= te('Une carte EliteTap touche un téléphone et le profil s\'ouvre') ?>"></video>
-      <figcaption class="hero-badge"><span class="hero-badge-dot" aria-hidden="true"></span><?= te('Un toucher, le profil s\'ouvre') ?></figcaption>
-    </figure>
-    <?php else: ?>
-    <div class="hero-visual et-visual" aria-hidden="true">
-      <div class="demo-card et-card">
-        <div class="demo-card-top">
-          <span class="demo-card-name">Sophie Lavoie</span>
-          <svg width="30" height="30" viewBox="0 0 28 28" fill="none"><path d="M10 9a7 7 0 0 1 0 10M14 6a11 11 0 0 1 0 16M18 3a15 15 0 0 1 0 22" stroke="#FFED00" stroke-width="2" stroke-linecap="round"/></svg>
+    <div class="tap-wrap et-visual" data-tap>
+      <div class="tap-stage" role="img" aria-label="<?= te('Animation : une carte EliteTap touche un téléphone et le profil de sa propriétaire s\'ouvre') ?>">
+        <div class="tap-glow" aria-hidden="true"></div>
+        <div class="tap-phone" aria-hidden="true">
+          <div class="tap-screen">
+            <div class="tap-lock"><div class="tap-time">9:41</div><div class="tap-date"><?= te('Mardi 3 décembre') ?></div></div>
+            <div class="tap-notif">
+              <span class="tap-notif-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFED00" stroke-width="2.2" stroke-linecap="round"><path d="M6 8a8 8 0 0 1 0 8"/><path d="M10 6a12 12 0 0 1 0 12"/><path d="M14 4a16 16 0 0 1 0 16"/></svg></span>
+              <span><b>EliteTap</b><span><?= te('Ouvrir le profil de Sophie Lavoie') ?></span></span>
+            </div>
+            <div class="tap-profile">
+              <div class="tap-cover"></div>
+              <div class="tap-avatar">SL</div>
+              <div class="tap-who"><b>Sophie Lavoie</b><span><?= te('Courtière immobilière') ?></span></div>
+              <div class="tap-save"><?= te('Enregistrer le contact') ?></div>
+              <div class="tap-rows">
+                <div class="tap-row"><i><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3666AF" stroke-width="2.2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></i><span>514 555-0142<small><?= te('Mobile') ?></small></span></div>
+                <div class="tap-row"><i><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3666AF" stroke-width="2.2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></i><span>sophie@exemple.ca<small><?= te('Courriel') ?></small></span></div>
+                <div class="tap-row"><i><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3666AF" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></i><span><?= te('Prendre rendez-vous') ?><small><?= te('Lien') ?></small></span></div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="demo-card-bottom">
-          <span><?= te('Courtière immobilière') ?></span>
-          <span class="demo-qr"><?php foreach ([1,0,1,1,0,1,0,1,1,1,0,0,1,0,1,1] as $b): ?><i<?= $b ? ' class="on"' : '' ?>></i><?php endforeach; ?></span>
-        </div>
-      </div>
-      <span class="et-ripple"></span>
-      <div class="demo-phone et-phone">
-        <div class="demo-cover"></div>
-        <span class="et-hint"><?= te('Approchez la carte…') ?></span>
-        <div class="demo-avatar et-r et-r1">SL</div>
-        <div class="demo-id et-r et-r2"><strong>Sophie Lavoie</strong><span><?= te('Courtière immobilière') ?></span></div>
-        <div class="demo-save et-r et-r3"><?= te('Enregistrer le contact') ?></div>
-        <div class="demo-actions et-r et-r4">
-          <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" stroke="#14284B" stroke-width="2" stroke-linejoin="round"/></svg><?= te('Appeler') ?></span>
-          <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#14284B" stroke-width="2"/><path d="M3 7l9 6 9-6" stroke="#14284B" stroke-width="2"/></svg><?= te('Courriel') ?></span>
-          <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z" stroke="#14284B" stroke-width="2" stroke-linejoin="round"/></svg>WhatsApp</span>
-        </div>
-        <div class="demo-links et-r et-r5">
-          <span><?= te('Prendre rendez-vous') ?> <b>→</b></span>
-          <span>LinkedIn <b>→</b></span>
-          <span><?= te('Laissez vos coordonnées') ?> <b>→</b></span>
+        <span class="tap-ripple" aria-hidden="true"></span><span class="tap-ripple r2" aria-hidden="true"></span><span class="tap-ripple r3" aria-hidden="true"></span>
+        <div class="tap-card-pos" aria-hidden="true">
+          <div class="tap-card">
+            <div class="tap-face tap-front">
+              <img src="<?= asset('img/logo-white.png') ?>" alt="" class="tap-logo" width="150" height="40">
+              <div class="tap-name"><b>Sophie Lavoie</b><span><?= te('COURTIÈRE IMMOBILIÈRE') ?></span></div>
+              <svg class="tap-nfc" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFED00" stroke-width="1.8" stroke-linecap="round"><path d="M6 8a8 8 0 0 1 0 8"/><path d="M10 6a12 12 0 0 1 0 12"/><path d="M14 4a16 16 0 0 1 0 16"/></svg>
+            </div>
+            <div class="tap-face tap-back"><canvas width="184" height="184" data-tap-qr></canvas><span><?= te('Touchez ou scannez') ?></span></div>
+          </div>
         </div>
       </div>
+      <button type="button" class="tap-toggle" data-tap-toggle aria-pressed="false" data-l-pause="<?= te('Pause') ?>" data-l-play="<?= te('Lecture') ?>"><?= te('Pause') ?></button>
     </div>
-    <?php endif; ?>
   </div>
 </section>
 
@@ -150,32 +149,24 @@ $faq = [
 </section>
 
 <!-- DESIGNS / MATIÈRES -->
-<section id="materiaux" class="dark">
+<section id="materiaux" class="mats-section">
   <div class="section container et-rv">
-    <div class="section-head">
-      <div>
-        <p class="eyebrow eyebrow-dark"><?= te('Nos designs') ?></p>
-        <h2 class="h2"><?= te('Quatre matières, un design fait pour vous.') ?></h2>
-        <p class="sub" style="margin-bottom: 40px;"><?= te('Votre marque, vos couleurs, votre style. Une épreuve vous est envoyée avant toute production.') ?></p>
-      </div>
+    <div class="mats-head">
+      <p class="eyebrow"><?= te('Nos designs') ?></p>
+      <h2 class="h2"><?= te('Quatre matières, un design fait pour vous.') ?></h2>
+      <p class="sub"><?= te('Votre marque, vos couleurs, votre style. Une épreuve vous est envoyée avant toute production.') ?></p>
+      <p class="mats-quote"><?= te('Besoin de plus de 10 cartes ?') ?> <a href="#commande"><?= te('Demander un devis') ?></a></p>
     </div>
-    <div class="materials">
+    <div class="mats">
       <?php foreach ([
-        ['Standard', 'PVC blanc ou noir, impression couleur recto-verso.', 'img/carte-standard.jpg', '#FFFFFF'],
-        ['Premium', 'Finition mate ou brillante, design avancé sur mesure.', 'img/carte-premium.jpg', '#3666AF'],
-        ['Bois', 'Gravure laser sur bois naturel. Chaleureux, écoresponsable.', 'img/carte-bois.jpg', '#A47148'],
-        ['Métal', 'Acier gravé, la carte qu\'on garde. Sur devis.', 'img/carte-metal.jpg', '#8E949E'],
-      ] as [$name, $desc, $img, $fallback]):
-        $photo = null;
-        foreach ($designs as $d) { if ($d['material'] === $name) { $photo = $d; break; } } ?>
-      <article class="material">
-        <?php if ($photo): ?>
-          <img src="/uploads/designs/<?= e($photo['thumb_path']) ?>" alt="<?= te('Carte NFC {matiere} EliteTap', ['matiere' => t($name)]) ?>" loading="lazy" class="material-img">
-        <?php elseif (is_file(APP_ROOT . '/public/assets/' . $img)): ?>
-          <img src="<?= asset($img) ?>" alt="<?= te('Carte NFC {matiere} EliteTap', ['matiere' => t($name)]) ?>" loading="lazy" class="material-img">
-        <?php else: ?>
-          <div class="material-img" style="background: <?= $fallback ?>"></div>
-        <?php endif; ?>
+        ['Standard', 'PVC blanc ou noir, impression couleur recto-verso.', 'standard', 'Essentiel'],
+        ['Premium', 'Finition mate ou brillante, design avancé sur mesure.', 'premium', 'Finition au choix'],
+        ['Bois', 'Gravure laser sur bois naturel. Chaleureux, écoresponsable.', 'bois', 'Écoresponsable'],
+        ['Métal', 'Acier gravé, la carte qu\'on garde. Sur devis.', 'metal', 'Ultra premium'],
+      ] as [$name, $desc, $key, $badge]): ?>
+      <article class="mat mat-<?= $key ?>">
+        <span class="mat-badge"><?php if ($key === 'metal'): ?><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.6L21 11l-6.8 2.4L12 20l-2.2-6.6L3 11l6.8-2.4z"/></svg><?php endif; ?><?= te($badge) ?></span>
+        <div class="mat-stage" aria-hidden="true"><div class="mat-card"><span class="mat-nfc"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 8a8 8 0 0 1 0 8"/><path d="M10 6a12 12 0 0 1 0 12"/><path d="M14 4a16 16 0 0 1 0 16"/></svg></span></div></div>
         <h3><?= te($name) ?></h3>
         <p><?= te($desc) ?></p>
       </article>
@@ -254,25 +245,35 @@ $faq = [
   <p class="note-line"><?= te('Votre profil gratuit reste tel quel ; le passage au forfait Pro est un choix, jamais une obligation.') ?></p>
 </section>
 
-<!-- COMPATIBILITE + TEMOIGNAGES -->
-<section class="section-bottom container split et-rv">
-  <div class="tile compat">
-    <h2 class="h3"><?= te('Compatible avec votre téléphone ?') ?></h2>
-    <div class="compat-grid">
-      <div><h3>iPhone</h3><p><?= te('XS / XR et plus récent, iOS 13+. Aucune application.') ?></p></div>
-      <div><h3>Android</h3><p><?= te('La plupart des modèles depuis 2015, NFC activé.') ?></p></div>
-    </div>
-    <p class="note"><?= te('Pas de NFC ? Le code QR au dos fonctionne avec n\'importe quel appareil.') ?></p>
+<!-- TEMOIGNAGES + APPEL A L'ACTION -->
+<section class="section-bottom container et-rv">
+  <div class="testis">
+    <?php foreach ([
+      ['Guy', 'Client EliteTap · Montréal', 'temoin-guy.jpg', 'Dans mes fonctions de gestion de fonds de retraite, la crédibilité est primordiale. EliteTap m\'a permis de moderniser mon approche tout en conservant le professionnalisme requis. La technologie NFC inspire confiance et facilite les échanges lors des rencontres avec nos partenaires institutionnels.'],
+      ['Jean Cyrus Oulai', 'Gestion JC', 'temoin-jean-cyrus.jpg', 'Une très belle expérience avec EliteTap ! Ma carte a été entièrement personnalisée selon mes goûts et l\'image de mon entreprise. Le résultat est professionnel, moderne et élégant. C\'est un outil pratique qui me permet de partager facilement mes coordonnées avec mes clients.'],
+    ] as [$who, $role, $photo, $quote]):
+      $initials = implode('', array_map(fn($w) => mb_substr($w, 0, 1), array_slice(explode(' ', $who), 0, 2))); ?>
+    <figure class="testi">
+      <svg class="testi-mark" width="28" height="22" viewBox="0 0 28 22" fill="currentColor" aria-hidden="true"><path d="M0 22V13Q0 4 9 0l2 3Q6 6 6 11h6v11zm16 0V13q0-9 9-13l2 3q-5 3-5 8h6v11z"/></svg>
+      <blockquote><?= te($quote) ?></blockquote>
+      <figcaption>
+        <?php if (is_file(APP_ROOT . '/public/assets/img/' . $photo)): ?>
+          <img class="testi-photo" src="<?= asset('img/' . $photo) ?>" alt="" width="104" height="104" loading="lazy">
+        <?php else: ?>
+          <span class="testi-photo testi-initials" aria-hidden="true"><?= e($initials) ?></span>
+        <?php endif; ?>
+        <strong><?= e($who) ?></strong>
+        <span><?= te($role) ?></span>
+      </figcaption>
+    </figure>
+    <?php endforeach; ?>
   </div>
-  <div class="quotes">
-    <figure class="tile">
-      <blockquote><?= te('« Dans la gestion de fonds de retraite, la crédibilité est primordiale. EliteTap m\'a permis de moderniser mon approche tout en restant professionnel. »') ?></blockquote>
-      <figcaption><strong>Guy</strong> · <?= te('Gestion de fonds, Montréal') ?></figcaption>
-    </figure>
-    <figure class="tile">
-      <blockquote><?= te('« Ma carte a été entièrement personnalisée à l\'image de mon entreprise. Professionnel, moderne et élégant. »') ?></blockquote>
-      <figcaption><strong>Jean Cyrus Oulai</strong> · Gestion JC</figcaption>
-    </figure>
+  <div class="cta-band">
+    <div>
+      <h2><?= te('Votre carte, à votre image.') ?></h2>
+      <p><?= te('Une carte NFC personnalisée, un profil numérique et un accompagnement à chaque étape.') ?></p>
+    </div>
+    <a href="#commande" class="cta-band-btn"><?= te('Discutons de votre carte') ?> <span aria-hidden="true">→</span></a>
   </div>
 </section>
 
