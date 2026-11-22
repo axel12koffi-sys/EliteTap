@@ -249,3 +249,8 @@ const ORDER_STATUSES = [
 const CARD_STATUSES = ['stock' => 'En stock', 'active' => 'Active', 'disabled' => 'Désactivée'];
 
 const CARD_TYPES = ['Standard', 'Premium', 'Bois', 'Métal', 'Je ne sais pas encore'];
+
+// Formulaire de soumission : tranches de quantité (clé => libellé) et quantité retenue pour la commande
+const QTY_RANGES = ['1' => '1', '2-5' => '2 – 5', '6-10' => '6 – 10', '11-25' => '11 – 25', '26-50' => '26 – 50', '50+' => '50 +'];
+const QTY_RANGE_MIN = ['1' => 1, '2-5' => 2, '6-10' => 6, '11-25' => 11, '26-50' => 26, '50+' => 51];
+const SECTORS = ['Immobilier', 'Finance et assurances', 'Juridique', 'Santé', 'Vente et représentation', 'Entrepreneur', 'Autre'];

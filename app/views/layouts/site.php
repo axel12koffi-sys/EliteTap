@@ -7,7 +7,7 @@ $isHome = $path === '/';
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title><?= e($title ?? t('Carte de visite NFC personnalisée au Québec | EliteTap')) ?></title>
+<title><?= e($title ?? t('Carte de visite NFC à Laval, Montréal et Québec | EliteTap')) ?></title>
 <meta name="description" content="<?= te('Cartes de visite NFC personnalisées à Laval, Montréal et partout au Québec. Partagez vos coordonnées par NFC ou code QR, sans application. Devis gratuit en moins de 24 h.') ?>">
 <link rel="canonical" href="<?= e(url($path) . (lang() === 'en' ? '?lang=en' : '')) ?>">
 <link rel="alternate" hreflang="fr-CA" href="<?= e(url($path)) ?>">
@@ -31,7 +31,7 @@ $isHome = $path === '/';
 <link rel="stylesheet" href="<?= asset('css/site.css') ?>">
 <?php if ($isHome): ?>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"LocalBusiness","name":"EliteTap","url":"<?= e(url('/')) ?>","email":"info@elitetap.ca","telephone":"+1-438-220-7167","address":{"@type":"PostalAddress","addressLocality":"Laval","addressRegion":"QC","addressCountry":"CA"},"image":"<?= e(url('/assets/img/share.jpg')) ?>","logo":"<?= e(url('/assets/img/logo-color.png')) ?>","priceRange":"$$","areaServed":[{"@type":"City","name":"Laval"},{"@type":"City","name":"Montréal"},{"@type":"AdministrativeArea","name":"Québec"}],"sameAs":["https://www.instagram.com/elitetap_ca/"]}
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"EliteTap","url":"<?= e(url('/')) ?>","email":"info@elitetap.ca","telephone":"+1-438-220-7167","address":{"@type":"PostalAddress","addressLocality":"Laval","addressRegion":"QC","addressCountry":"CA"},"image":"<?= e(url('/assets/img/share.jpg')) ?>","logo":"<?= e(url('/assets/img/logo-color.png')) ?>","areaServed":[{"@type":"City","name":"Laval"},{"@type":"City","name":"Montréal"},{"@type":"City","name":"Québec"},{"@type":"Place","name":"Rive-Nord"},{"@type":"Place","name":"Rive-Sud"}],"sameAs":["https://www.instagram.com/elitetap_ca/"]}
 </script>
 <?php endif; ?>
 </head>
@@ -47,12 +47,12 @@ $isHome = $path === '/';
       <a href="/#fonctionnement"><?= te('Fonctionnement') ?></a>
       <a href="/#plateforme"><?= te('Plateforme') ?></a>
       <a href="/#materiaux"><?= te('Designs') ?></a>
-      <a href="/#tarifs"><?= te('Tarifs') ?></a>
+      <a href="/#temoignages"><?= te('Témoignages') ?></a>
       <a href="/#faq"><?= te('FAQ') ?></a>
       <span class="nav-sep" aria-hidden="true"></span>
       <a href="<?= e(switch_lang_url()) ?>" lang="<?= lang() === 'fr' ? 'en' : 'fr' ?>" hreflang="<?= lang() === 'fr' ? 'en' : 'fr' ?>"><?= lang() === 'fr' ? 'EN' : 'FR' ?></a>
       <a href="<?= current_user() ? '/compte' : '/connexion' ?>"><?= current_user() ? te('Mon espace') : te('Se connecter') ?></a>
-      <a href="/#commande" class="btn btn-primary"><?= te('Commander ma carte') ?></a>
+      <a href="/#commande" class="btn btn-primary"><?= te('Obtenir ma carte') ?></a>
     </div>
   </nav>
 </header>
@@ -83,20 +83,41 @@ $isHome = $path === '/';
     </form>
   </div>
   <?php endif; ?>
-  <div class="container footer-inner">
+  <div class="container footer-grid">
     <div class="footer-brand">
       <img src="<?= asset('img/logo-white.png') ?>" alt="EliteTap" width="98" height="28">
-      <span>© <?= date('Y') ?> · Laval, Québec</span>
+      <p class="footer-tag">NFC &amp; QR Business Cards<br>Laval · Montréal · Québec</p>
+      <p class="footer-contact">
+        <a href="tel:+14382207167">+1 438-220-7167</a>
+        <a href="https://wa.me/<?= e(config('whatsapp')) ?>?text=<?= rawurlencode(t('Bonjour, je suis intéressé par les cartes NFC EliteTap')) ?>" rel="noopener">WhatsApp</a>
+        <a href="mailto:info@elitetap.ca">info@elitetap.ca</a>
+        <a href="https://www.instagram.com/elitetap_ca/" rel="noopener">Instagram</a>
+      </p>
     </div>
-    <div class="footer-links">
-      <a href="mailto:info@elitetap.ca">info@elitetap.ca</a>
-      <a href="https://www.instagram.com/elitetap_ca/" rel="noopener">Instagram</a>
-      <a href="/confidentialite"><?= te('Confidentialité') ?></a>
-      <a href="/remboursement"><?= te('Remboursements') ?></a>
+    <nav class="footer-col" aria-label="<?= te('Navigation') ?>">
+      <h2><?= te('Navigation') ?></h2>
+      <a href="/"><?= te('Accueil') ?></a>
+      <a href="/#materiaux"><?= te('Designs') ?></a>
+      <a href="/#fonctionnement"><?= te('Comment ça marche') ?></a>
+      <a href="/#temoignages"><?= te('Témoignages') ?></a>
+      <a href="/#commande"><?= te('Contact') ?></a>
+    </nav>
+    <nav class="footer-col" aria-label="<?= te('Légal') ?>">
+      <h2><?= te('Légal') ?></h2>
+      <a href="/confidentialite"><?= te('Politique de confidentialité') ?></a>
+      <a href="/remboursement"><?= te('Politique de remboursement') ?></a>
+      <a href="/conditions"><?= te('Conditions d\'utilisation') ?></a>
       <a href="<?= e(switch_lang_url()) ?>" lang="<?= lang() === 'fr' ? 'en' : 'fr' ?>"><?= e(lang_switch_label()) ?></a>
-    </div>
+    </nav>
+  </div>
+  <div class="container footer-bottom">
+    <span>© <?= date('Y') ?> EliteTap · <?= te('Tous droits réservés') ?> · Laval, Québec, Canada</span>
+    <span><?= te('Fait au Québec') ?> 🍁</span>
   </div>
 </footer>
+<a class="wa-float" href="https://wa.me/<?= e(config('whatsapp')) ?>?text=<?= rawurlencode(t('Bonjour, je suis intéressé par les cartes NFC EliteTap')) ?>" rel="noopener" target="_blank" aria-label="<?= te('Écrire à EliteTap sur WhatsApp') ?>">
+  <svg width="28" height="28" viewBox="0 0 32 32" fill="#fff" aria-hidden="true"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7a.6.6 0 0 0 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8.9 3.8.8a3.2 3.2 0 0 0 2.1-1.5 2.6 2.6 0 0 0 .2-1.5c-.1-.2-.3-.3-.6-.5z"/></svg>
+</a>
 <div class="cookie-bar" data-cookie-bar role="region" aria-label="<?= te('Témoins (cookies)') ?>" hidden>
   <p><strong><?= te('Témoins (cookies)') ?></strong> <?= te('Ce site utilise uniquement des témoins essentiels : rester connecté à votre espace client et retenir votre langue. Aucun témoin publicitaire ni de suivi par des tiers.') ?> <a href="/confidentialite"><?= te('En savoir plus') ?></a></p>
   <button type="button" class="btn btn-primary" data-cookie-ok><?= te('J\'ai compris') ?></button>

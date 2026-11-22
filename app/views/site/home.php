@@ -7,28 +7,29 @@ $faq = [
       ['Faut-il une application ?', 'Non. Le profil s\'ouvre directement dans le navigateur du téléphone de votre contact.'],
       ['Puis-je modifier mes informations ?', 'Oui, sans réimprimer votre carte : vous-même depuis votre tableau de bord avec le forfait Pro, ou par l\'équipe EliteTap avec le forfait Essentiel.'],
       ['Que deviennent les coordonnées laissées par mes visiteurs ?', 'Elles arrivent dans votre boîte de prospects et par courriel. Chaque visiteur coche un consentement, conformément à la Loi 25.'],
-      ['Combien coûte une carte ?', 'À partir de 89 $ CAD (Standard) et 129 $ CAD (Premium). Bois, métal et commandes d\'équipe sur devis.'],
+      ['Combien coûte une carte ?', 'Le prix dépend de la finition, du design et de la quantité. Demandez une soumission gratuite : réponse sous 24 h, devis personnalisé.'],
       ['Quels sont les délais de livraison ?', 'La production commence après validation de votre épreuve. Le délai exact vous est confirmé avec le devis, selon la matière et la quantité.'],
       ['Et si je perds ma carte ?', 'Désactivez-la en un clic depuis votre espace client, puis commandez un remplacement relié au même profil.'],
-      ['Puis-je payer en ligne ?', 'Oui. Une fois votre devis accepté, vous recevez un lien de paiement sécurisé par carte de crédit.'],
+      ['Puis-je payer en ligne ?', 'Oui. Une fois votre soumission acceptée, vous recevez un lien de paiement sécurisé par carte de crédit.'],
     ];
 ?>
 <!-- HERO -->
 <section class="hero">
   <div class="container hero-grid">
     <div class="hero-copy">
-      <p class="kicker et-up et-d1"><?= te('Cartes d\'affaires NFC & QR · Laval · Montréal · Québec') ?></p>
-      <h1 class="et-up et-d2"><?= te('La carte NFC') ?> <span class="soft"><?= te('qui parle pour vous.') ?></span></h1>
-      <p class="lead et-up et-d3"><?= te('Un toucher sur un iPhone ou un Android, et votre profil s\'ouvre sur-le-champ, sans application. Vous le mettez à jour quand vous voulez et voyez, dans votre tableau de bord, chaque toucher, visite et prospect.') ?></p>
+      <p class="kicker et-up et-d1"><?= te('NFC & QR · Laval · Montréal · Québec') ?></p>
+      <h1 class="et-up et-d2"><?= te('La carte de visite intelligente') ?> <span class="soft"><?= te('pour les pros du Québec') ?></span></h1>
+      <p class="hero-tagline et-up et-d3"><?= te('Sans application. Toujours à jour.') ?></p>
+      <p class="lead et-up et-d3"><?= te('Partagez vos coordonnées en un tap, sur n\'importe quel iPhone ou Android. Vos clients reçoivent un profil complet, vous récupérez leurs contacts.') ?></p>
       <div class="actions et-up et-d4">
-        <a href="#commande" class="btn btn-primary btn-lg"><?= te('Commander ma carte') ?></a>
-        <a href="#materiaux" class="btn btn-ghost btn-lg"><?= te('Voir les designs') ?></a>
+        <a href="#commande" class="btn btn-primary btn-lg"><?= te('Obtenir ma carte') ?></a>
+        <a href="#demo" class="btn btn-ghost btn-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg><?= te('Voir la démo') ?></a>
       </div>
-      <ul class="trust et-up et-d5">
-        <li><?= $check ?><?= te('Sans application') ?></li>
-        <li><?= $check ?><?= te('iPhone & Android') ?></li>
-        <li><?= $check ?><?= te('Toujours à jour') ?></li>
-      </ul>
+      <p class="hero-compat et-up et-d5"><?= te('Compatible iPhone XS et plus · Android depuis 2015 · Réponse sous 24 h') ?></p>
+      <div class="zones et-up et-d5">
+        <span class="zones-label"><?= te('Zones servies :') ?></span>
+        <ul><?php foreach (['Laval', 'Montréal', 'Québec', 'Rive-Nord', 'Rive-Sud'] as $z): ?><li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><?= te($z) ?></li><?php endforeach; ?></ul>
+      </div>
     </div>
 
     <div class="tap-wrap et-visual" data-tap>
@@ -71,6 +72,47 @@ $faq = [
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- AVANT / APRÈS -->
+<section id="avantapres" class="section container et-rv">
+  <div class="ba-head">
+    <h2 class="h2"><?= te('Fini les cartes papier perdues') ?></h2>
+    <p class="sub"><?= te('Découvrez ce que ça change vraiment') ?></p>
+  </div>
+  <div class="ba">
+    <div class="ba-col ba-before">
+      <h3><span class="ba-ico" aria-hidden="true">✕</span><?= te('Carte de visite classique') ?></h3>
+      <ul>
+        <?php foreach (['Se perd, se froisse, s\'oublie', 'Réimprimer à chaque changement', 'Aucun suivi : vous ne savez pas qui l\'a vue', 'Coût élevé à chaque mise à jour', 'Besoin d\'une application pour sauvegarder'] as $l): ?><li><?= te($l) ?></li><?php endforeach; ?>
+      </ul>
+    </div>
+    <div class="ba-col ba-after">
+      <h3><span class="ba-ico" aria-hidden="true">✓</span><?= te('Carte NFC EliteTap') ?></h3>
+      <ul>
+        <?php foreach (['Un tap : profil complet ouvert immédiatement', 'Mises à jour illimitées, sans réimprimer', 'Tableau de bord : combien de taps, qui vous a contacté', 'Une seule carte pour toute votre carrière', 'Sans application : fonctionne nativement'] as $l): ?><li><?= te($l) ?></li><?php endforeach; ?>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- VIDÉO DÉMO -->
+<section id="demo" class="demo-section">
+  <div class="section container et-rv">
+    <div class="demo-head">
+      <h2 class="h2"><?= te('Voyez la magie en action') ?></h2>
+      <p class="sub"><?= te('Un tap suffit. Pas d\'application. Fonctionne sur tous les iPhone et Android récents.') ?></p>
+    </div>
+    <?php if (is_file(APP_ROOT . '/public/assets/img/video01.mp4')): ?>
+    <div class="demo-player">
+      <video controls muted playsinline preload="metadata" poster="<?= asset('img/video01.jpg') ?>" aria-label="<?= te('Démonstration : une carte EliteTap touche un iPhone et le profil s\'ouvre') ?>">
+        <source src="<?= asset('img/video01.mp4') ?>" type="video/mp4">
+      </video>
+    </div>
+    <?php else: ?>
+    <p class="demo-missing"><?= te('La vidéo de démonstration arrive bientôt.') ?></p>
+    <?php endif; ?>
   </div>
 </section>
 
@@ -146,23 +188,23 @@ $faq = [
   <div class="section container et-rv">
     <div class="mats-head">
       <p class="eyebrow"><?= te('Nos designs') ?></p>
-      <h2 class="h2"><?= te('Quatre matières, un design fait pour vous.') ?></h2>
-      <p class="sub"><?= te('Votre marque, vos couleurs, votre style. Une épreuve vous est envoyée avant toute production.') ?></p>
+      <h2 class="h2"><?= te('Votre marque. Vos couleurs. Votre style.') ?></h2>
+      <p class="sub"><?= te('6 finitions disponibles, entièrement personnalisables à votre image. Une épreuve vous est envoyée avant toute production.') ?></p>
       <p class="mats-quote"><?= te('Besoin de plus de 10 cartes ?') ?> <a href="#commande"><?= te('Demander un devis') ?></a></p>
     </div>
     <div class="mats">
       <?php foreach ([
-        ['Standard', 'PVC blanc ou noir, impression couleur recto-verso.', 'standard', 'Essentiel'],
-        ['Premium', 'Finition mate ou brillante, design avancé sur mesure.', 'premium', 'Finition au choix'],
-        ['Bois', 'Gravure laser sur bois naturel. Chaleureux, écoresponsable.', 'bois', 'Écoresponsable'],
-        ['Métal', 'Acier gravé, la carte qu\'on garde. Sur devis.', 'metal', 'Ultra premium'],
-      ] as [$name, $desc, $key, $badge]): ?>
-      <article class="mat mat-<?= $key ?>">
-        <span class="mat-badge"><?php if ($key === 'metal'): ?><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.6L21 11l-6.8 2.4L12 20l-2.2-6.6L3 11l6.8-2.4z"/></svg><?php endif; ?><?= te($badge) ?></span>
+        ['Plastique premium', 'Matt Noir Élite', 'matt-noir'],
+        ['Plastique premium', 'Noir Brillant Pro', 'noir-brillant'],
+        ['Métal brossé', 'Or Prestige', 'or'],
+        ['Métal brossé', 'Argent Corporate', 'argent'],
+        ['Bois naturel', 'Érable Nordique', 'erable'],
+        ['Transparent', 'Crystal NFC', 'crystal'],
+      ] as [$material, $name, $key]): ?>
+      <figure class="mat mat-<?= $key ?>">
         <div class="mat-stage" aria-hidden="true"><div class="mat-card"><span class="mat-nfc"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 8a8 8 0 0 1 0 8"/><path d="M10 6a12 12 0 0 1 0 12"/><path d="M14 4a16 16 0 0 1 0 16"/></svg></span></div></div>
-        <h3><?= te($name) ?></h3>
-        <p><?= te($desc) ?></p>
-      </article>
+        <figcaption><span class="mat-type"><?= te($material) ?></span><strong><?= e($name) ?></strong></figcaption>
+      </figure>
       <?php endforeach; ?>
     </div>
 
@@ -185,33 +227,6 @@ $faq = [
   <img alt="">
   <p></p>
 </dialog>
-
-<!-- TARIFS -->
-<section id="tarifs" class="section container et-rv">
-  <p class="eyebrow"><?= te('Tarifs') ?></p>
-  <h2 class="h2"><?= te('Prix clairs, devis gratuit.') ?></h2>
-  <p class="sub"><?= te('Le prix final dépend du design, de la finition et de la quantité. Réponse en moins de 24 h.') ?></p>
-  <div class="plans">
-    <article class="plan">
-      <div><h3><?= te('Standard') ?></h3><p class="muted"><?= te('Pour démarrer.') ?></p></div>
-      <p class="price-line"><?= te('À partir de') ?> <span class="price"><?= money(display_price('Standard', 8900)) ?></span><?= te('par carte, design de base inclus') ?></p>
-      <ul><li><?= te('NFC + code QR') ?></li><li><?= te('Profil hébergé à vie') ?></li><li><?= te('6 thèmes au choix') ?></li><li><?= te('Livraison au Québec') ?></li></ul>
-      <a href="#commande" class="btn btn-outline" data-card="Standard"><?= te('Choisir Standard') ?></a>
-    </article>
-    <article class="plan plan-featured">
-      <div><div class="plan-title"><h3><?= te('Premium') ?></h3><span class="badge"><?= te('Le plus choisi') ?></span></div><p class="muted"><?= te('Finition haut de gamme.') ?></p></div>
-      <p class="price-line"><?= te('À partir de') ?> <span class="price"><?= money(display_price('Premium', 12900)) ?></span><?= te('par carte, design premium inclus') ?></p>
-      <ul><li><?= te('Tout le plan Standard') ?></li><li><?= te('Finition mate ou brillante') ?></li><li><?= te('Design avancé sur mesure') ?></li><li><?= te('Production prioritaire') ?></li></ul>
-      <a href="#commande" class="btn btn-primary" data-card="Premium"><?= te('Choisir Premium') ?></a>
-    </article>
-    <article class="plan">
-      <div><h3><?= te('Entreprise') ?></h3><p class="muted"><?= te('Équipes et identité corporative.') ?></p></div>
-      <p class="price-line"><?= te('Tarif') ?> <span class="price"><?= te('Sur devis') ?></span><?= te('dégressif selon la quantité') ?></p>
-      <ul><li><?= te('Cartes bois ou métal') ?></li><li><?= te('Une carte par employé') ?></li><li><?= te('Branding corporatif complet') ?></li><li><?= te('Accompagnement dédié') ?></li></ul>
-      <a href="#commande" class="btn btn-outline" data-card="Métal"><?= te('Demander un devis') ?></a>
-    </article>
-  </div>
-</section>
 
 <!-- FORFAITS DU PROFIL (plan d'évolution, section 05) -->
 <section id="forfaits" class="section-bottom container et-rv">
@@ -239,15 +254,16 @@ $faq = [
 </section>
 
 <!-- TEMOIGNAGES + APPEL A L'ACTION -->
-<section class="section-bottom container et-rv">
+<section id="temoignages" class="section-bottom container et-rv">
+  <h2 class="h2 testis-title"><?= te('Ils ont adopté la carte NFC') ?></h2>
   <div class="testis">
     <?php foreach ([
-      ['Guy', 'Client EliteTap · Montréal', 'temoin-guy.jpg', 'Dans mes fonctions de gestion de fonds de retraite, la crédibilité est primordiale. EliteTap m\'a permis de moderniser mon approche tout en conservant le professionnalisme requis. La technologie NFC inspire confiance et facilite les échanges lors des rencontres avec nos partenaires institutionnels.'],
-      ['Jean Cyrus Oulai', 'Gestion JC', 'temoin-jean-cyrus.jpg', 'Une très belle expérience avec EliteTap ! Ma carte a été entièrement personnalisée selon mes goûts et l\'image de mon entreprise. Le résultat est professionnel, moderne et élégant. C\'est un outil pratique qui me permet de partager facilement mes coordonnées avec mes clients.'],
+      ['Guy', 'Client EliteTap · Montréal', 'temoin-guy.jpg', 'Ma carte NFC EliteTap a changé ma façon de réseauter. En un tap, mes clients ont tout ce qu\'il faut. J\'ai eu 3 nouveaux contacts la première semaine !'],
+      ['Jean Cyrus Oulai', 'Client EliteTap · Laval', 'temoin-jean-cyrus.jpg', 'Très professionnel et facile à utiliser. Je recommande EliteTap à tous mes collègues dans le domaine immobilier.'],
     ] as [$who, $role, $photo, $quote]):
       $initials = implode('', array_map(fn($w) => mb_substr($w, 0, 1), array_slice(explode(' ', $who), 0, 2))); ?>
     <figure class="testi">
-      <svg class="testi-mark" width="28" height="22" viewBox="0 0 28 22" fill="currentColor" aria-hidden="true"><path d="M0 22V13Q0 4 9 0l2 3Q6 6 6 11h6v11zm16 0V13q0-9 9-13l2 3q-5 3-5 8h6v11z"/></svg>
+      <p class="testi-stars" role="img" aria-label="<?= te('5 étoiles sur 5') ?>">★★★★★</p>
       <blockquote><?= te($quote) ?></blockquote>
       <figcaption>
         <?php if (is_file(APP_ROOT . '/public/assets/img/' . $photo)): ?>
@@ -287,8 +303,8 @@ $faq = [
 <section id="commande" class="dark">
   <div class="section container order-grid et-rv">
     <div class="order-copy">
-      <h2 class="h2 h2-xl"><?= te('Parlons de votre carte.') ?></h2>
-      <p class="lead"><?= te('Devis gratuit, réponse en moins de 24 h. Vous recevez une épreuve avant toute production.') ?></p>
+      <h2 class="h2 h2-xl"><?= te('Obtenez votre soumission gratuite') ?></h2>
+      <p class="lead"><?= te('Réponse garantie sous 24 h · Devis personnalisé · Livraison Laval et Montréal') ?></p>
       <?php $pres = presence(); ?>
       <p class="presence-pill <?= $pres['online'] ? 'is-online' : 'is-away' ?>"><span class="presence-dot" aria-hidden="true"></span>
         <?= $pres['online'] ? te('En ligne maintenant · réponse rapide') : te('Absents pour le moment · réponse {retour}', ['retour' => format_back($pres['back'], lang())]) ?></p>
@@ -304,10 +320,10 @@ $faq = [
       <?php foreach ($flashes as $f): ?>
         <p class="alert alert-<?= e($f['type']) ?> span-2" role="alert"><?= e($f['msg']) ?></p>
       <?php endforeach; ?>
-      <label><?= te('Prénom et nom') ?><input type="text" name="name" autocomplete="name" required value="<?= e(old('name')) ?>"></label>
-      <label><?= te('Entreprise') ?> <span class="opt">(<?= te('optionnel') ?>)</span><input type="text" name="company" autocomplete="organization" value="<?= e(old('company')) ?>"></label>
-      <label><?= te('Courriel') ?><input type="email" name="email" autocomplete="email" required value="<?= e(old('email')) ?>"></label>
-      <label><?= te('Téléphone') ?> <span class="opt">(<?= te('optionnel') ?>)</span><input type="tel" name="phone" autocomplete="tel" value="<?= e(old('phone')) ?>"></label>
+      <label><?= te('Prénom et nom') ?> <span class="req" aria-hidden="true">*</span><input type="text" name="name" autocomplete="name" required placeholder="Jean Tremblay" value="<?= e(old('name')) ?>"></label>
+      <label><?= te('Entreprise') ?> <span class="opt">(<?= te('optionnel') ?>)</span><input type="text" name="company" autocomplete="organization" placeholder="RE/MAX Excellence" value="<?= e(old('company')) ?>"></label>
+      <label><?= te('Courriel') ?> <span class="req" aria-hidden="true">*</span><input type="email" name="email" autocomplete="email" required placeholder="jean@exemple.ca" value="<?= e(old('email')) ?>"></label>
+      <label><?= te('Téléphone') ?> <span class="opt">(<?= te('optionnel') ?>)</span><input type="tel" name="phone" autocomplete="tel" placeholder="514 000-0000" value="<?= e(old('phone')) ?>"></label>
       <label><?= te('Type de carte') ?>
         <select name="card_type" id="card_type">
           <?php foreach (CARD_TYPES as $ct): ?>
@@ -315,18 +331,29 @@ $faq = [
           <?php endforeach; ?>
         </select>
       </label>
-      <label><?= te('Quantité') ?><input type="number" name="quantity" min="1" max="10000" value="<?= e(old('quantity', '1')) ?>"></label>
-      <label class="span-2"><?= te('Votre idée de design') ?> <span class="opt">(<?= te('optionnel') ?>)</span><textarea name="message" rows="4"><?= e(old('message')) ?></textarea></label>
+      <label><?= te('Quantité de cartes') ?> <span class="req" aria-hidden="true">*</span>
+        <select name="qty_range" required>
+          <option value=""><?= te('Choisir') ?></option>
+          <?php foreach (QTY_RANGES as $k => $lbl): ?><option value="<?= e($k) ?>"<?= old('qty_range') === $k ? ' selected' : '' ?>><?= e($lbl) ?></option><?php endforeach; ?>
+        </select>
+      </label>
+      <label><?= te('Secteur d\'activité') ?> <span class="opt">(<?= te('optionnel') ?>)</span>
+        <select name="sector">
+          <option value=""><?= te('Choisir') ?></option>
+          <?php foreach (SECTORS as $sec): ?><option value="<?= e($sec) ?>"<?= old('sector') === $sec ? ' selected' : '' ?>><?= te($sec) ?></option><?php endforeach; ?>
+        </select>
+      </label>
+      <label class="span-2"><?= te('Message') ?> <span class="opt">(<?= te('optionnel') ?>)</span><textarea name="message" rows="4" placeholder="<?= te('Je voudrais des cartes personnalisées…') ?>"><?= e(old('message')) ?></textarea></label>
       <label class="span-2"><?= te('Logo ou maquette') ?> <span class="opt">(<?= te('PNG, JPG, SVG ou PDF, 10 Mo max') ?>)</span><input type="file" name="file" accept=".png,.jpg,.jpeg,.webp,.svg,.pdf"></label>
       <label class="hp" aria-hidden="true">Site web<input type="text" name="site_web" tabindex="-1" autocomplete="off"></label>
-      <button type="submit" class="btn btn-primary btn-lg span-2"><?= te('Recevoir mon devis gratuit') ?></button>
-      <p class="fine span-2"><?= t('En envoyant ce formulaire, vous acceptez notre <a href="/confidentialite">politique de confidentialité</a>.') ?></p>
+      <button type="submit" class="btn btn-primary btn-lg span-2"><?= te('Obtenir ma soumission gratuite') ?> <span aria-hidden="true">→</span></button>
+      <p class="fine span-2"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> <?= t('Vos informations sont confidentielles · <a href="/confidentialite">Politique de confidentialité</a>') ?></p>
     </form>
   </div>
 </section>
 
 <?php
-// Données structurées : FAQ (résultats enrichis) et offres avec prix
+// Données structurées : FAQ (résultats enrichis) et avis clients (sans prix, voir la stratégie « soumission »)
 $ld = [
     '@context' => 'https://schema.org',
     '@graph' => [
@@ -343,9 +370,11 @@ $ld = [
             'description' => t('Carte de visite NFC personnalisée avec code QR et profil numérique modifiable, sans application.'),
             'brand' => ['@type' => 'Brand', 'name' => 'EliteTap'],
             'image' => url('/assets/img/share.jpg'),
-            'offers' => [
-                ['@type' => 'Offer', 'name' => t('Standard'), 'price' => number_format(display_price('Standard', 8900) / 100, 2, '.', ''), 'priceCurrency' => 'CAD', 'availability' => 'https://schema.org/InStock', 'url' => url('/#tarifs')],
-                ['@type' => 'Offer', 'name' => t('Premium'), 'price' => number_format(display_price('Premium', 12900) / 100, 2, '.', ''), 'priceCurrency' => 'CAD', 'availability' => 'https://schema.org/InStock', 'url' => url('/#tarifs')],
+            'review' => [
+                ['@type' => 'Review', 'author' => ['@type' => 'Person', 'name' => 'Guy'], 'reviewRating' => ['@type' => 'Rating', 'ratingValue' => 5, 'bestRating' => 5],
+                 'reviewBody' => t('Ma carte NFC EliteTap a changé ma façon de réseauter. En un tap, mes clients ont tout ce qu\'il faut. J\'ai eu 3 nouveaux contacts la première semaine !')],
+                ['@type' => 'Review', 'author' => ['@type' => 'Person', 'name' => 'Jean Cyrus Oulai'], 'reviewRating' => ['@type' => 'Rating', 'ratingValue' => 5, 'bestRating' => 5],
+                 'reviewBody' => t('Très professionnel et facile à utiliser. Je recommande EliteTap à tous mes collègues dans le domaine immobilier.')],
             ],
         ],
     ],

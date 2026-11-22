@@ -30,6 +30,7 @@ const ROUTES = [
     ['POST', '/commande/(ET-[A-Z0-9]{6})/([a-f0-9]{32})', 'order_submit'],
     ['GET',  '/confidentialite',               'site_privacy'],
     ['GET',  '/remboursement',                 'site_refund'],
+    ['GET',  '/conditions',                    'site_terms'],
     ['GET',  '/robots\.txt',                  'site_robots'],
     ['GET',  '/sitemap\.xml',                 'site_sitemap'],
 
