@@ -79,19 +79,18 @@ $faq = [
 <section id="avantapres" class="section container et-rv">
   <div class="ba-head">
     <h2 class="h2"><?= te('Fini les cartes papier perdues') ?></h2>
-    <p class="sub"><?= te('Découvrez ce que ça change vraiment') ?></p>
   </div>
   <div class="ba">
     <div class="ba-col ba-before">
       <h3><span class="ba-ico" aria-hidden="true">✕</span><?= te('Carte de visite classique') ?></h3>
       <ul>
-        <?php foreach (['Se perd, se froisse, s\'oublie', 'Réimprimer à chaque changement', 'Aucun suivi : vous ne savez pas qui l\'a vue', 'Coût élevé à chaque mise à jour', 'Besoin d\'une application pour sauvegarder'] as $l): ?><li><?= te($l) ?></li><?php endforeach; ?>
+        <?php foreach (['Se perd, se froisse, s\'oublie', 'Réimprimer à chaque changement', 'Aucun suivi : vous ne savez pas qui l\'a vue'] as $l): ?><li><?= te($l) ?></li><?php endforeach; ?>
       </ul>
     </div>
     <div class="ba-col ba-after">
       <h3><span class="ba-ico" aria-hidden="true">✓</span><?= te('Carte NFC EliteTap') ?></h3>
       <ul>
-        <?php foreach (['Un tap : profil complet ouvert immédiatement', 'Mises à jour illimitées, sans réimprimer', 'Tableau de bord : combien de taps, qui vous a contacté', 'Une seule carte pour toute votre carrière', 'Sans application : fonctionne nativement'] as $l): ?><li><?= te($l) ?></li><?php endforeach; ?>
+        <?php foreach (['Un tap : profil complet ouvert immédiatement', 'Mises à jour illimitées, sans réimprimer', 'Tableau de bord : combien de taps, qui vous a contacté'] as $l): ?><li><?= te($l) ?></li><?php endforeach; ?>
       </ul>
     </div>
   </div>
@@ -148,14 +147,6 @@ $faq = [
       <p class="sub"><?= te('Un seul tap suffit pour afficher vos coordonnées, vos liens et vos réseaux sociaux sur le téléphone de votre contact. Changez de numéro ou de poste : votre profil évolue avec vous, sans avoir à réimprimer votre carte. EliteTap s\'adapte à votre image et à votre métier.') ?></p>
       <a href="#commande" class="btn btn-primary btn-lg"><?= te('Commander ma carte') ?></a>
     </div>
-    <details class="compat-more">
-      <summary><?= te('Voir les téléphones compatibles') ?> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></summary>
-      <div class="compat-panel">
-        <div><h3>iPhone</h3><ul><li><?= te('iPhone XS / XR et plus récent') ?></li><li><?= te('iOS 13 ou plus récent') ?></li><li><?= te('Aucune application requise') ?></li></ul></div>
-        <div><h3>Android</h3><ul><li><?= te('La plupart des modèles depuis 2015') ?></li><li><?= te('NFC activé dans les paramètres') ?></li><li><?= te('Samsung, Google, Xiaomi, etc.') ?></li></ul></div>
-        <p class="compat-note"><?= te('Pas de NFC ou téléphone plus ancien ? Le code QR fonctionne avec n\'importe quel appareil.') ?></p>
-      </div>
-    </details>
     <div class="modes">
       <article class="mode">
         <div class="mode-art mode-nfc" aria-hidden="true"><span class="mode-ring"></span><span class="mode-phone"><i class="mode-chip"></i></span></div>

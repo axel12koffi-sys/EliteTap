@@ -713,3 +713,12 @@ img.tap-avatar { display: block; object-fit: cover; }
 .testis-sub { text-align: center; margin: 0 auto 24px; }
 .gallery-intro { color: var(--muted); max-width: 70ch; margin: -6px 0 20px; line-height: 1.6; }
 .order-more { margin-top: 14px; color: var(--on-navy-2); line-height: 1.6; max-width: 52ch; }
+
+/* Avant / Après compact */
+#avantapres.section { padding-top: 56px; padding-bottom: 24px; }
+.ba-head { margin-bottom: 20px; }
+.ba-col { padding: 20px 22px; }
+.ba-col h3 { margin-bottom: 12px; }
+.ba-col ul { gap: 6px; }
+.ba-col li { padding: 6px 0; background: none; font-size: 15px; }
+.talk-head .btn { margin-bottom: 32px; }
