@@ -737,6 +737,8 @@ return [
     "Combien coûte une carte EliteTap ?" => "How much does an EliteTap card cost?",
     "Les prix varient selon le design, la finition et le niveau de personnalisation souhaité. Demandez une soumission gratuite : réponse sous 24 h." => "Prices vary with the design, the finish and the level of customization. Ask for a free quote: reply within 24 h.",
 
+    "À partir de 89 \$ CAD (Standard) et 129 \$ CAD (Premium). Bois, métal et commandes d'équipe sur devis. Le prix final varie selon le design, la finition et la quantité : soumission gratuite, réponse sous 24 h." => "From \$89 CAD (Standard) and \$129 CAD (Premium). Wood, metal and team orders on quote. The final price depends on the design, the finish and the quantity: free quote, reply within 24 h.",
+
     // ---- Profil sur mesure
     "Profil sur mesure" => "Custom profile",
     "Votre profil affiche un design créé à partir de votre carte. Vos informations se modifient ici : le design suit automatiquement." => "Your profile shows a design created from your card. Edit your details here: the design follows automatically.",

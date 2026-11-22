@@ -47,7 +47,7 @@ $isHome = $path === '/';
       <a href="/#fonctionnement"><?= te('Fonctionnement') ?></a>
       <a href="/#plateforme"><?= te('Plateforme') ?></a>
       <a href="/#materiaux"><?= te('Designs') ?></a>
-      <a href="/#temoignages"><?= te('Témoignages') ?></a>
+      <a href="/#tarifs"><?= te('Tarifs') ?></a>
       <a href="/#faq"><?= te('FAQ') ?></a>
       <span class="nav-sep" aria-hidden="true"></span>
       <a href="<?= e(switch_lang_url()) ?>" lang="<?= lang() === 'fr' ? 'en' : 'fr' ?>" hreflang="<?= lang() === 'fr' ? 'en' : 'fr' ?>"><?= lang() === 'fr' ? 'EN' : 'FR' ?></a>
@@ -99,6 +99,7 @@ $isHome = $path === '/';
       <a href="/"><?= te('Accueil') ?></a>
       <a href="/#materiaux"><?= te('Designs') ?></a>
       <a href="/#fonctionnement"><?= te('Comment ça marche') ?></a>
+      <a href="/#tarifs"><?= te('Tarifs') ?></a>
       <a href="/#temoignages"><?= te('Témoignages') ?></a>
       <a href="/#commande"><?= te('Contact') ?></a>
     </nav>

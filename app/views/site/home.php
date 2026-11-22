@@ -7,7 +7,7 @@ $faq = [
       ['Puis-je modifier mes informations ?', 'Oui. Vous pouvez mettre à jour vos informations à tout moment sans réimprimer votre carte : vous-même depuis votre tableau de bord avec le forfait Pro, ou par l\'équipe EliteTap avec le forfait Essentiel.'],
       ['Est-ce compatible avec tous les téléphones ?', 'Oui. La carte fonctionne avec la majorité des iPhone (XS / XR et plus récents) et des Android récents. Un code QR est aussi disponible pour tous les autres appareils.'],
       ['Combien de temps pour recevoir ma carte ?', 'La livraison est rapide partout au Québec. Les délais varient selon le type de carte et la personnalisation ; ils vous sont confirmés avec votre soumission.'],
-      ['Combien coûte une carte EliteTap ?', 'Les prix varient selon le design, la finition et le niveau de personnalisation souhaité. Demandez une soumission gratuite : réponse sous 24 h.'],
+      ['Combien coûte une carte EliteTap ?', 'À partir de 89 $ CAD (Standard) et 129 $ CAD (Premium). Bois, métal et commandes d\'équipe sur devis. Le prix final varie selon le design, la finition et la quantité : soumission gratuite, réponse sous 24 h.'],
       ['Que deviennent les coordonnées laissées par mes visiteurs ?', 'Elles arrivent dans votre boîte de prospects et par courriel. Chaque visiteur coche un consentement, conformément à la Loi 25.'],
       ['Et si je perds ma carte ?', 'Désactivez-la en un clic depuis votre espace client, puis commandez un remplacement relié au même profil.'],
       ['Puis-je payer en ligne ?', 'Oui. Une fois votre soumission acceptée, vous recevez un lien de paiement sécurisé par carte de crédit.'],
@@ -275,6 +275,33 @@ $faq = [
   <p></p>
 </dialog>
 
+<!-- TARIFS -->
+<section id="tarifs" class="section container et-rv">
+  <p class="eyebrow"><?= te('Tarifs') ?></p>
+  <h2 class="h2"><?= te('Prix clairs, devis gratuit.') ?></h2>
+  <p class="sub"><?= te('Le prix final dépend du design, de la finition et de la quantité. Réponse en moins de 24 h.') ?></p>
+  <div class="plans">
+    <article class="plan">
+      <div><h3><?= te('Standard') ?></h3><p class="muted"><?= te('Pour démarrer.') ?></p></div>
+      <p class="price-line"><?= te('À partir de') ?> <span class="price"><?= money(display_price('Standard', 8900)) ?></span><?= te('par carte, design de base inclus') ?></p>
+      <ul><li><?= te('NFC + code QR') ?></li><li><?= te('Profil hébergé à vie') ?></li><li><?= te('6 thèmes au choix') ?></li><li><?= te('Livraison au Québec') ?></li></ul>
+      <a href="#commande" class="btn btn-outline" data-card="Standard"><?= te('Choisir Standard') ?></a>
+    </article>
+    <article class="plan plan-featured">
+      <div><div class="plan-title"><h3><?= te('Premium') ?></h3><span class="badge"><?= te('Le plus choisi') ?></span></div><p class="muted"><?= te('Finition haut de gamme.') ?></p></div>
+      <p class="price-line"><?= te('À partir de') ?> <span class="price"><?= money(display_price('Premium', 12900)) ?></span><?= te('par carte, design premium inclus') ?></p>
+      <ul><li><?= te('Tout le plan Standard') ?></li><li><?= te('Finition mate ou brillante') ?></li><li><?= te('Design avancé sur mesure') ?></li><li><?= te('Production prioritaire') ?></li></ul>
+      <a href="#commande" class="btn btn-primary" data-card="Premium"><?= te('Choisir Premium') ?></a>
+    </article>
+    <article class="plan">
+      <div><h3><?= te('Entreprise') ?></h3><p class="muted"><?= te('Équipes et identité corporative.') ?></p></div>
+      <p class="price-line"><?= te('Tarif') ?> <span class="price"><?= te('Sur devis') ?></span><?= te('dégressif selon la quantité') ?></p>
+      <ul><li><?= te('Cartes bois ou métal') ?></li><li><?= te('Une carte par employé') ?></li><li><?= te('Branding corporatif complet') ?></li><li><?= te('Accompagnement dédié') ?></li></ul>
+      <a href="#commande" class="btn btn-outline" data-card="Métal"><?= te('Demander un devis') ?></a>
+    </article>
+  </div>
+</section>
+
 <!-- FORFAITS DU PROFIL (plan d'évolution, section 05) -->
 <section id="forfaits" class="section-bottom container et-rv">
   <p class="eyebrow"><?= te('Votre profil') ?></p>
@@ -403,7 +430,7 @@ $faq = [
 </section>
 
 <?php
-// Données structurées : FAQ (résultats enrichis) et avis clients (sans prix, voir la stratégie « soumission »)
+// Données structurées : FAQ (résultats enrichis), offres avec prix et avis clients
 $ld = [
     '@context' => 'https://schema.org',
     '@graph' => [
@@ -420,6 +447,10 @@ $ld = [
             'description' => t('Carte de visite NFC personnalisée avec code QR et profil numérique modifiable, sans application.'),
             'brand' => ['@type' => 'Brand', 'name' => 'EliteTap'],
             'image' => url('/assets/img/share.jpg'),
+            'offers' => [
+                ['@type' => 'Offer', 'name' => t('Standard'), 'price' => number_format(display_price('Standard', 8900) / 100, 2, '.', ''), 'priceCurrency' => 'CAD', 'availability' => 'https://schema.org/InStock', 'url' => url('/#tarifs')],
+                ['@type' => 'Offer', 'name' => t('Premium'), 'price' => number_format(display_price('Premium', 12900) / 100, 2, '.', ''), 'priceCurrency' => 'CAD', 'availability' => 'https://schema.org/InStock', 'url' => url('/#tarifs')],
+            ],
             'review' => [
                 ['@type' => 'Review', 'author' => ['@type' => 'Person', 'name' => 'Guy'], 'reviewRating' => ['@type' => 'Rating', 'ratingValue' => 5, 'bestRating' => 5],
                  'reviewBody' => t('Dans mes fonctions de gestion de fonds de retraite, la crédibilité est primordiale. EliteTap m\'a permis de moderniser mon approche tout en conservant le professionnalisme requis. La technologie NFC inspire confiance et facilite les échanges lors des rencontres avec nos partenaires institutionnels.')],
