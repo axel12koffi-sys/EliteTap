@@ -3,12 +3,12 @@ $check = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidde
 $flashes = flashes();
 $designs = public_designs();
 $faq = [
-      ['Mon téléphone est-il compatible ?', 'iPhone XS / XR et plus récent (iOS 13+) et la plupart des Android depuis 2015, NFC activé. Sans NFC, le code QR au dos fonctionne avec n\'importe quel appareil.'],
-      ['Faut-il une application ?', 'Non. Le profil s\'ouvre directement dans le navigateur du téléphone de votre contact.'],
-      ['Puis-je modifier mes informations ?', 'Oui, sans réimprimer votre carte : vous-même depuis votre tableau de bord avec le forfait Pro, ou par l\'équipe EliteTap avec le forfait Essentiel.'],
+      ['Est-ce que ça fonctionne sans application ?', 'Oui. Aucune application n\'est nécessaire. Le profil s\'ouvre directement via le navigateur du téléphone.'],
+      ['Puis-je modifier mes informations ?', 'Oui. Vous pouvez mettre à jour vos informations à tout moment sans réimprimer votre carte : vous-même depuis votre tableau de bord avec le forfait Pro, ou par l\'équipe EliteTap avec le forfait Essentiel.'],
+      ['Est-ce compatible avec tous les téléphones ?', 'Oui. La carte fonctionne avec la majorité des iPhone (XS / XR et plus récents) et des Android récents. Un code QR est aussi disponible pour tous les autres appareils.'],
+      ['Combien de temps pour recevoir ma carte ?', 'La livraison est rapide partout au Québec. Les délais varient selon le type de carte et la personnalisation ; ils vous sont confirmés avec votre soumission.'],
+      ['Combien coûte une carte EliteTap ?', 'Les prix varient selon le design, la finition et le niveau de personnalisation souhaité. Demandez une soumission gratuite : réponse sous 24 h.'],
       ['Que deviennent les coordonnées laissées par mes visiteurs ?', 'Elles arrivent dans votre boîte de prospects et par courriel. Chaque visiteur coche un consentement, conformément à la Loi 25.'],
-      ['Combien coûte une carte ?', 'Le prix dépend de la finition, du design et de la quantité. Demandez une soumission gratuite : réponse sous 24 h, devis personnalisé.'],
-      ['Quels sont les délais de livraison ?', 'La production commence après validation de votre épreuve. Le délai exact vous est confirmé avec le devis, selon la matière et la quantité.'],
       ['Et si je perds ma carte ?', 'Désactivez-la en un clic depuis votre espace client, puis commandez un remplacement relié au même profil.'],
       ['Puis-je payer en ligne ?', 'Oui. Une fois votre soumission acceptée, vous recevez un lien de paiement sécurisé par carte de crédit.'],
     ];
@@ -25,7 +25,7 @@ $faq = [
         <a href="#commande" class="btn btn-primary btn-lg"><?= te('Obtenir ma carte') ?></a>
         <a href="#demo" class="btn btn-ghost btn-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg><?= te('Voir la démo') ?></a>
       </div>
-      <p class="hero-compat et-up et-d5"><?= te('Compatible iPhone XS et plus · Android depuis 2015 · Réponse sous 24 h') ?></p>
+      <p class="hero-compat et-up et-d5"><?= te('Compatible iPhone XS et plus · Android depuis 2015 · Livraison rapide au Québec · Réponse sous 24 h') ?></p>
       <div class="zones et-up et-d5">
         <span class="zones-label"><?= te('Zones servies :') ?></span>
         <ul><?php foreach (['Laval', 'Montréal', 'Québec', 'Rive-Nord', 'Rive-Sud'] as $z): ?><li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><?= te($z) ?></li><?php endforeach; ?></ul>
@@ -120,15 +120,61 @@ $faq = [
 <section id="fonctionnement" class="section container et-rv">
   <p class="eyebrow"><?= te('Comment ça fonctionne') ?></p>
   <h2 class="h2"><?= te('Toucher, profil, agir. Puis gérer et mesurer.') ?></h2>
-  <p class="sub"><?= te('La carte fait le premier pas. Le tableau de bord vous montre ce qui se passe ensuite.') ?></p>
+  <p class="sub"><?= te('Approchez simplement votre carte NFC d\'un téléphone compatible et votre profil digital s\'ouvre instantanément. Aucun téléchargement ni application nécessaire.') ?></p>
   <ol class="steps">
     <li><span class="step-tag"><?= te('Étape') ?></span><span class="step-n">01</span><h3><?= te('Toucher') ?></h3><p><?= te('La carte est touchée, ou le QR scanné, sur n\'importe quel téléphone récent. Sans application.') ?></p></li>
     <li><span class="step-tag"><?= te('Étape') ?></span><span class="step-n">02</span><h3><?= te('Profil') ?></h3><p><?= te('Votre profil s\'ouvre instantanément, avec vos coordonnées, vos liens et votre image de marque.') ?></p></li>
     <li><span class="step-tag"><?= te('Étape') ?></span><span class="step-n">03</span><h3><?= te('Agir') ?></h3><p><?= te('Le visiteur enregistre votre contact, vous appelle, vous écrit ou vous laisse ses coordonnées.') ?></p></li>
     <li><span class="step-tag"><?= te('Plateforme') ?></span><span class="step-n">04</span><h3><?= te('Gérer & mesurer') ?></h3><p><?= te('Votre tableau de bord : modifiez votre profil et voyez chaque toucher, visite et prospect.') ?></p></li>
   </ol>
+  <div class="pillars">
+    <div class="pillar">
+      <h3><?= te('Carte de visite connectée NFC : Laval, Montréal et Québec') ?></h3>
+      <ul><?php foreach (['Combinez NFC et code QR pour un partage universel.', 'NFC + QR + Wallet, compatible iPhone et Android.', 'Moderne, écoresponsable, réutilisable.', 'Ajoutez vos liens, vos infos, votre photo et votre offre.'] as $l): ?><li><?= $check ?><span><?= te($l) ?></span></li><?php endforeach; ?></ul>
+    </div>
+    <div class="pillar">
+      <h3><?= te('Technologie NFC de pointe') ?></h3>
+      <ul><?php foreach (['Compatible avec les téléphones modernes', 'NFC + code QR dynamique intégré', 'Modifiable à tout moment sans réimpression', 'Matériaux premium et durables'] as $l): ?><li><?= $check ?><span><?= te($l) ?></span></li><?php endforeach; ?></ul>
+    </div>
+  </div>
 </section>
 
+
+<!-- LA CARTE QUI PARLE POUR VOUS + COMPATIBILITÉ -->
+<section id="compatibilite" class="talk-section">
+  <div class="section container et-rv">
+    <div class="talk-head">
+      <h2 class="h2"><?= te('La carte NFC qui parle pour vous') ?></h2>
+      <p class="sub"><?= te('Un seul tap suffit pour afficher vos coordonnées, vos liens et vos réseaux sociaux sur le téléphone de votre contact. Changez de numéro ou de poste : votre profil évolue avec vous, sans avoir à réimprimer votre carte. EliteTap s\'adapte à votre image et à votre métier.') ?></p>
+      <a href="#commande" class="btn btn-primary btn-lg"><?= te('Commander ma carte') ?></a>
+    </div>
+    <details class="compat-more">
+      <summary><?= te('Voir les téléphones compatibles') ?> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <div class="compat-panel">
+        <div><h3>iPhone</h3><ul><li><?= te('iPhone XS / XR et plus récent') ?></li><li><?= te('iOS 13 ou plus récent') ?></li><li><?= te('Aucune application requise') ?></li></ul></div>
+        <div><h3>Android</h3><ul><li><?= te('La plupart des modèles depuis 2015') ?></li><li><?= te('NFC activé dans les paramètres') ?></li><li><?= te('Samsung, Google, Xiaomi, etc.') ?></li></ul></div>
+        <p class="compat-note"><?= te('Pas de NFC ou téléphone plus ancien ? Le code QR fonctionne avec n\'importe quel appareil.') ?></p>
+      </div>
+    </details>
+    <div class="modes">
+      <article class="mode">
+        <div class="mode-art mode-nfc" aria-hidden="true"><span class="mode-ring"></span><span class="mode-phone"><i class="mode-chip"></i></span></div>
+        <h3><?= te('Sans contact') ?></h3>
+        <p><?= te('Approchez simplement votre carte d\'un téléphone compatible NFC.') ?></p>
+      </article>
+      <article class="mode">
+        <div class="mode-art mode-qr" aria-hidden="true"><span class="mode-card"></span><span class="mode-phone"><i class="mode-code"><?php foreach ([1,1,0,1,1, 1,0,0,0,1, 0,0,1,1,0, 1,0,0,0,1, 1,1,0,1,1] as $b): ?><b<?= $b ? ' class="on"' : '' ?>></b><?php endforeach; ?></i></span></div>
+        <h3><?= te('Code QR') ?></h3>
+        <p><?= te('Scannez le code si votre téléphone n\'est pas compatible NFC.') ?></p>
+      </article>
+      <article class="mode">
+        <div class="mode-art mode-sync" aria-hidden="true"><span class="mode-orb"><svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.6-5.9"/><path d="M4 4v4.5h4.5"/></svg></span><span class="mode-dot"></span></div>
+        <h3><?= te('Toujours à jour') ?></h3>
+        <p><?= te('Vos informations évoluent sans jamais réimprimer la carte.') ?></p>
+      </article>
+    </div>
+  </div>
+</section>
 
 <!-- PLATEFORME : ce que voit chaque entreprise -->
 <section id="plateforme" class="section-bottom container et-rv">
@@ -189,7 +235,7 @@ $faq = [
     <div class="mats-head">
       <p class="eyebrow"><?= te('Nos designs') ?></p>
       <h2 class="h2"><?= te('Votre marque. Vos couleurs. Votre style.') ?></h2>
-      <p class="sub"><?= te('6 finitions disponibles, entièrement personnalisables à votre image. Une épreuve vous est envoyée avant toute production.') ?></p>
+      <p class="sub"><?= te('Chaque carte EliteTap est conçue sur mesure pour refléter parfaitement votre identité professionnelle. De l\'entrepreneur solo à la grande entreprise, nous créons des designs uniques qui vous démarquent. 6 finitions disponibles, une épreuve avant toute production et une livraison rapide partout au Québec.') ?></p>
       <p class="mats-quote"><?= te('Besoin de plus de 10 cartes ?') ?> <a href="#commande"><?= te('Demander un devis') ?></a></p>
     </div>
     <div class="mats">
@@ -209,7 +255,8 @@ $faq = [
     </div>
 
     <?php if ($designs): ?>
-    <h3 class="gallery-title"><?= te('Réalisations') ?></h3>
+    <h3 class="gallery-title"><?= te('Nos designs de cartes') ?></h3>
+    <p class="gallery-intro"><?= te('Chaque carte EliteTap est une œuvre unique créée en collaboration avec nos clients. Du design minimaliste au style corporate sophistiqué, découvrez comment nous avons aidé des professionnels de Laval, de Montréal et de partout au Québec. Votre vision. Notre expertise.') ?></p>
     <div class="gallery">
       <?php foreach (array_slice($designs, 0, 12) as $d): ?>
         <a class="gallery-item" href="/uploads/designs/<?= e($d['image_path']) ?>" data-lightbox data-caption="<?= e($d['title']) ?>">
@@ -255,11 +302,12 @@ $faq = [
 
 <!-- TEMOIGNAGES + APPEL A L'ACTION -->
 <section id="temoignages" class="section-bottom container et-rv">
-  <h2 class="h2 testis-title"><?= te('Ils ont adopté la carte NFC') ?></h2>
+  <h2 class="h2 testis-title"><?= te('Ils ont choisi EliteTap') ?></h2>
+  <p class="sub testis-sub"><?= te('Ce que nos clients disent de leur expérience') ?></p>
   <div class="testis">
     <?php foreach ([
-      ['Guy', 'Client EliteTap · Montréal', 'temoin-guy.jpg', 'Ma carte NFC EliteTap a changé ma façon de réseauter. En un tap, mes clients ont tout ce qu\'il faut. J\'ai eu 3 nouveaux contacts la première semaine !'],
-      ['Jean Cyrus Oulai', 'Client EliteTap · Laval', 'temoin-jean-cyrus.jpg', 'Très professionnel et facile à utiliser. Je recommande EliteTap à tous mes collègues dans le domaine immobilier.'],
+      ['Guy', 'Client EliteTap · Montréal', 'temoin-guy.jpg', 'Dans mes fonctions de gestion de fonds de retraite, la crédibilité est primordiale. EliteTap m\'a permis de moderniser mon approche tout en conservant le professionnalisme requis. La technologie NFC inspire confiance et facilite les échanges lors des rencontres avec nos partenaires institutionnels.'],
+      ['Jean Cyrus Oulai', 'Gestion JC', 'temoin-jean-cyrus.jpg', 'Une très belle expérience avec EliteTap ! Ma carte a été entièrement personnalisée selon mes goûts et l\'image de mon entreprise. Le résultat est professionnel, moderne et élégant. C\'est un outil pratique qui me permet de partager facilement mes coordonnées avec mes clients.'],
     ] as [$who, $role, $photo, $quote]):
       $initials = implode('', array_map(fn($w) => mb_substr($w, 0, 1), array_slice(explode(' ', $who), 0, 2))); ?>
     <figure class="testi">
@@ -288,7 +336,8 @@ $faq = [
 
 <!-- FAQ -->
 <section id="faq" class="section-bottom container narrow et-rv">
-  <h2 class="h2"><?= te('Questions fréquentes') ?></h2>
+  <h2 class="h2"><?= te('Foire aux questions') ?></h2>
+  <p class="sub"><?= te('Tout ce qu\'il faut savoir avant de commander votre carte EliteTap.') ?></p>
   <div class="faq">
     <?php foreach ($faq as $i => [$q, $a]): ?>
       <details<?= $i === 0 ? ' open' : '' ?>>
@@ -305,6 +354,7 @@ $faq = [
     <div class="order-copy">
       <h2 class="h2 h2-xl"><?= te('Obtenez votre soumission gratuite') ?></h2>
       <p class="lead"><?= te('Réponse garantie sous 24 h · Devis personnalisé · Livraison Laval et Montréal') ?></p>
+      <p class="order-more"><?= te('Prêt à transformer votre réseautage ? Notre équipe répond à toutes vos questions et vous accompagne dans la création de votre carte parfaite. Livraison rapide partout au Québec.') ?></p>
       <?php $pres = presence(); ?>
       <p class="presence-pill <?= $pres['online'] ? 'is-online' : 'is-away' ?>"><span class="presence-dot" aria-hidden="true"></span>
         <?= $pres['online'] ? te('En ligne maintenant · réponse rapide') : te('Absents pour le moment · réponse {retour}', ['retour' => format_back($pres['back'], lang())]) ?></p>
@@ -372,9 +422,9 @@ $ld = [
             'image' => url('/assets/img/share.jpg'),
             'review' => [
                 ['@type' => 'Review', 'author' => ['@type' => 'Person', 'name' => 'Guy'], 'reviewRating' => ['@type' => 'Rating', 'ratingValue' => 5, 'bestRating' => 5],
-                 'reviewBody' => t('Ma carte NFC EliteTap a changé ma façon de réseauter. En un tap, mes clients ont tout ce qu\'il faut. J\'ai eu 3 nouveaux contacts la première semaine !')],
+                 'reviewBody' => t('Dans mes fonctions de gestion de fonds de retraite, la crédibilité est primordiale. EliteTap m\'a permis de moderniser mon approche tout en conservant le professionnalisme requis. La technologie NFC inspire confiance et facilite les échanges lors des rencontres avec nos partenaires institutionnels.')],
                 ['@type' => 'Review', 'author' => ['@type' => 'Person', 'name' => 'Jean Cyrus Oulai'], 'reviewRating' => ['@type' => 'Rating', 'ratingValue' => 5, 'bestRating' => 5],
-                 'reviewBody' => t('Très professionnel et facile à utiliser. Je recommande EliteTap à tous mes collègues dans le domaine immobilier.')],
+                 'reviewBody' => t('Une très belle expérience avec EliteTap ! Ma carte a été entièrement personnalisée selon mes goûts et l\'image de mon entreprise. Le résultat est professionnel, moderne et élégant. C\'est un outil pratique qui me permet de partager facilement mes coordonnées avec mes clients.')],
             ],
         ],
     ],
