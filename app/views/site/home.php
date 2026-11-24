@@ -82,10 +82,10 @@ $faq = [
       <h2 class="h2"><?= te('Voyez la magie en action') ?></h2>
       <p class="sub"><?= te('Un tap suffit. Pas d\'application. Fonctionne sur tous les iPhone et Android récents.') ?></p>
     </div>
-    <?php if (is_file(APP_ROOT . '/public/assets/img/video01.mp4')): ?>
+    <?php if (is_file(APP_ROOT . '/public/assets/img/demo-nfc.mp4')): ?>
     <div class="demo-player">
-      <video controls muted playsinline preload="metadata" poster="<?= asset('img/video01.jpg') ?>" aria-label="<?= te('Démonstration : une carte EliteTap touche un iPhone et le profil s\'ouvre') ?>">
-        <source src="<?= asset('img/video01.mp4') ?>" type="video/mp4">
+      <video controls muted playsinline preload="metadata" poster="<?= asset('img/demo-nfc.jpg') ?>" aria-label="<?= te('Démonstration : une carte EliteTap touche un iPhone et le profil s\'ouvre') ?>">
+        <source src="<?= asset('img/demo-nfc.mp4') ?>" type="video/mp4">
       </video>
     </div>
     <?php else: ?>
