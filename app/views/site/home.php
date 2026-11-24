@@ -75,27 +75,6 @@ $faq = [
   </div>
 </section>
 
-<!-- AVANT / APRÈS -->
-<section id="avantapres" class="section container et-rv">
-  <div class="ba-head">
-    <h2 class="h2"><?= te('Fini les cartes papier perdues') ?></h2>
-  </div>
-  <div class="ba">
-    <div class="ba-col ba-before">
-      <h3><span class="ba-ico" aria-hidden="true">✕</span><?= te('Carte de visite classique') ?></h3>
-      <ul>
-        <?php foreach (['Se perd, se froisse, s\'oublie', 'Réimprimer à chaque changement', 'Aucun suivi : vous ne savez pas qui l\'a vue'] as $l): ?><li><?= te($l) ?></li><?php endforeach; ?>
-      </ul>
-    </div>
-    <div class="ba-col ba-after">
-      <h3><span class="ba-ico" aria-hidden="true">✓</span><?= te('Carte NFC EliteTap') ?></h3>
-      <ul>
-        <?php foreach (['Un tap : profil complet ouvert immédiatement', 'Mises à jour illimitées, sans réimprimer', 'Tableau de bord : combien de taps, qui vous a contacté'] as $l): ?><li><?= te($l) ?></li><?php endforeach; ?>
-      </ul>
-    </div>
-  </div>
-</section>
-
 <!-- VIDÉO DÉMO -->
 <section id="demo" class="demo-section">
   <div class="section container et-rv">
