@@ -40,20 +40,20 @@ $faq = [
             <div class="tap-lock"><div class="tap-time">9:41</div></div>
             <div class="tap-notif">
               <span class="tap-notif-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFED00" stroke-width="2.2" stroke-linecap="round"><path d="M6 8a8 8 0 0 1 0 8"/><path d="M10 6a12 12 0 0 1 0 12"/><path d="M14 4a16 16 0 0 1 0 16"/></svg></span>
-              <span><b>EliteTap</b><span><?= te('Ouvrir le profil de Sophie Lavoie') ?></span></span>
+              <span><b>EliteTap</b><span><?= te('Ouvrir le profil d\'Axel Koffi') ?></span></span>
             </div>
             <div class="tap-notif tap-added">
               <span class="tap-notif-ic tap-added-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
-              <span><b><?= te('Contact ajouté') ?></b><span><?= te('Sophie Lavoie est dans vos contacts') ?></span></span>
+              <span><b><?= te('Contact ajouté') ?></b><span><?= te('Axel Koffi est dans vos contacts') ?></span></span>
             </div>
             <div class="tap-profile">
               <div class="tap-cover"></div>
-              <?php if (is_file(APP_ROOT . '/public/assets/img/demo-sophie.jpg')): ?><img class="tap-avatar" src="<?= asset('img/demo-sophie.jpg') ?>" alt="" width="70" height="70"><?php else: ?><div class="tap-avatar">SL</div><?php endif; ?>
-              <div class="tap-who"><b>Sophie Lavoie</b><span><?= te('Courtière immobilière') ?></span></div>
+              <?php if (is_file(APP_ROOT . '/public/assets/img/demo-axel.jpg')): ?><img class="tap-avatar" src="<?= asset('img/demo-axel.jpg') ?>" alt="" width="70" height="70"><?php else: ?><div class="tap-avatar">AK</div><?php endif; ?>
+              <div class="tap-who"><b>Axel Koffi</b><span>EliteTap · Laval</span></div>
               <div class="tap-save"><?= te('Enregistrer le contact') ?></div>
               <div class="tap-rows">
                 <div class="tap-row"><i><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3666AF" stroke-width="2.2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></i><span>514 555-0142<small><?= te('Mobile') ?></small></span></div>
-                <div class="tap-row"><i><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3666AF" stroke-width="2.2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></i><span>sophie@exemple.ca<small><?= te('Courriel') ?></small></span></div>
+                <div class="tap-row"><i><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3666AF" stroke-width="2.2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></i><span>axel@exemple.ca<small><?= te('Courriel') ?></small></span></div>
                 <div class="tap-row"><i><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3666AF" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></i><span><?= te('Prendre rendez-vous') ?><small><?= te('Lien') ?></small></span></div>
               </div>
             </div>
@@ -64,7 +64,7 @@ $faq = [
           <div class="tap-card">
             <div class="tap-face tap-front">
               <img src="<?= asset('img/logo-white.png') ?>" alt="" class="tap-logo" width="150" height="40">
-              <div class="tap-name"><b>Sophie Lavoie</b><span><?= te('COURTIÈRE IMMOBILIÈRE') ?></span></div>
+              <div class="tap-name"><b>Axel Koffi</b><span>ELITETAP · LAVAL</span></div>
               <svg class="tap-nfc" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFED00" stroke-width="1.8" stroke-linecap="round"><path d="M6 8a8 8 0 0 1 0 8"/><path d="M10 6a12 12 0 0 1 0 12"/><path d="M14 4a16 16 0 0 1 0 16"/></svg>
             </div>
             <div class="tap-face tap-back"><canvas width="184" height="184" data-tap-qr></canvas><span><?= te('Touchez ou scannez') ?></span></div>
@@ -76,21 +76,31 @@ $faq = [
 </section>
 
 <!-- VIDÉO DÉMO -->
+<?php
+  // Vidéo locale (public/assets/img/video01.mp4) ; sinon celle du site actuel en attendant le dépôt du fichier
+  $demoLocal = is_file(APP_ROOT . '/public/assets/img/video01.mp4');
+  $demoSrc = $demoLocal ? asset('img/video01.mp4') : 'https://elitetap.ca/assets/videos/video01.mp4';
+  $demoPoster = is_file(APP_ROOT . '/public/assets/img/video01.jpg') ? asset('img/video01.jpg') : '';
+?>
 <section id="demo" class="demo-section">
-  <div class="section container et-rv">
-    <div class="demo-head">
+  <div class="section container demo-grid et-rv">
+    <div class="demo-copy">
+      <p class="eyebrow eyebrow-dark"><?= te('Démo') ?></p>
       <h2 class="h2"><?= te('Voyez la magie en action') ?></h2>
       <p class="sub"><?= te('Un tap suffit. Pas d\'application. Fonctionne sur tous les iPhone et Android récents.') ?></p>
+      <ol class="demo-steps">
+        <li><span>1</span><?= te('Approchez la carte du téléphone') ?></li>
+        <li><span>2</span><?= te('Le profil s\'ouvre dans le navigateur') ?></li>
+        <li><span>3</span><?= te('Votre contact vous enregistre en un geste') ?></li>
+      </ol>
+      <a href="#commande" class="btn btn-primary btn-lg"><?= te('Obtenir ma carte') ?></a>
     </div>
-    <?php if (is_file(APP_ROOT . '/public/assets/img/video01.mp4')): ?>
     <div class="demo-player">
-      <video controls muted playsinline preload="metadata" poster="<?= asset('img/video01.jpg') ?>" aria-label="<?= te('Démonstration : une carte EliteTap touche un iPhone et le profil s\'ouvre') ?>">
-        <source src="<?= asset('img/video01.mp4') ?>" type="video/mp4">
-      </video>
+      <video class="demo-video" muted loop playsinline preload="none" disablepictureinpicture
+             <?= $demoPoster ? 'poster="' . e($demoPoster) . '"' : '' ?> data-src="<?= e($demoSrc) ?>"
+             aria-label="<?= te('Démonstration : une carte EliteTap touche un iPhone et le profil s\'ouvre') ?>"></video>
+      <button type="button" class="demo-sound" data-demo-sound aria-pressed="false" data-l-on="<?= te('Mettre en pause') ?>" data-l-off="<?= te('Lire') ?>"><?= te('Mettre en pause') ?></button>
     </div>
-    <?php else: ?>
-    <p class="demo-missing"><?= te('La vidéo de démonstration arrive bientôt.') ?></p>
-    <?php endif; ?>
   </div>
 </section>
 

@@ -631,14 +631,18 @@ img.tap-avatar { display: block; object-fit: cover; }
 .ba-after li::before { content: "✓"; color: #1F9D5B; font-weight: 700; flex: none; }
 @media (max-width: 760px) { .ba { grid-template-columns: 1fr; } .ba-col { padding: 20px; } }
 
-/* ---- Vidéo démo : section sombre ---- */
+/* ---- Vidéo démo : section sombre, deux colonnes, vidéo cadrée sur l'action ---- */
 .demo-section { background: var(--navy); color: var(--on-navy); }
-.demo-head { text-align: center; max-width: 680px; margin: 0 auto 28px; }
-.demo-head .h2 { color: #FFF; }
-.demo-head .sub { color: var(--on-navy-2); margin: 0 auto; }
-.demo-player { max-width: 960px; margin: 0 auto; border-radius: 18px; overflow: hidden; box-shadow: 0 40px 80px -40px rgba(0, 0, 0, .7); border: 1px solid var(--navy-line); background: #000; }
-.demo-player video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; }
-.demo-missing { text-align: center; color: var(--on-navy-2); }
+.demo-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; padding-top: 80px; padding-bottom: 80px; }
+.demo-copy .h2 { color: #FFF; }
+.demo-copy .sub { color: var(--on-navy-2); margin-bottom: 24px; }
+.demo-steps { list-style: none; margin: 0 0 28px; padding: 0; display: grid; gap: 12px; }
+.demo-steps li { display: flex; align-items: center; gap: 12px; font-size: 16px; color: var(--on-navy); }
+.demo-steps span { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 14px; background: var(--blue); color: #FFF; }
+.demo-player { position: relative; justify-self: center; width: 100%; max-width: 460px; aspect-ratio: 4 / 5; border-radius: 24px; overflow: hidden; background: #0b1426; border: 1px solid var(--navy-line); box-shadow: 0 40px 80px -40px rgba(0, 0, 0, .75); }
+.demo-video { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 42% 50%; }
+.demo-sound { position: absolute; left: 12px; bottom: 12px; font-size: 13px; font-weight: 600; color: var(--navy); background: rgba(255, 255, 255, .9); border: 0; border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+@media (max-width: 860px) { .demo-grid { grid-template-columns: 1fr; gap: 28px; padding-top: 56px; padding-bottom: 56px; } .demo-player { max-width: 380px; } }
 
 /* ---- Témoignages : titre et étoiles ---- */
 .testis-title { text-align: center; margin: 0 auto 16px; }

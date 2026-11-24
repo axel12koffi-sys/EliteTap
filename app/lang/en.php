@@ -739,6 +739,15 @@ return [
 
     "À partir de 89 \$ CAD (Standard) et 129 \$ CAD (Premium). Bois, métal et commandes d'équipe sur devis. Le prix final varie selon le design, la finition et la quantité : soumission gratuite, réponse sous 24 h." => "From \$89 CAD (Standard) and \$129 CAD (Premium). Wood, metal and team orders on quote. The final price depends on the design, the finish and the quantity: free quote, reply within 24 h.",
 
+    "Ouvrir le profil d'Axel Koffi" => "Open Axel Koffi's profile",
+    "Axel Koffi est dans vos contacts" => "Axel Koffi is in your contacts",
+    "Démo" => "Demo",
+    "Approchez la carte du téléphone" => "Bring the card close to the phone",
+    "Le profil s'ouvre dans le navigateur" => "The profile opens in the browser",
+    "Votre contact vous enregistre en un geste" => "Your contact saves you in one tap",
+    "Mettre en pause" => "Pause",
+    "Lire" => "Play",
+
     // ---- Profil sur mesure
     "Profil sur mesure" => "Custom profile",
     "Votre profil affiche un design créé à partir de votre carte. Vos informations se modifient ici : le design suit automatiquement." => "Your profile shows a design created from your card. Edit your details here: the design follows automatically.",
