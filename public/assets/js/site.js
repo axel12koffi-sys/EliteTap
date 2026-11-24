@@ -117,20 +117,3 @@
   });
 })();
 
-// Vidéo démo : chargée à l'approche de la section, lue en boucle sans son, avec pause
-(function () {
-  var v = document.querySelector('.demo-video[data-src]');
-  if (!v) return;
-  var btn = document.querySelector('[data-demo-sound]');
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var userPaused = reduce;
-  function load() { if (v.getAttribute('data-src')) { v.src = v.getAttribute('data-src'); v.removeAttribute('data-src'); } }
-  function play() { load(); var p = v.play(); if (p && p.catch) p.catch(function () {}); }
-  function label() { if (btn) { btn.textContent = btn.getAttribute(v.paused ? 'data-l-off' : 'data-l-on'); btn.setAttribute('aria-pressed', String(v.paused)); } }
-  v.addEventListener('play', label); v.addEventListener('pause', label);
-  if (btn) btn.addEventListener('click', function () { if (v.paused) { userPaused = false; play(); } else { userPaused = true; v.pause(); } });
-  if (reduce) { load(); v.preload = 'metadata'; label(); return; }
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { if (!userPaused) play(); } else if (!v.paused) { v.pause(); } }); }, { threshold: 0.35 }).observe(v);
-  } else { play(); }
-})();

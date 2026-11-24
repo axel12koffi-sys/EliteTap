@@ -76,31 +76,21 @@ $faq = [
 </section>
 
 <!-- VIDÉO DÉMO -->
-<?php
-  // Vidéo locale (public/assets/img/video01.mp4) ; sinon celle du site actuel en attendant le dépôt du fichier
-  $demoLocal = is_file(APP_ROOT . '/public/assets/img/video01.mp4');
-  $demoSrc = $demoLocal ? asset('img/video01.mp4') : 'https://elitetap.ca/assets/videos/video01.mp4';
-  $demoPoster = is_file(APP_ROOT . '/public/assets/img/video01.jpg') ? asset('img/video01.jpg') : '';
-?>
 <section id="demo" class="demo-section">
-  <div class="section container demo-grid et-rv">
-    <div class="demo-copy">
-      <p class="eyebrow eyebrow-dark"><?= te('Démo') ?></p>
+  <div class="section container et-rv">
+    <div class="demo-head">
       <h2 class="h2"><?= te('Voyez la magie en action') ?></h2>
       <p class="sub"><?= te('Un tap suffit. Pas d\'application. Fonctionne sur tous les iPhone et Android récents.') ?></p>
-      <ol class="demo-steps">
-        <li><span>1</span><?= te('Approchez la carte du téléphone') ?></li>
-        <li><span>2</span><?= te('Le profil s\'ouvre dans le navigateur') ?></li>
-        <li><span>3</span><?= te('Votre contact vous enregistre en un geste') ?></li>
-      </ol>
-      <a href="#commande" class="btn btn-primary btn-lg"><?= te('Obtenir ma carte') ?></a>
     </div>
+    <?php if (is_file(APP_ROOT . '/public/assets/img/video01.mp4')): ?>
     <div class="demo-player">
-      <video class="demo-video" muted loop playsinline preload="none" disablepictureinpicture
-             <?= $demoPoster ? 'poster="' . e($demoPoster) . '"' : '' ?> data-src="<?= e($demoSrc) ?>"
-             aria-label="<?= te('Démonstration : une carte EliteTap touche un iPhone et le profil s\'ouvre') ?>"></video>
-      <button type="button" class="demo-sound" data-demo-sound aria-pressed="false" data-l-on="<?= te('Mettre en pause') ?>" data-l-off="<?= te('Lire') ?>"><?= te('Mettre en pause') ?></button>
+      <video controls muted playsinline preload="metadata" poster="<?= asset('img/video01.jpg') ?>" aria-label="<?= te('Démonstration : une carte EliteTap touche un iPhone et le profil s\'ouvre') ?>">
+        <source src="<?= asset('img/video01.mp4') ?>" type="video/mp4">
+      </video>
     </div>
+    <?php else: ?>
+    <p class="demo-missing"><?= te('La vidéo de démonstration arrive bientôt.') ?></p>
+    <?php endif; ?>
   </div>
 </section>
 
