@@ -62,11 +62,7 @@ $faq = [
         <span class="tap-ripple" aria-hidden="true"></span><span class="tap-ripple r2" aria-hidden="true"></span><span class="tap-ripple r3" aria-hidden="true"></span>
         <div class="tap-card-pos" aria-hidden="true">
           <div class="tap-card">
-            <div class="tap-face tap-front">
-              <img src="<?= asset('img/logo-white.png') ?>" alt="" class="tap-logo" width="150" height="40">
-              <div class="tap-name"><b>Axel Koffi</b><span>ELITETAP · LAVAL</span></div>
-              <svg class="tap-nfc" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFED00" stroke-width="1.8" stroke-linecap="round"><path d="M6 8a8 8 0 0 1 0 8"/><path d="M10 6a12 12 0 0 1 0 12"/><path d="M14 4a16 16 0 0 1 0 16"/></svg>
-            </div>
+            <div class="tap-face tap-front"><img src="<?= asset('img/carte-elitetap.jpg') ?>" alt="" width="160" height="254"></div>
             <div class="tap-face tap-back"><canvas width="184" height="184" data-tap-qr></canvas><span><?= te('Touchez ou scannez') ?></span></div>
           </div>
         </div>
