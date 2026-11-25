@@ -729,3 +729,17 @@ img.tap-avatar { display: block; object-fit: cover; }
 .demo-player-portrait { max-width: 400px; border-radius: 28px; }
 .demo-player-portrait video { aspect-ratio: 9 / 16; }
 @media (max-width: 560px) { .demo-player-portrait { max-width: 320px; } }
+
+/* ---- Pages légales ---- */
+.legal .lede { font-size: 19px; color: var(--body); }
+.legal .muted { color: var(--muted); font-size: 14px; }
+.legal h3 { font-size: 17px; margin: 20px 0 8px; color: var(--text); }
+.legal ul, .legal ol { padding-left: 22px; display: grid; gap: 8px; }
+.legal .callout { padding: 16px 18px; border-radius: 14px; background: var(--tint); border-left: 4px solid var(--blue); color: var(--body); }
+.legal .toc { margin: 28px 0; padding: 18px 22px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+.legal .toc h2 { margin: 0 0 10px; font-size: 16px; }
+.legal .toc ol { gap: 4px; }
+.table-wrap { overflow-x: auto; margin: 8px 0; }
+.legal-table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 560px; }
+.legal-table th, .legal-table td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); line-height: 1.5; color: var(--body); }
+.legal-table th { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--text); background: var(--tint); }
