@@ -88,17 +88,17 @@
   fit(); window.addEventListener('resize', fit);
   var c = wrap.querySelector('[data-tap-qr]');
   if (c && c.getContext) {
-    var g = c.getContext('2d'), N = 25, u = c.width / (N + 4), seed = 7;
+    var g = c.getContext('2d'), N = 25, u = c.width / (N + 4), seed = 7, ink = '#3666AF';
     var rnd = function () { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
-    g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.fillStyle = '#14284B';
+    g.clearRect(0, 0, c.width, c.height); g.fillStyle = ink;
     for (var y = 0; y < N; y++) for (var x = 0; x < N; x++) {
       var f = (x < 8 && y < 8) || (x > N - 9 && y < 8) || (x < 8 && y > N - 9);
       if (!f && rnd() > 0.52) g.fillRect((x + 2) * u, (y + 2) * u, Math.ceil(u), Math.ceil(u));
     }
     [[0, 0], [N - 7, 0], [0, N - 7]].forEach(function (p) {
-      g.fillStyle = '#14284B'; g.fillRect((p[0] + 2) * u, (p[1] + 2) * u, 7 * u, 7 * u);
-      g.fillStyle = '#fff'; g.fillRect((p[0] + 3) * u, (p[1] + 3) * u, 5 * u, 5 * u);
-      g.fillStyle = '#14284B'; g.fillRect((p[0] + 4) * u, (p[1] + 4) * u, 3 * u, 3 * u);
+      g.fillStyle = ink; g.fillRect((p[0] + 2) * u, (p[1] + 2) * u, 7 * u, 7 * u);
+      g.clearRect((p[0] + 3) * u, (p[1] + 3) * u, 5 * u, 5 * u);
+      g.fillRect((p[0] + 4) * u, (p[1] + 4) * u, 3 * u, 3 * u);
     });
   }
 })();

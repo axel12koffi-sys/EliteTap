@@ -40,20 +40,20 @@ $faq = [
             <div class="tap-lock"><div class="tap-time">9:41</div></div>
             <div class="tap-notif">
               <span class="tap-notif-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFED00" stroke-width="2.2" stroke-linecap="round"><path d="M6 8a8 8 0 0 1 0 8"/><path d="M10 6a12 12 0 0 1 0 12"/><path d="M14 4a16 16 0 0 1 0 16"/></svg></span>
-              <span><b>EliteTap</b><span><?= te('Ouvrir le profil d\'Axel Koffi') ?></span></span>
+              <span><b>EliteTap</b><span><?= te('Ouvrir le profil d\'Alex Martin') ?></span></span>
             </div>
             <div class="tap-notif tap-added">
               <span class="tap-notif-ic tap-added-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
-              <span><b><?= te('Contact ajouté') ?></b><span><?= te('Axel Koffi est dans vos contacts') ?></span></span>
+              <span><b><?= te('Contact ajouté') ?></b><span><?= te('Alex Martin est dans vos contacts') ?></span></span>
             </div>
             <div class="tap-profile">
               <div class="tap-cover"></div>
-              <?php if (is_file(APP_ROOT . '/public/assets/img/demo-axel.jpg')): ?><img class="tap-avatar" src="<?= asset('img/demo-axel.jpg') ?>" alt="" width="70" height="70"><?php else: ?><div class="tap-avatar">AK</div><?php endif; ?>
-              <div class="tap-who"><b>Axel Koffi</b><span>EliteTap · Laval</span></div>
+              <?php if (is_file(APP_ROOT . '/public/assets/img/demo-martin.jpg')): ?><img class="tap-avatar" src="<?= asset('img/demo-martin.jpg') ?>" alt="" width="70" height="70"><?php else: ?><div class="tap-avatar">AM</div><?php endif; ?>
+              <div class="tap-who"><b>Alex Martin</b><span><?= te('CEO-fondateur') ?></span></div>
               <div class="tap-save"><?= te('Enregistrer le contact') ?></div>
               <div class="tap-rows">
                 <div class="tap-row"><i><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3666AF" stroke-width="2.2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></i><span>514 555-0142<small><?= te('Mobile') ?></small></span></div>
-                <div class="tap-row"><i><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3666AF" stroke-width="2.2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></i><span>axel@exemple.ca<small><?= te('Courriel') ?></small></span></div>
+                <div class="tap-row"><i><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3666AF" stroke-width="2.2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></i><span>alex@exemple.ca<small><?= te('Courriel') ?></small></span></div>
                 <div class="tap-row"><i><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3666AF" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></i><span><?= te('Prendre rendez-vous') ?><small><?= te('Lien') ?></small></span></div>
               </div>
             </div>
@@ -63,7 +63,15 @@ $faq = [
         <div class="tap-card-pos" aria-hidden="true">
           <div class="tap-card">
             <div class="tap-face tap-front"><img src="<?= asset('img/carte-elitetap.jpg') ?>" alt="" width="160" height="254"></div>
-            <div class="tap-face tap-back"><canvas width="184" height="184" data-tap-qr></canvas><span><?= te('Touchez ou scannez') ?></span></div>
+            <div class="tap-face tap-back">
+              <span class="tb-arcs" aria-hidden="true"><i></i><i></i><i></i></span>
+              <svg class="tb-nfc" width="46" height="16" viewBox="0 0 46 16" fill="none" stroke="#3666AF" stroke-width="1.6" stroke-linecap="round"><path d="M4 3a10 10 0 0 0 0 10M8 5a6 6 0 0 0 0 6M42 3a10 10 0 0 1 0 10M38 5a6 6 0 0 1 0 6"/><text x="23" y="11.5" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="8.5" fill="#3666AF" stroke="none">NFC</text></svg>
+              <span class="tb-name">ALEX MARTIN</span>
+              <span class="tb-role"><?= te('CEO-FONDATEUR') ?></span>
+              <canvas width="184" height="184" data-tap-qr></canvas>
+              <span class="tb-social" aria-hidden="true"><b class="g">G</b><b class="in">in</b><b class="fb">f</b><b class="x">X</b></span>
+              <img class="tb-logo" src="<?= asset('img/logo-color.png') ?>" alt="" width="96" height="27">
+            </div>
           </div>
         </div>
       </div>

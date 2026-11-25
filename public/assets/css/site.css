@@ -488,9 +488,19 @@ img.tap-avatar { display: block; object-fit: cover; }
   background: #80AFE0; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .18), 0 30px 50px -24px rgba(20, 40, 75, .7); }
 .tap-face::after { content: ""; position: absolute; inset: -40%; background: linear-gradient(105deg, rgba(255, 255, 255, 0) 42%, rgba(255, 255, 255, .16) 50%, rgba(255, 255, 255, 0) 58%); animation: tapSheen var(--T) ease-in-out infinite; }
 .tap-front img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.tap-back { transform: rotateY(180deg); display: grid; place-items: center; align-content: center; gap: 6px; }
-.tap-back canvas { width: 92px; height: 92px; border-radius: 8px; background: #fff; }
-.tap-back span { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #fff; text-align: center; }
+.tap-back { transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; padding: 16px 12px 12px;
+  background: linear-gradient(150deg, #F7F8FA 0%, #E4E7EC 45%, #F4F5F7 62%, #D9DDE3 100%); }
+.tb-arcs { position: absolute; left: -46px; bottom: -40px; width: 190px; height: 190px; }
+.tb-arcs i { position: absolute; border-radius: 50%; border: 9px solid rgba(127, 174, 221, .22); }
+.tb-arcs i:nth-child(1) { inset: 0; } .tb-arcs i:nth-child(2) { inset: 30px; } .tb-arcs i:nth-child(3) { inset: 60px; }
+.tb-nfc { position: relative; margin-bottom: 14px; }
+.tb-name { position: relative; font-family: var(--display); font-size: 13px; font-weight: 600; letter-spacing: .04em; color: #3666AF; }
+.tb-role { position: relative; font-size: 7.5px; font-weight: 800; letter-spacing: .06em; color: #3666AF; margin-top: 1px; }
+.tap-back canvas { position: relative; width: 48px; height: 48px; margin-top: auto; }
+.tb-social { position: relative; display: flex; gap: 3px; margin-top: 6px; }
+.tb-social b { width: 13px; height: 13px; border-radius: 3px; display: grid; place-items: center; font-size: 8px; font-weight: 800; font-family: Arial, sans-serif; color: #fff; }
+.tb-social .g { background: #fff; color: #4285F4; box-shadow: inset 0 0 0 1px #E2E5EA; } .tb-social .in { background: #0A66C2; } .tb-social .fb { background: #1877F2; } .tb-social .x { background: #111; }
+.tb-logo { position: relative; width: 92px; height: auto; margin-top: 6px; }
 .tap-ripple { position: absolute; left: 260px; top: 182px; width: 24px; height: 24px; margin: -12px 0 0 -12px; border-radius: 50%; border: 2px solid var(--blue); opacity: 0; z-index: 3; animation: tapRipple var(--T) ease-out infinite; }
 .tap-ripple.r2 { animation-delay: calc(var(--T) * .03); }
 .tap-ripple.r3 { animation-delay: calc(var(--T) * .06); }

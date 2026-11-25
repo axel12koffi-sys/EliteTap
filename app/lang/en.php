@@ -750,6 +750,11 @@ return [
 
     "Comment ça marche : choisir son design, valider l'épreuve, toucher le téléphone, enregistrer le contact et suivre ses résultats" => "How it works: choose your design, approve the proof, tap the phone, save the contact and track your results",
 
+    "Ouvrir le profil d'Alex Martin" => "Open Alex Martin's profile",
+    "Alex Martin est dans vos contacts" => "Alex Martin is in your contacts",
+    "CEO-fondateur" => "CEO & founder",
+    "CEO-FONDATEUR" => "CEO-FOUNDER",
+
     // ---- Profil sur mesure
     "Profil sur mesure" => "Custom profile",
     "Votre profil affiche un design créé à partir de votre carte. Vos informations se modifient ici : le design suit automatiquement." => "Your profile shows a design created from your card. Edit your details here: the design follows automatically.",
