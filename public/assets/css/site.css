@@ -743,3 +743,5 @@ img.tap-avatar { display: block; object-fit: cover; }
 .legal-table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 560px; }
 .legal-table th, .legal-table td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); line-height: 1.5; color: var(--body); }
 .legal-table th { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--text); background: var(--tint); }
+.made-qc { display: inline-flex; align-items: center; gap: 8px; }
+.qc-flag { display: block; border-radius: 2px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .25); }

@@ -755,6 +755,8 @@ return [
     "CEO-fondateur" => "CEO & founder",
     "CEO-FONDATEUR" => "CEO-FOUNDER",
 
+    "Drapeau du Québec" => "Flag of Quebec",
+
     // ---- Profil sur mesure
     "Profil sur mesure" => "Custom profile",
     "Votre profil affiche un design créé à partir de votre carte. Vos informations se modifient ici : le design suit automatiquement." => "Your profile shows a design created from your card. Edit your details here: the design follows automatically.",
