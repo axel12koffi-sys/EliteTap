@@ -719,3 +719,7 @@ img.tap-avatar { display: block; object-fit: cover; }
 .talk-head .btn { margin-bottom: 32px; }
 .demo-loop { pointer-events: none; }
 .demo-loop::-webkit-media-controls { display: none !important; }
+/* Vidéo démo verticale (motion design 9:16) */
+.demo-player-portrait { max-width: 400px; border-radius: 28px; }
+.demo-player-portrait video { aspect-ratio: 9 / 16; }
+@media (max-width: 560px) { .demo-player-portrait { max-width: 320px; } }
