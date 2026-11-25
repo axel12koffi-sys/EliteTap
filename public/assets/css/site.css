@@ -717,3 +717,5 @@ img.tap-avatar { display: block; object-fit: cover; }
 .ba-col ul { gap: 6px; }
 .ba-col li { padding: 6px 0; background: none; font-size: 15px; }
 .talk-head .btn { margin-bottom: 32px; }
+.demo-loop { pointer-events: none; }
+.demo-loop::-webkit-media-controls { display: none !important; }

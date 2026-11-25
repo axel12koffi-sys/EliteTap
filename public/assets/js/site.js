@@ -117,3 +117,15 @@
   });
 })();
 
+
+// Vidéo démo : boucle muette, lue seulement quand elle est visible (et pas si l'animation est réduite)
+(function () {
+  var v = document.querySelector('.demo-loop');
+  if (!v) return;
+  v.muted = true;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.pause(); return; }
+  var play = function () { var p = v.play(); if (p && p.catch) p.catch(function () {}); };
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) play(); else v.pause(); }); }, { threshold: 0.25 }).observe(v);
+  } else { play(); }
+})();

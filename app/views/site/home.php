@@ -80,7 +80,7 @@ $faq = [
     </div>
     <?php if (is_file(APP_ROOT . '/public/assets/img/demo-nfc.mp4')): ?>
     <div class="demo-player">
-      <video controls muted playsinline preload="metadata" poster="<?= asset('img/demo-nfc.jpg') ?>" aria-label="<?= te('Démonstration : une carte EliteTap touche un iPhone et le profil s\'ouvre') ?>">
+      <video class="demo-loop" autoplay muted loop playsinline disablepictureinpicture preload="metadata" poster="<?= asset('img/demo-nfc.jpg') ?>" aria-label="<?= te('Démonstration : une carte EliteTap touche un iPhone et le profil s\'ouvre') ?>">
         <source src="<?= asset('img/demo-nfc.mp4') ?>" type="video/mp4">
       </video>
     </div>
