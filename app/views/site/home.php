@@ -18,14 +18,14 @@ $faq = [
   <div class="container hero-grid">
     <div class="hero-copy">
       <p class="kicker et-up et-d1"><?= te('NFC & QR · Laval · Montréal · Québec') ?></p>
-      <h1 class="et-up et-d2"><?= te('La carte de visite intelligente') ?> <span class="soft"><?= te('pour les pros du Québec') ?></span></h1>
+      <h1 class="et-up et-d2"><?= te('Carte de visite NFC personnalisée') ?> <span class="soft"><?= te('Partagez vos coordonnées en 1 geste') ?></span></h1>
       <p class="hero-tagline et-up et-d3"><?= te('Sans application. Toujours à jour.') ?></p>
-      <p class="lead et-up et-d3"><?= te('Partagez vos coordonnées en un tap, sur n\'importe quel iPhone ou Android. Vos clients reçoivent un profil complet, vous récupérez leurs contacts.') ?></p>
+      <p class="lead et-up et-d3"><?= te('Partagez vos coordonnées par NFC ou code QR. Modifiez votre profil à tout moment, sans réimprimer votre carte.') ?></p>
       <div class="actions et-up et-d4">
         <a href="#commande" class="btn btn-primary btn-lg"><?= te('Obtenir ma carte') ?></a>
         <a href="#demo" class="btn btn-ghost btn-lg"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg><?= te('Voir la démo') ?></a>
       </div>
-      <p class="hero-compat et-up et-d5"><?= te('Compatible iPhone XS et plus · Android depuis 2015 · Livraison rapide au Québec · Réponse sous 24 h') ?></p>
+      <p class="hero-compat et-up et-d5"><?= te('Livraison rapide au Québec · Compatible iPhone et Android') ?></p>
       <div class="zones et-up et-d5">
         <span class="zones-label"><?= te('Zones servies :') ?></span>
         <ul><?php foreach (['Laval', 'Montréal', 'Québec', 'Rive-Nord', 'Rive-Sud'] as $z): ?><li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><?= te($z) ?></li><?php endforeach; ?></ul>

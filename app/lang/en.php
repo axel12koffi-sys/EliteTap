@@ -757,6 +757,11 @@ return [
 
     "Drapeau du Québec" => "Flag of Quebec",
 
+    "Carte de visite NFC personnalisée" => "Custom NFC business card",
+    "Partagez vos coordonnées en 1 geste" => "Share your details in one move",
+    "Partagez vos coordonnées par NFC ou code QR. Modifiez votre profil à tout moment, sans réimprimer votre carte." => "Share your details by NFC or QR code. Update your profile anytime, without reprinting your card.",
+    "Livraison rapide au Québec · Compatible iPhone et Android" => "Fast delivery in Quebec · Works with iPhone and Android",
+
     // ---- Profil sur mesure
     "Profil sur mesure" => "Custom profile",
     "Votre profil affiche un design créé à partir de votre carte. Vos informations se modifient ici : le design suit automatiquement." => "Your profile shows a design created from your card. Edit your details here: the design follows automatically.",
