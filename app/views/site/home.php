@@ -86,10 +86,10 @@ $faq = [
       <h2 class="h2"><?= te('Voyez la magie en action') ?></h2>
       <p class="sub"><?= te('Un tap suffit. Pas d\'application. Fonctionne sur tous les iPhone et Android récents.') ?></p>
     </div>
-    <?php if (is_file(APP_ROOT . '/public/assets/img/demo-motion.mp4')): ?>
-    <div class="demo-player demo-player-portrait">
-      <video class="demo-loop" autoplay muted loop playsinline disablepictureinpicture preload="metadata" poster="<?= asset('img/demo-motion.jpg') ?>" aria-label="<?= te('Comment ça marche : choisir son design, valider l\'épreuve, toucher le téléphone, enregistrer le contact et suivre ses résultats') ?>">
-        <source src="<?= asset('img/demo-motion.mp4') ?>" type="video/mp4">
+    <?php if (is_file(APP_ROOT . '/public/assets/img/demo-motion-169.mp4')): ?>
+    <div class="demo-player">
+      <video class="demo-loop" autoplay muted loop playsinline disablepictureinpicture preload="metadata" poster="<?= asset('img/demo-motion-169.jpg') ?>" aria-label="<?= te('Comment ça marche : choisir son design, valider l\'épreuve, toucher le téléphone, enregistrer le contact et suivre ses résultats') ?>">
+        <source src="<?= asset('img/demo-motion-169.mp4') ?>" type="video/mp4">
       </video>
     </div>
     <?php else: ?>

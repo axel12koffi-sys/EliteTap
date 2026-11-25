@@ -745,3 +745,5 @@ img.tap-avatar { display: block; object-fit: cover; }
 .legal-table th { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--text); background: var(--tint); }
 .made-qc { display: inline-flex; align-items: center; gap: 8px; }
 .qc-flag { display: block; border-radius: 2px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .25); }
+/* Hero : la 2e ligne du titre en plus petit (accroche plus longue) */
+.hero h1 .soft { font-size: .6em; line-height: 1.15; margin-top: 12px; letter-spacing: -0.02em; }
