@@ -279,12 +279,12 @@ $faq = [
 <!-- FORFAITS DU PROFIL (plan d'évolution, section 05) -->
 <section id="forfaits" class="section-bottom container et-rv">
   <p class="eyebrow"><?= te('Votre profil') ?></p>
-  <h2 class="h2"><?= te('Gratuit à vie avec votre carte. Pro si vous voulez aller plus loin.') ?></h2>
+  <h2 class="h2"><?= te('Inclus avec votre carte. Pro si vous voulez aller plus loin.') ?></h2>
   <p class="sub"><?= te('Le profil de base est inclus avec chaque carte. Les fonctions de gestion sont un abonnement optionnel.') ?></p>
   <div class="tiers">
     <article class="tier">
       <h3><?= te('Essentiel') ?></h3>
-      <p class="tier-sub"><?= te('Inclus avec chaque carte · gratuit à vie') ?></p>
+      <p class="tier-sub"><?= te('Inclus avec chaque carte') ?></p>
       <ul><li><?= te('Profil public hébergé') ?></li><li><?= te('Choix parmi 6 thèmes') ?></li><li><?= te('Enregistrement du contact (vCard)') ?></li><li><?= te('Modifications faites par EliteTap') ?></li></ul>
     </article>
     <article class="tier tier-pro">

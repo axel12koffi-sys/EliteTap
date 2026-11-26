@@ -762,6 +762,10 @@ return [
     "Partagez vos coordonnées par NFC ou code QR. Modifiez votre profil à tout moment, sans réimprimer votre carte." => "Share your details by NFC or QR code. Update your profile anytime, without reprinting your card.",
     "Livraison rapide au Québec · Compatible iPhone et Android" => "Fast delivery in Quebec · Works with iPhone and Android",
 
+    "Inclus avec votre carte. Pro si vous voulez aller plus loin." => "Included with your card. Pro if you want to go further.",
+    "Inclus avec chaque carte" => "Included with every card",
+    "Votre profil de base reste inclus avec votre carte. Le forfait Pro est un choix, jamais une obligation." => "Your basic profile stays included with your card. The Pro plan is a choice, never an obligation.",
+
     // ---- Profil sur mesure
     "Profil sur mesure" => "Custom profile",
     "Votre profil affiche un design créé à partir de votre carte. Vos informations se modifient ici : le design suit automatiquement." => "Your profile shows a design created from your card. Edit your details here: the design follows automatically.",

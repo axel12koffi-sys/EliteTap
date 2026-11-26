@@ -6,7 +6,7 @@ $viaStripe = ($user['plan_source'] ?? '') === 'stripe' && $user['stripe_customer
 <div class="page-head">
   <div>
     <h1><?= te('Forfait') ?></h1>
-    <p class="muted"><?= te('Votre profil de base reste gratuit à vie. Le forfait Pro est un choix, jamais une obligation.') ?></p>
+    <p class="muted"><?= te('Votre profil de base reste inclus avec votre carte. Le forfait Pro est un choix, jamais une obligation.') ?></p>
   </div>
 </div>
 
@@ -32,7 +32,7 @@ $viaStripe = ($user['plan_source'] ?? '') === 'stripe' && $user['stripe_customer
 <div class="plans-grid">
   <article class="panel plan-card<?= $plan === 'essentiel' ? ' is-current' : '' ?>">
     <h2><?= te('Essentiel') ?></h2>
-    <p class="muted small"><?= te('Inclus avec chaque carte · gratuit à vie') ?></p>
+    <p class="muted small"><?= te('Inclus avec chaque carte') ?></p>
     <ul class="checklist">
       <li><?= te('Profil public hébergé') ?></li>
       <li><?= te('Choix parmi 6 thèmes') ?></li>
