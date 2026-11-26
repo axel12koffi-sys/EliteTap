@@ -768,6 +768,18 @@ return [
 
     "Commander ma carte NFC" => "Order my NFC card",
 
+    // ---- Retours client (26 nov.)
+    "Secteurs" => "Industries",
+    "Ventes" => "Sales",
+    "Droit" => "Law",
+    "Un tap. Votre profil s'ouvre." => "One tap. Your profile opens.",
+    "Touchez. Partagez. Gérez." => "Tap. Share. Manage.",
+    "Une carte. Mille connexions." => "One card. A thousand connections.",
+    "Un seul tap pour partager vos coordonnées, vos liens et vos réseaux. Votre profil évolue avec vous, sans jamais réimprimer votre carte." => "One tap to share your details, links and social networks. Your profile evolves with you, without ever reprinting your card.",
+    "Carte NFC personnalisée pour nos clients" => "Custom NFC cards for our clients",
+    "Chaque carte EliteTaP est conçue sur mesure pour refléter parfaitement votre identité professionnelle. De l'entrepreneur solo à la grande entreprise, nous créons des designs uniques qui vous démarquent. 6 finitions disponibles, une épreuve avant toute production et une livraison rapide partout au Québec." => "Every EliteTaP card is custom-made to reflect your professional identity. From solo entrepreneurs to large companies, we create unique designs that set you apart. 6 finishes available, a proof before production and fast delivery across Quebec.",
+    "Chaque carte EliteTaP est une œuvre unique créée en collaboration avec nos clients. Du design minimaliste au style corporate sophistiqué, découvrez comment nous avons aidé des professionnels de Laval, de Montréal et de partout au Québec. Votre vision. Notre expertise." => "Every EliteTaP card is a unique piece created with our clients. From minimalist designs to sophisticated corporate styles, see how we've helped professionals in Laval, Montreal and across Quebec. Your vision. Our expertise.",
+
     // ---- Profil sur mesure
     "Profil sur mesure" => "Custom profile",
     "Votre profil affiche un design créé à partir de votre carte. Vos informations se modifient ici : le design suit automatiquement." => "Your profile shows a design created from your card. Edit your details here: the design follows automatically.",
