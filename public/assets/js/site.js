@@ -125,6 +125,11 @@
   v.muted = true;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.pause(); return; }
   var play = function () { var p = v.play(); if (p && p.catch) p.catch(function () {}); };
+  // Bouton « Commander ma carte NFC » : apparaît quand le visiteur a regardé la vidéo jusqu'à la fin, puis reste affiché
+  var cta = document.querySelector('[data-demo-cta]');
+  if (cta) v.addEventListener('timeupdate', function () {
+    if (cta.hidden && v.duration > 0 && v.currentTime >= v.duration - 2.3) cta.hidden = false;
+  });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) play(); else v.pause(); }); }, { threshold: 0.25 }).observe(v);
   } else { play(); }

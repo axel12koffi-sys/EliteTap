@@ -766,6 +766,8 @@ return [
     "Inclus avec chaque carte" => "Included with every card",
     "Votre profil de base reste inclus avec votre carte. Le forfait Pro est un choix, jamais une obligation." => "Your basic profile stays included with your card. The Pro plan is a choice, never an obligation.",
 
+    "Commander ma carte NFC" => "Order my NFC card",
+
     // ---- Profil sur mesure
     "Profil sur mesure" => "Custom profile",
     "Votre profil affiche un design créé à partir de votre carte. Vos informations se modifient ici : le design suit automatiquement." => "Your profile shows a design created from your card. Edit your details here: the design follows automatically.",

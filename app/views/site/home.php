@@ -91,6 +91,7 @@ $faq = [
       <video class="demo-loop" autoplay muted loop playsinline disablepictureinpicture preload="metadata" poster="<?= asset('img/demo-motion-169.jpg') ?>" aria-label="<?= te('Comment ça marche : choisir son design, valider l\'épreuve, toucher le téléphone, enregistrer le contact et suivre ses résultats') ?>">
         <source src="<?= asset('img/demo-motion-169.mp4') ?>" type="video/mp4">
       </video>
+      <a href="#commande" class="demo-cta" data-demo-cta hidden><?= te('Commander ma carte NFC') ?> <span aria-hidden="true">→</span></a>
     </div>
     <?php else: ?>
     <p class="demo-missing"><?= te('La vidéo de démonstration arrive bientôt.') ?></p>
