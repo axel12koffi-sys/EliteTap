@@ -10,7 +10,7 @@ $faq = [
       ['Combien coûte une carte EliteTap ?', 'À partir de 89 $ CAD (Standard) et 129 $ CAD (Premium). Bois, métal et commandes d\'équipe sur devis. Le prix final varie selon le design, la finition et la quantité : soumission gratuite, réponse sous 24 h.'],
       ['Que deviennent les coordonnées laissées par mes visiteurs ?', 'Elles arrivent dans votre boîte de prospects et par courriel. Chaque visiteur coche un consentement, conformément à la Loi 25.'],
       ['Et si je perds ma carte ?', 'Désactivez-la en un clic depuis votre espace client, puis commandez un remplacement relié au même profil.'],
-      ['Puis-je payer en ligne ?', 'Oui. Une fois votre soumission acceptée, vous recevez un lien de paiement sécurisé par carte de crédit.'],
+      ['Puis-je payer en ligne ?', 'Oui. Une fois votre soumission acceptée, vous recevez un lien de paiement sécurisé.'],
     ];
 ?>
 <!-- HERO -->
@@ -258,7 +258,7 @@ $faq = [
   <div class="plans">
     <article class="plan">
       <div><h3><?= te('Standard') ?></h3><p class="muted"><?= te('Pour démarrer.') ?></p></div>
-      <p class="price-line"><?= te('À partir de') ?> <span class="price"><?= money(display_price('Standard', 8900)) ?></span><?= te('par carte, design de base inclus') ?></p>
+      <p class="price-line"><?= te('À partir de') ?> <span class="price"><?= money(display_price('Standard', 8900)) ?></span><?= te('par carte, design personnalisé inclus') ?></p>
       <ul><li><?= te('NFC + code QR') ?></li><li><?= te('Profil hébergé à vie') ?></li><li><?= te('6 thèmes au choix') ?></li><li><?= te('Livraison au Québec') ?></li></ul>
       <a href="#commande" class="btn btn-outline" data-card="Standard"><?= te('Choisir Standard') ?></a>
     </article>
@@ -286,7 +286,7 @@ $faq = [
     <article class="tier">
       <h3><?= te('Essentiel') ?></h3>
       <p class="tier-sub"><?= te('Inclus avec chaque carte') ?></p>
-      <ul><li><?= te('Profil public hébergé') ?></li><li><?= te('Choix parmi 6 thèmes') ?></li><li><?= te('Enregistrement du contact (vCard)') ?></li><li><?= te('Modifications faites par EliteTap') ?></li></ul>
+      <ul><li><?= te('Profil public hébergé') ?></li><li><?= te('Choix parmi 6 thèmes') ?></li><li><?= te('Enregistrement du contact (vCard)') ?></li><li><?= te('Modifications faites par notre équipe') ?></li></ul>
     </article>
     <article class="tier tier-pro">
       <h3>Pro <span class="tier-tag"><?= te('Recommandé') ?></span></h3>
@@ -304,7 +304,7 @@ $faq = [
 
 <!-- TEMOIGNAGES + APPEL A L'ACTION -->
 <section id="temoignages" class="section-bottom container et-rv">
-  <h2 class="h2 testis-title"><?= te('Ils ont choisi EliteTap') ?></h2>
+  <h2 class="h2 testis-title"><?= te('Ils parlent mieux que nous') ?></h2>
   <p class="sub testis-sub"><?= te('Ce que nos clients disent de leur expérience') ?></p>
   <div class="testis">
     <?php foreach ([

@@ -780,6 +780,11 @@ return [
     "Chaque carte EliteTaP est conçue sur mesure pour refléter parfaitement votre identité professionnelle. De l'entrepreneur solo à la grande entreprise, nous créons des designs uniques qui vous démarquent. 6 finitions disponibles, une épreuve avant toute production et une livraison rapide partout au Québec." => "Every EliteTaP card is custom-made to reflect your professional identity. From solo entrepreneurs to large companies, we create unique designs that set you apart. 6 finishes available, a proof before production and fast delivery across Quebec.",
     "Chaque carte EliteTaP est une œuvre unique créée en collaboration avec nos clients. Du design minimaliste au style corporate sophistiqué, découvrez comment nous avons aidé des professionnels de Laval, de Montréal et de partout au Québec. Votre vision. Notre expertise." => "Every EliteTaP card is a unique piece created with our clients. From minimalist designs to sophisticated corporate styles, see how we've helped professionals in Laval, Montreal and across Quebec. Your vision. Our expertise.",
 
+    "par carte, design personnalisé inclus" => "per card, custom design included",
+    "Modifications faites par notre équipe" => "Changes made by our team",
+    "Ils parlent mieux que nous" => "They say it better than we do",
+    "Oui. Une fois votre soumission acceptée, vous recevez un lien de paiement sécurisé." => "Yes. Once your quote is accepted, you receive a secure payment link.",
+
     // ---- Profil sur mesure
     "Profil sur mesure" => "Custom profile",
     "Votre profil affiche un design créé à partir de votre carte. Vos informations se modifient ici : le design suit automatiquement." => "Your profile shows a design created from your card. Edit your details here: the design follows automatically.",

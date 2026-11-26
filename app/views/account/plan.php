@@ -37,7 +37,7 @@ $viaStripe = ($user['plan_source'] ?? '') === 'stripe' && $user['stripe_customer
       <li><?= te('Profil public hébergé') ?></li>
       <li><?= te('Choix parmi 6 thèmes') ?></li>
       <li><?= te('Enregistrement du contact (vCard)') ?></li>
-      <li><?= te('Modifications faites par EliteTap') ?></li>
+      <li><?= te('Modifications faites par notre équipe') ?></li>
     </ul>
   </article>
 
