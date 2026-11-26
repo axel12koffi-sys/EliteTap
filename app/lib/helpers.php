@@ -254,3 +254,15 @@ const CARD_TYPES = ['Standard', 'Premium', 'Bois', 'Métal', 'Je ne sais pas enc
 const QTY_RANGES = ['1' => '1', '2-5' => '2 – 5', '6-10' => '6 – 10', '11-25' => '11 – 25', '26-50' => '26 – 50', '50+' => '50 +'];
 const QTY_RANGE_MIN = ['1' => 1, '2-5' => 2, '6-10' => 6, '11-25' => 11, '26-50' => 26, '50+' => 51];
 const SECTORS = ['Immobilier', 'Finance et assurances', 'Juridique', 'Santé', 'Vente et représentation', 'Entrepreneur', 'Autre'];
+
+
+/** Légende publique d'une réalisation : vide si le titre ressemble à un identifiant technique ou à un nom de fichier. */
+function design_caption(?string $title): string
+{
+    $t = trim((string) $title);
+    if ($t === '' || preg_match('/^[0-9a-f]{6,}$/i', $t) || preg_match('/^(img|dsc|image|photo|whatsapp|screenshot|capture)[\s_\-]/i', $t)
+        || preg_match('/\.(jpe?g|png|webp|heic|gif)$/i', $t) || preg_match('/^[0-9a-f-]{20,}$/i', $t)) {
+        return '';
+    }
+    return $t;
+}

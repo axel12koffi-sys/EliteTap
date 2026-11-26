@@ -72,7 +72,7 @@ function admin_designs_upload(): void
             save_jpeg($src, 1800, DESIGN_DIR . "/$base.jpg");
             save_jpeg($src, 720, DESIGN_DIR . "/$base-t.jpg", 80);
             imagedestroy($src);
-            $label = $title !== '' ? $title : pathinfo((string) $files['name'][$i], PATHINFO_FILENAME);
+            $label = $title; // titre vide si non saisi : jamais le nom de fichier (souvent un identifiant technique)
             q('INSERT INTO designs (title, material, image_path, thumb_path, position, is_visible, created_at) VALUES (?, ?, ?, ?, ?, 1, ?)',
                 [mb_substr($label, 0, 120), $material, "$base.jpg", "$base-t.jpg", ++$pos, now()]);
             $count++;

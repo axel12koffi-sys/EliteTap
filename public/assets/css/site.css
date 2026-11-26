@@ -761,3 +761,9 @@ img.tap-avatar { display: block; object-fit: cover; }
 
 /* Transition douce du haut de page (clair) vers la section vidéo (bleu marine) : dégradé de 80 px */
 .demo-section { background: linear-gradient(to bottom, var(--paper) 0, var(--navy) 80px, var(--navy) 100%); }
+
+/* Réalisations : 3 par rangée, la dernière rangée centrée (5 = 3 + 2) */
+.gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+.gallery-item { flex: 0 1 calc((100% - 28px) / 3); }
+@media (max-width: 760px) { .gallery-item { flex-basis: calc((100% - 14px) / 2); } }
+@media (max-width: 460px) { .gallery-item { flex-basis: 100%; } }

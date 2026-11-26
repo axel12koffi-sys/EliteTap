@@ -785,6 +785,9 @@ return [
     "Ils parlent mieux que nous" => "They say it better than we do",
     "Oui. Une fois votre soumission acceptée, vous recevez un lien de paiement sécurisé." => "Yes. Once your quote is accepted, you receive a secure payment link.",
 
+    "Chaque carte EliteTaP est conçue sur mesure avec vous. Du minimaliste au corporate sophistiqué, voici quelques réalisations pour des professionnels de Laval, de Montréal et du Québec." => "Every EliteTaP card is custom-made with you. From minimalist to sophisticated corporate, here are a few projects for professionals in Laval, Montreal and across Quebec.",
+    "Carte NFC {matiere} EliteTaP" => "EliteTaP {matiere} NFC card",
+
     // ---- Profil sur mesure
     "Profil sur mesure" => "Custom profile",
     "Votre profil affiche un design créé à partir de votre carte. Vos informations se modifient ici : le design suit automatiquement." => "Your profile shows a design created from your card. Edit your details here: the design follows automatically.",

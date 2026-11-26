@@ -231,12 +231,12 @@ $faq = [
 
     <?php if ($designs): ?>
     <h3 class="gallery-title"><?= te('Carte NFC personnalisée pour nos clients') ?></h3>
-    <p class="gallery-intro"><?= te('Chaque carte EliteTaP est une œuvre unique créée en collaboration avec nos clients. Du design minimaliste au style corporate sophistiqué, découvrez comment nous avons aidé des professionnels de Laval, de Montréal et de partout au Québec. Votre vision. Notre expertise.') ?></p>
+    <p class="gallery-intro"><?= te('Chaque carte EliteTaP est conçue sur mesure avec vous. Du minimaliste au corporate sophistiqué, voici quelques réalisations pour des professionnels de Laval, de Montréal et du Québec.') ?></p>
     <div class="gallery">
-      <?php foreach (array_slice($designs, 0, 12) as $d): ?>
-        <a class="gallery-item" href="/uploads/designs/<?= e($d['image_path']) ?>" data-lightbox data-caption="<?= e($d['title']) ?>">
-          <img src="/uploads/designs/<?= e($d['thumb_path']) ?>" alt="<?= e($d['title'] ?: t('Carte NFC {matiere} EliteTap', ['matiere' => t($d['material'])])) ?>" loading="lazy">
-          <span><?= e($d['title']) ?></span>
+      <?php foreach (array_slice($designs, 0, 12) as $d): $cap = design_caption($d['title']); ?>
+        <a class="gallery-item" href="/uploads/designs/<?= e($d['image_path']) ?>" data-lightbox data-caption="<?= e($cap) ?>">
+          <img src="/uploads/designs/<?= e($d['thumb_path']) ?>" alt="<?= e($cap ?: t('Carte NFC {matiere} EliteTaP', ['matiere' => t($d['material'])])) ?>" loading="lazy">
+          <?php if ($cap !== ''): ?><span><?= e($cap) ?></span><?php endif; ?>
         </a>
       <?php endforeach; ?>
     </div>
