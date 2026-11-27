@@ -7,4 +7,4 @@
   <button class="btn btn-primary btn-block" type="submit"><?= te('Se connecter') ?></button>
 </form>
 <p class="auth-foot"><a href="/mot-de-passe-oublie"><?= te('Mot de passe oublié ?') ?></a></p>
-<p class="auth-foot muted"><?= te('Pas encore de carte ?') ?> <a href="/#commande"><?= te('Demander un devis') ?></a></p>
+<p class="auth-foot muted"><?= te('Pas encore client ?') ?> <a href="/#commande"><?= te('Demander un devis') ?></a></p>

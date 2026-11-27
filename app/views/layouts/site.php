@@ -67,7 +67,7 @@ $isHome = $path === '/';
   <div class="container footer-news" id="infolettre">
     <div>
       <h2 class="footer-news-title"><?= te('Restez informé') ?></h2>
-      <p><?= te('Recevez nos nouveautés et offres EliteTap, environ une fois par mois.') ?></p>
+      <p><?= te('Recevez nos nouveautés et offres EliteTaP, environ une fois par mois.') ?></p>
     </div>
     <form method="post" action="/infolettre" class="news-form" data-news>
       <?= csrf_field() ?>
@@ -85,11 +85,11 @@ $isHome = $path === '/';
   <?php endif; ?>
   <div class="container footer-grid">
     <div class="footer-brand">
-      <img src="<?= asset('img/logo-white.png') ?>" alt="EliteTap" width="98" height="28">
-      <p class="footer-tag">NFC &amp; QR Business Cards<br>Laval · Montréal · Québec</p>
+      <img src="<?= asset('img/logo-white.png') ?>" alt="EliteTaP" width="98" height="28">
+      <p class="footer-tag"><?= te('Cartes de visite NFC & QR') ?><br>Laval · Montréal · Québec</p>
       <p class="footer-contact">
         <a href="tel:+14382207167">+1 438-220-7167</a>
-        <a href="https://wa.me/<?= e(config('whatsapp')) ?>?text=<?= rawurlencode(t('Bonjour, je suis intéressé par les cartes NFC EliteTap')) ?>" rel="noopener">WhatsApp</a>
+        <a href="https://wa.me/<?= e(config('whatsapp')) ?>?text=<?= rawurlencode(t('Bonjour, je suis intéressé par les cartes NFC EliteTaP')) ?>" rel="noopener">WhatsApp</a>
         <a href="mailto:info@elitetap.ca">info@elitetap.ca</a>
         <a href="https://www.instagram.com/elitetap_ca/" rel="noopener">Instagram</a>
       </p>
@@ -112,7 +112,7 @@ $isHome = $path === '/';
     </nav>
   </div>
   <div class="container footer-bottom">
-    <span>© <?= date('Y') ?> EliteTap · <?= te('Tous droits réservés') ?> · Laval, Québec, Canada</span>
+    <span>© <?= date('Y') ?> EliteTaP · <?= te('Tous droits réservés') ?> · Laval, Québec, Canada</span>
     <span class="made-qc"><?= te('Fait au Québec') ?> <svg class="qc-flag" width="24" height="16" viewBox="0 0 30 20" role="img" aria-label="<?= te('Drapeau du Québec') ?>"><rect width="30" height="20" fill="#003DA5"/><rect x="13" width="4" height="20" fill="#fff"/><rect y="8" width="30" height="4" fill="#fff"/><g fill="#fff"><path transform="translate(3.6 1.4) scale(.58)" d="M5 0c1.3 1.6 1.6 3 1 4.6 1-.9 2.4-1 3.2-.2.8 1 .4 2.6-1 3.1.4-.9.1-1.8-.7-1.8-.9 0-1.4 1-1.6 2.3H7v.8H5.6c0 .5.1 1 .4 1.2H4c.3-.2.4-.7.4-1.2H3v-.8h1.1C3.9 6.7 3.4 5.7 2.5 5.7c-.8 0-1.1.9-.7 1.8C.4 7 0 5.4.8 4.4 1.6 3.6 3 3.7 4 4.6 3.4 3 3.7 1.6 5 0z"/><path transform="translate(20.4 1.4) scale(.58)" d="M5 0c1.3 1.6 1.6 3 1 4.6 1-.9 2.4-1 3.2-.2.8 1 .4 2.6-1 3.1.4-.9.1-1.8-.7-1.8-.9 0-1.4 1-1.6 2.3H7v.8H5.6c0 .5.1 1 .4 1.2H4c.3-.2.4-.7.4-1.2H3v-.8h1.1C3.9 6.7 3.4 5.7 2.5 5.7c-.8 0-1.1.9-.7 1.8C.4 7 0 5.4.8 4.4 1.6 3.6 3 3.7 4 4.6 3.4 3 3.7 1.6 5 0z"/><path transform="translate(3.6 12.6) scale(.58)" d="M5 0c1.3 1.6 1.6 3 1 4.6 1-.9 2.4-1 3.2-.2.8 1 .4 2.6-1 3.1.4-.9.1-1.8-.7-1.8-.9 0-1.4 1-1.6 2.3H7v.8H5.6c0 .5.1 1 .4 1.2H4c.3-.2.4-.7.4-1.2H3v-.8h1.1C3.9 6.7 3.4 5.7 2.5 5.7c-.8 0-1.1.9-.7 1.8C.4 7 0 5.4.8 4.4 1.6 3.6 3 3.7 4 4.6 3.4 3 3.7 1.6 5 0z"/><path transform="translate(20.4 12.6) scale(.58)" d="M5 0c1.3 1.6 1.6 3 1 4.6 1-.9 2.4-1 3.2-.2.8 1 .4 2.6-1 3.1.4-.9.1-1.8-.7-1.8-.9 0-1.4 1-1.6 2.3H7v.8H5.6c0 .5.1 1 .4 1.2H4c.3-.2.4-.7.4-1.2H3v-.8h1.1C3.9 6.7 3.4 5.7 2.5 5.7c-.8 0-1.1.9-.7 1.8C.4 7 0 5.4.8 4.4 1.6 3.6 3 3.7 4 4.6 3.4 3 3.7 1.6 5 0z"/></g></svg></span>
   </div>
 </footer>

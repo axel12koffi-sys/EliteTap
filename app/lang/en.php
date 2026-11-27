@@ -788,6 +788,12 @@ return [
     "Chaque carte EliteTaP est conçue sur mesure avec vous. Du minimaliste au corporate sophistiqué, voici quelques réalisations pour des professionnels de Laval, de Montréal et du Québec." => "Every EliteTaP card is custom-made with you. From minimalist to sophisticated corporate, here are a few projects for professionals in Laval, Montreal and across Quebec.",
     "Carte NFC {matiere} EliteTaP" => "EliteTaP {matiere} NFC card",
 
+    "Recevez nos nouveautés et offres EliteTaP, environ une fois par mois." => "Get EliteTaP news and offers, about once a month.",
+    "Cartes de visite NFC & QR" => "NFC & QR business cards",
+    "Bonjour, je suis intéressé par les cartes NFC EliteTaP" => "Hello, I'm interested in EliteTaP NFC cards",
+    "Réponse garantie sous 24 h · Devis personnalisé · Livraison partout au Québec" => "Reply guaranteed within 24 h · Custom quote · Delivery across Quebec",
+    "Pas encore client ?" => "Not a client yet?",
+
     // ---- Profil sur mesure
     "Profil sur mesure" => "Custom profile",
     "Votre profil affiche un design créé à partir de votre carte. Vos informations se modifient ici : le design suit automatiquement." => "Your profile shows a design created from your card. Edit your details here: the design follows automatically.",

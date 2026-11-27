@@ -355,7 +355,7 @@ $faq = [
   <div class="section container order-grid et-rv">
     <div class="order-copy">
       <h2 class="h2 h2-xl"><?= te('Obtenez votre soumission gratuite') ?></h2>
-      <p class="lead"><?= te('Réponse garantie sous 24 h · Devis personnalisé · Livraison Laval et Montréal') ?></p>
+      <p class="lead"><?= te('Réponse garantie sous 24 h · Devis personnalisé · Livraison partout au Québec') ?></p>
       <p class="order-more"><?= te('Prêt à transformer votre réseautage ? Notre équipe répond à toutes vos questions et vous accompagne dans la création de votre carte parfaite. Livraison rapide partout au Québec.') ?></p>
       <?php $pres = presence(); ?>
       <p class="presence-pill <?= $pres['online'] ? 'is-online' : 'is-away' ?>"><span class="presence-dot" aria-hidden="true"></span>
